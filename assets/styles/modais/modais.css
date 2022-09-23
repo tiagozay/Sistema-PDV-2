@@ -1,0 +1,78 @@
+@keyframes scale-in {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+#fundo-modal {
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 20;
+    position: fixed;
+    background: rgba(143, 143, 143, 0.25);
+    backdrop-filter: blur( 9.5px );
+    -webkit-backdrop-filter: blur( 9.5px );
+}
+
+#fundo-modal dialog {
+    border: none;
+    padding: 0;
+    -webkit-animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+
+.div-titulo-e-btn-de-fechar-modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #237581;
+    padding: 5px 5px;
+}
+.h3-titulo-modal{
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-size: 25px;
+}
+.btn-fechar-modal {
+    background-color: transparent;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 35px;
+    cursor: pointer;
+    padding: 0;
+}
+@media(max-width: 1720px){
+    .h3-titulo-modal{
+        font-size: 23px;
+    }
+}
+@media(max-width: 1525px){
+    .h3-titulo-modal{
+        font-size: 21px;
+    }
+    .btn-fechar-modal {
+        font-size: 30px;
+    }
+}
+@media(max-width: 1370px){
+    .div-titulo-e-btn-de-fechar-modal {
+        padding: 3px 5px;
+    }
+    .h3-titulo-modal{
+        font-size: 19px;
+    }
+    .btn-fechar-modal {
+        font-size: 30px;
+    }
+}

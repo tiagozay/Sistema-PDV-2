@@ -1,0 +1,50 @@
+#modal-confirmacoes__pergunta{
+    font-size: 25px;
+}
+.modal-confirmacoes__botoes{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+}
+.modais-confirmacao__btn-cancelar{
+    background-color: gray;
+    font-size: 28px;
+    padding: 6px 8px;
+    border: 1px white solid;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+.modais-confirmacao__btn-confirmar{
+    background-color: rgb(5, 157, 5);
+    font-size: 28px;
+    padding: 3px 6px;
+    border: 1px white solid;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+@media(max-width: 1530px){
+    #modal-confirmacoes__pergunta{
+        font-size: 21px;
+    }
+    .modais-confirmacao__btn-cancelar{        
+        font-size: 24px;
+        padding: 4px 8px;
+    }
+    .modais-confirmacao__btn-confirmar{
+        font-size: 24px;
+        padding: 4px 8px;
+    }
+}
+@media(max-width: 1370px){
+    #modal-confirmacoes__pergunta{
+        font-size: 19px;
+    }
+    .modais-confirmacao__btn-cancelar{        
+        font-size: 21px;
+    }
+    .modais-confirmacao__btn-confirmar{
+        font-size: 21px;
+    }
+}

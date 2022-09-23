@@ -1,0 +1,31 @@
+#mensagem_lateral_da_tela{
+    background-color: rgb(44, 44, 44);
+    border-radius: 5px;
+    font-size: 17.5px;
+    position: fixed;
+    font-family: 'Open Sans', sans-serif;
+    top: 85%;
+    left: 2%;
+    padding: 12px 15px;
+    display: none;
+    justify-content: space-between;
+    color: white;
+    width: 30%;
+    -webkit-animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+#mensagem_lateral__mensagem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn_fechar_mensagem_lateral_da_tela{
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+#btn_fechar_mensagem_lateral_da_tela i{
+    font-size: 28px;
+}

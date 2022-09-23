@@ -1,0 +1,48 @@
+body{
+    background-color: rgb(230, 230, 230);
+}
+main{
+    width: 100%;
+    padding-top: 20px;
+}
+.display-flex{
+    display: flex!important;
+}
+.display-none{
+    display: none;
+}
+.cor-btn-selecionado{
+    background-color: rgb(221, 221, 221)!important;
+    color:  #00323a!important;
+}
+.sem-scroll{
+    overflow-y: hidden;
+}
+.fade-out-600{
+    opacity:  0;
+    transition: 600ms;
+}
+.fade-out-1000{
+    opacity:  0;
+    transition: 1000ms;
+}
+.cursor-loader{
+    cursor:progress!important;
+    
+}
+.btn-desativado{
+    color: rgb(174, 174, 174)!important;
+    border-color: rgb(174, 174, 174)!important;
+}
+.btn-cinza{
+    background-color: rgb(184, 184, 184)!important;
+}
+.opacidade{
+    opacity: 0.5;
+}
+.opacidade-04{
+    opacity: 0.4;
+}
+.borda-destaque{
+    border: 2px black solid!important;
+}

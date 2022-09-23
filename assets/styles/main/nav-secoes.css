@@ -1,0 +1,83 @@
+.header-secoes{
+    width:100%;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    background-color: #00323a;
+}
+.logo-empresa{
+    max-width: 100px;
+
+}
+.lista-acoes{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-basis: auto;
+}
+.item-acoes{
+    width: 13.28%;
+}
+#item-acao-vendas-nao-finalizadas{
+    width: 16.78%;
+}
+#item-acao-gerar-codigo-de-barras{
+    width: 16.75%;
+}
+.btn-secoes{
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    width: 100%;
+    font-size: 22px;
+    background-color: #00323a;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 17px 0;
+    transition: 200ms;
+}
+.btn-secoes:hover{
+    background-color: rgb(221, 221, 221);
+    color:  #237581;
+}
+.btn-secoes i{
+    margin-right: 10px;
+}
+@media (max-width: 1600px){
+    .nav-secoes{
+        width:300px;
+    }
+    #teste{
+        width: 300px;
+    }
+    .btn-secoes{
+        font-size: 18px;
+    }  
+}
+@media (max-width: 1430px){
+    .nav-secoes{
+        width:280px;
+    }
+    #teste{
+        width: 280px;
+    }
+    .btn-secoes{
+        font-size: 17px;
+        padding: 12px 0;
+    }  
+    .logo-empresa{
+        max-width: 90px;
+    
+    }
+}
+@media (max-width: 920px){
+    .btn-secoes{
+        font-size: 16px;
+    }  
+    .btn-secoes i{
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+}

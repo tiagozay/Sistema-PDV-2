@@ -1,0 +1,386 @@
+#clientes{
+    /* background-color: rgb(245, 245, 245); */
+    flex-direction: column;
+}
+
+@keyframes scale-in {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+#dialog_modal_cadastrar_cliente{
+    position: fixed;
+    margin-top: 100px;
+    border-radius: 10px;
+    -webkit-animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    background-color: rgb(250, 250, 250);
+    border: 2px #00171a solid;
+    
+}
+#dialog_modal_cadastrar_cliente::backdrop{
+    background-color: rgba(0, 0, 0, 0.379);
+}
+#div_loader_cadastrar_cliente{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+#loader_cadastrar_cliente{
+    border: 5px solid rgb(230, 230, 230)!important;
+    border-top: 5px solid  rgb(81, 81, 81)!important; 
+    width: 28px!important;
+    height: 28px!important;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    
+}
+#erro_formulario_cadastro_cliente{
+    font-size: 17px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding: 7px 5px;
+    background-color: rgba(255, 0, 0, 0.455);
+    border: 2px rgba(255, 0, 0, 0.837) solid;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+#erro_formulario_editar_cliente{
+    font-size: 17px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding: 7px 5px;
+    background-color: rgba(255, 0, 0, 0.455);
+    border: 2px rgba(255, 0, 0, 0.837) solid;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+#form_cadastrar_cliente{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+
+}
+#form_cadastrar_cliente input{
+    font-size: 18px;
+    margin-bottom: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-bottom: 1px solid #9e9e9e;
+    width: 30rem;
+    padding: 1px 0;
+}
+#div_botoes_form_cadastrar_cliente{
+    display: flex;
+    justify-content: space-between;
+}
+#div_botoes_form_cadastrar_cliente button{
+    font-size: 19px;
+    cursor: pointer;
+    outline: none;
+    width: 49%;
+    border: 1px rgb(94, 94, 94) solid;
+}
+#btn_form_cadastrar_cliente_cancelar{
+    color: white;
+    padding: 8px 6px;
+    border-radius: 5px;
+    background-color: rgb(148, 148, 148);
+}
+#btn_form_cadastrar_cliente{
+    background-color: #2BBBAD;
+    color: white;
+    padding: 8px 6px;
+    border-radius: 5px;
+
+}
+
+#dialog_modal_editar_cliente{
+    position: fixed;
+    margin-top: 100px;
+    border-radius: 10px;
+    -webkit-animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    animation: scale-in 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940);
+    background-color: rgb(250, 250, 250);
+    border: 2px #00171a solid;
+    
+}
+#dialog_modal_editar_cliente::backdrop{
+    background-color: rgba(0, 0, 0, 0.379);
+}
+#div_loader_editar_cliente{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+#loader_editar_cliente{
+    border: 5px solid rgb(230, 230, 230)!important;
+    border-top: 5px solid  rgb(81, 81, 81)!important; 
+    width: 28px!important;
+    height: 28px!important;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    
+}
+#erro_formulario_cadastro_cliente{
+    font-size: 17px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding: 7px 5px;
+    background-color: rgba(255, 0, 0, 0.455);
+    border: 2px rgba(255, 0, 0, 0.837) solid;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+#form_editar_cliente{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+
+}
+#form_editar_cliente input{
+    font-size: 18px;
+    margin-bottom: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    border-bottom: 1px solid #9e9e9e;
+    width: 30rem;
+    padding: 1px 0;
+}
+#div_botoes_form_editar_cliente{
+    display: flex;
+    justify-content: space-between;
+}
+#div_botoes_form_editar_cliente button{
+    font-size: 19px;
+    cursor: pointer;
+    outline: none;
+    width: 49%;
+    border: 1px rgb(94, 94, 94) solid;
+}
+#btn_form_editar_cliente_cancelar{
+    color: white;
+    padding: 8px 6px;
+    border-radius: 5px;
+    background-color: rgb(148, 148, 148);
+}
+#btn_form_editar_cliente{
+    background-color: #2BBBAD;
+    transition: 200ms;
+    color: white;
+    padding: 8px 6px;
+    border-radius: 5px;
+
+}
+.btn_editar_cliente_desativado{
+    background-color: rgb(206, 206, 206)!important;
+}
+#clientes__divBuscarClientes{
+    /* width: 100%; */
+}
+#clientes__divBuscarClientes form{
+    padding: 20px 0;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+#clientes__divBuscarClientes form input{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 18px;
+    border-bottom: 1px solid #9e9e9e;
+    font-family: 'Montserrat', sans-serif;
+    width: 26%;
+    margin-right: 15px;
+    padding: 0;
+    color: rgb(23, 23, 23);
+}
+
+#clientes__divBuscarClientes__selectOrdem{
+    font-size: 17px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    /* border: 1px gray solid; */
+    /* background-color: #2BBBAD; */
+    /* color: white; */
+    background-color: rgb(241, 241, 241);
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 0 4px rgb(120, 120, 120);
+    cursor: pointer;
+    width: 18%;
+    
+}
+#clientes__divBuscarClientes__selectOrdem option{
+    padding: 30px;
+
+    
+}
+#btn_buscar_clientes{
+    display: flex;
+    border: none;
+    align-items: center;
+    color: white;
+    background-color: #2BBBAD;
+    padding: 5px 16px;
+    box-shadow: 0 0 4px rgb(120, 120, 120);
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+#btn_atualizar_lista_clientes{
+    display: flex;
+    border: none;
+    align-items: center;
+    color: white;
+    background-color: #2BBBAD;
+    padding: 5px 16px;
+    box-shadow: 0 0 4px rgb(120, 120, 120);
+    cursor: pointer;
+    margin-left: 7px;
+    border-radius: 5px;
+}
+#btn_buscar_clientes span{
+    margin-left: 5px;
+}
+#div_loader_lista_clientes{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 20px;
+}
+#loader_lista_clientes{
+    border: 5px solid rgb(230, 230, 230)!important;
+    border-top: 5px solid  rgb(81, 81, 81)!important; 
+    width: 28px!important;
+    height: 28px!important;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    
+}
+#clientes__tabela{
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+.listaClientes__thead__tr{
+    font-size: 17px;
+    font-weight: bold;
+    border-top: 1px solid rgba(0, 0, 0, 0.189);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.189);
+    background-color: rgb(214, 214, 214);
+}
+.listaClientes__thead__td{
+    font-size: 17px;
+    font-weight: 500;
+    padding: 10px 10px;
+}
+.listaClientes__tbody__tr{
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.189);
+    transition: 100ms;
+}
+.listaClientes__tbody__tr:hover{
+    background-color: rgb(209, 209, 209);
+}
+.listaClientes__tbody__td{
+    padding: 5px 10px;
+    font-size: 17px;
+    font-weight: 400;
+}
+#clientes__tabela .clientes-acoes{
+    text-align: center;
+}
+.listaClientes__mensagem_sem_registros{
+    text-align: center;
+    font-size: 17px;
+    padding-top: 30px;
+}
+.listaClientes__navPaginacao{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 0;
+    font-family: sans-serif;
+}
+.listaClientes__btnVoltarEAvancarPagina{
+    cursor: pointer;
+    font-size: 17px;
+    padding: 9px 16px;
+    border: none;
+    box-sizing: border-box;
+    border: 1px solid rgb(180, 180, 180);
+    font-weight: bold;
+    color: rgb(42, 42, 42);
+}
+.listaClientes__numeroPagina{
+    cursor: pointer;
+    font-size: 17px;
+    padding: 9px 16px;
+    border: none;
+    box-sizing: border-box;
+    border: 1px solid rgb(180, 180, 180);
+    font-weight: bold;
+    color: rgb(42, 42, 42);
+}
+.listaClientes__btnSelecionado{
+    background-color: #237581!important;
+    color: white!important;
+    border: none!important;
+}
+.listaClientes__btnDesativado{
+    opacity: 0.4;
+    cursor: default;
+}
+#loader_acoes_lista_de_clientes{
+    border: 4px solid rgb(230, 230, 230)!important;
+    border-top: 4px solid  rgb(81, 81, 81)!important; 
+    width: 20px!important;
+    height: 20px!important;
+    margin: 0 auto;
+    
+}
+#btn_excluir_cliente{
+    background-color: #237581;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 6px;
+    cursor: pointer;
+    border: 1px white solid;
+    margin-right: 5px;
+}
+#btn_editar_cliente{
+    background-color: #237581;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 6px;
+    cursor: pointer;
+    border: 1px white solid;
+}
+#btn_cadastrar_cliente{
+    position: fixed;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    right: 40px;
+    bottom: 40px;
+    cursor: pointer;
+}

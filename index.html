@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script src="https://plentz.github.io/jquery-maskmoney/javascripts/jquery.maskMoney.min.js" type="text/javascript"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/styles/reset.css">
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <link rel="stylesheet" href="assets/styles/modais/modais.css">
+    <link rel="stylesheet" href="assets/styles/mensagem-lateral.css">
+    <link rel="stylesheet" href="assets/styles/modais/modais-de-confirmacao/modal-confirmacoes.css">
+    <link rel="stylesheet" href="assets/styles/modais/modais-de-confirmacao/remover-produto-da-venda.css">
+    <link rel="stylesheet" href="assets/styles/modais/modal-alterar-info-produto.css">
+    <link rel="stylesheet" href="assets/styles/main/nav-secoes.css">
+    <link rel="stylesheet" href="assets/styles/secoes/secoes.css">
+    <link rel="stylesheet" href="assets/styles/secoes/vender.css">
+    <link rel="stylesheet" href="assets/styles/secoes/vendas.css">
+    <link rel="stylesheet" href="assets/styles/secoes/vendasNaoFinalizadas.css">
+    <link rel="stylesheet" href="assets/styles/secoes/produtos.css">
+    <link rel="stylesheet" href="assets/styles/secoes/clientes.css">
+    <link rel="stylesheet" href="assets/styles/secoes/fichas.css">
+
+
+    <title>PDV</title>
+</head>
+
+<body>
+    <div id="fundo-modal">
+        
+        <dialog id="dialog-modal-cadastrar-produto">
+            <div id="dialog-modal-cadastrar-produto__divBtnFechar">
+                <h2>Cadastrar produto</h2>
+                <button class="btn-fechar-modal material-icons" onclick="fecha_modal_cadastrar_produto()">close</button>
+            </div>
+
+            <div id="dialog-modal-cadastrar-produto__divLoaderCadastro">
+                Cadastrando produto...
+                <div class="lds-default" id="loader_form_cadastrar_produto"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+
+            <form id="dialog-modal-cadastrar-produto__form">
+
+                <div id="dialog-modal-cadastrar-produto__form__erro">
+                    <div id="dialog-modal-cadastrar-produto__erro__div_mensagem">
+                        <i class="material-icons">highlight_off</i>
+                        <p id="dialog-modal-cadastrar-produto__erro__div_mensagem__mensagem"></p>
+                    </div>
+                    <button type="button" class="material-icons" id="dialog-modal-cadastrar-produto__btnFecharErros" onclick="fecha_erro_form_cadastrar_produto()">close</button>
+                </div> 
+
+                <div class="dialog-modal-cadastrar-produto__form__divCampo">
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__titulo">Código</div>
+                    <input type="search" class="dialog-modal-cadastrar-produto__form__divCampo__input" name="codigo">
+                </div>
+
+                <div class="dialog-modal-cadastrar-produto__form__divCampo">
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__titulo">Descrição</div>
+                    <input type="search" class="dialog-modal-cadastrar-produto__form__divCampo__input input_maiusculo" id="dialog-modal-cadastrar-produto__form__divCampo__input-descricao" name="descricao">
+                </div>
+
+                <div class="dialog-modal-cadastrar-produto__form__divCampo">
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__titulo">UN</div>
+                    <select class="dialog-modal-cadastrar-produto__form__divCampo__input" id="dialog-modal-cadastrar-produto__form__divCampo__input-un" name="un"> 
+                        <option value="UN">UN</option>
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                        <option value="MT">MT</option>
+                        <option value="CM">CM</option>
+                        <option value="MM">MM</option>
+                        <option value="LT">LT</option>
+                        <option value="ML">ML</option>
+                    </select>
+                </div>
+
+                <div class="dialog-modal-cadastrar-produto__form__divCampo">
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__titulo">Valor unitário</div>
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__divInput">
+                        <input type="text" class="dialog-modal-cadastrar-produto__form__divCampo__input" id="dialog-modal-cadastrar-produto__form__divCampo__input-vlUnitario" name="vl_unitario">
+                    </div>
+                </div>
+
+                <div class="dialog-modal-cadastrar-produto__form__divCampo">
+                    <div class="dialog-modal-cadastrar-produto__form__divCampo__titulo">Qtde</div>
+                    <input type="number" class="dialog-modal-cadastrar-produto__form__divCampo__input" name="qtde"  step="any">
+                </div>
+
+                <button id="dialog-modal-cadastrar-produto__form__btnCadastrar">Cadastrar produto</button>
+
+            </form>
+
+        </dialog>
+
+
+        <dialog id="dialog-modal-editar-produto">
+            <div id="dialog-modal-editar-produto__divBtnFechar">
+                <h2>Editar produto</h2>
+                <button class="btn-fechar-modal material-icons" onclick="fecha_modal_editar_produto()">close</button>
+            </div>
+
+            <div id="dialog-modal-editar-produto__divLoaderSalvando">
+                Salvando...
+                <div class="lds-default" id="loader_form_editar_produto"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+
+            <form id="dialog-modal-editar-produto__form">
+
+                <div id="dialog-modal-editar-produto__form__erro">
+                    <div id="dialog-modal-editar-produto__erro__div_mensagem">
+                        <i class="material-icons">highlight_off</i>
+                        <p id="dialog-modal-editar-produto__erro__div_mensagem__mensagem"></p>
+                    </div>
+                    <button type="button" class="material-icons" id="dialog-modal-editar-produto__btnFecharErros" onclick="fecha_erro_form_editar_produto()">close</button>
+                </div> 
+
+                <input type="hidden" name="id" class="input">
+
+                <div class="dialog-modal-editar-produto__form__divCampo">
+                    <div class="dialog-modal-editar-produto__form__divCampo__titulo">Código</div>
+                    <input type="search" class="dialog-modal-editar-produto__form__divCampo__input input"  name="codigo">
+                </div>
+
+                <div class="dialog-modal-editar-produto__form__divCampo">
+                    <div class="dialog-modal-editar-produto__form__divCampo__titulo">Descrição</div>
+                    <input type="search" class="dialog-modal-editar-produto__form__divCampo__input input input_maiusculo" id="dialog-modal-editar-produto__form__divCampo__input-descricao" name="descricao">
+                </div>
+
+                <div class="dialog-modal-editar-produto__form__divCampo">
+                    <div class="dialog-modal-editar-produto__form__divCampo__titulo">UN</div>
+                    <select class="dialog-modal-editar-produto__form__divCampo__input input" id="dialog-modal-editar-produto__form__divCampo__input-un" name="un"> 
+                        <option value="UN">UN</option>
+                        <option value="KG">KG</option>
+                        <option value="G">G</option>
+                        <option value="MT">MT</option>
+                        <option value="CM">CM</option>
+                        <option value="MM">MM</option>
+                        <option value="LT">LT</option>
+                        <option value="ML">ML</option>
+                    </select>
+                </div>
+
+                <div class="dialog-modal-editar-produto__form__divCampo">
+                    <div class="dialog-modal-editar-produto__form__divCampo__titulo">Valor unitário</div>
+                    <div class="dialog-modal-editar-produto__form__divCampo__divInput">
+                        <input type="text" class="dialog-modal-editar-produto__form__divCampo__input input" id="dialog-modal-editar-produto__form__divCampo__input-vlUnitario" name="vl_unitario">
+                    </div>
+                </div>
+
+                <div class="dialog-modal-editar-produto__form__divCampo">
+                    <div class="dialog-modal-editar-produto__form__divCampo__titulo">Qtde disponível</div>
+                    <input type="number" class="dialog-modal-editar-produto__form__divCampo__input input" name="qtde_disponivel"  step="any">
+                </div>
+
+                <div id="dialog-modal-editar-produto__form__divBtns">
+                    <button type="button" onclick="fecha_modal_editar_produto()" id="dialog-modal-editar-produto__form__btnCancelar">Cancelar</button>
+
+                    <button id="dialog-modal-editar-produto__form__btnSalvar" class="btn-cinza" disabled="true">Salvar</button>
+                   
+                </div>
+
+            </form>
+
+        </dialog>
+
+        <dialog id="dialog-modal-aumentar-estoque-produto">
+            <div id="dialog-modal-aumentar-estoque-produto__divBtnFechar">
+                <h2>Aumentar estoque</h2>
+                <button class="btn-fechar-modal material-icons" onclick="fecha_modal_aumentarEstoque_produto()">close</button>
+            </div>
+
+            <div id="dialog-modal-aumentar-estoque-produto__divLoaderEnviando">
+                Enviando...
+                <div class="lds-default" id="loader_form_aumentar-estoque_produto"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+
+            <form id="dialog-modal-aumentar-estoque-produto__form">
+                <span id="dialog-modal-aumentar-estoque-produto__form__infoProdutoParaAumentar"></span> 
+     
+                <div class="dialog-modal-aumentar-estoque-produto__form__divCampo">
+                    <div class="dialog-modal-aumentar-estoque-produto__form__divCampo__titulo">Quantidade</div>
+                    <input type="number" class="dialog-modal-aumentar-estoque-produto__form__divCampo__input input" name="quantidade"  step="any">
+                </div>
+
+                <button id="dialog-modal-aumentar-estoque-produto__form__divCampo__btnAumentar">Aumentar</button>
+            </form>
+
+        </dialog>
+
+        <dialog id="dialog-modal-informacoes_venda">
+            <div id="dialog-modal-informacoes_venda__divBtnFechar">
+                <h2>Informações sobre a venda</h2>
+                <button class="btn-fechar-modal material-icons" onclick="fecha_modal_informacoes_venda()">close</button>
+            </div>
+
+            <div class="loader display-none" id="loader_informacoes_venda"></div>
+
+            <div id="modal-informacoes_venda__corpo">
+                <div id="modal-informacoes_venda__informacoes">
+                    <div id="modal-informacoes_venda__nome-cliente">
+                        <div id="modal-informacoes_venda__nome-cliente__titulo">
+                            Nome do cliente: 
+                        </div>
+                        <span id="modal-informacoes_venda__nome-cliente__valor"></span> 
+                    </div>
+                    <div id="modal-informacoes_venda__cpf-cliente">
+                        <div id="modal-informacoes_venda__cpf-cliente__titulo">
+                            CPF do cliente: 
+                        </div>
+                        <span id="modal-informacoes_venda__cpf-cliente__valor"></span> 
+                    </div>
+                    <div id="modal-informacoes_venda__data">
+                        <div id="modal-informacoes_venda__data__titulo">
+                            Data:
+                        </div>
+                        <span id="modal-informacoes_venda__data__valor"></span> 
+                    </div>
+                </div>
+
+                <div id="modal-informacoes_venda__corpo__produtos">
+                    <div id="modal-informacoes_venda__informacoes__produtos__titulo">
+                        Produtos
+                    </div>
+                    <div id="modal-informacoes_venda__informacoes__produtos__conteudo">
+                        <table id="modal-informacoes_venda__informacoes__produtos__tabela">
+                            <thead id="modal-informacoes_venda__informacoes__produtos__tabela__thead">
+                                <tr>
+                                    <td>Código</td>
+                                    <td>Descrição</td>
+                                    <td>UN</td>
+                                    <td>Quantidade</td>
+                                    <td>Vl unitário</td>
+                                    <td>Total</td>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-informacoes_venda__informacoes__produtos__tabela__tbody">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                  
+                </div>
+
+                <div id="modal-informacoes_venda__corpo__informacoes-finais">
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Itens
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais_qtde_itens">
+                            
+                        </span>
+                    </div>  
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Valor total
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais_valor_total">
+                            
+                        </span>
+                    </div>
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Desconto
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais_desconto">
+                            
+                        </span>
+                    </div>
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Valor com desconto
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor_com_desconto">
+                            
+                        </span>
+                    </div>
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Valor pago
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor_pago">
+                            
+                        </span>
+                    </div>
+                    <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput">
+                        <div class="modal-informacoes_venda__corpo__informacoes-finais__divInput__titulo">
+                            Troco
+                        </div>
+                        <span class="modal-informacoes_venda__corpo__informacoes-finais__divInput__valor" id="modal-informacoes_venda__corpo__informacoes-finais__divInput__troco">
+                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </dialog>
+
+    </div>
+    <header class="header-secoes">
+        <!-- <img src="assets/imagens/logo-empresa.jpg" alt="" class="logo-empresa"> -->
+        <ul class="lista-acoes">
+            <!-- <li class="item-acoes">
+                <button class="btn-secoes" data-secao='home'> 
+                    <i class="material-icons" data-secao='home'>home</i>
+                    Home
+                </button>
+            </li> -->
+            <li class="item-acoes ">
+                <button class="btn-secoes" data-secao='vender' onclick="abrir_venda()"> 
+                    <i class="material-icons" data-secao='vender'>storefront</i> 
+                    Vender
+                </button>
+            </li>
+            <li class="item-acoes ">
+                <button class="btn-secoes" data-secao='clientes'> 
+                    <i class="material-icons" data-secao='clientes'>groups</i> 
+                    Clientes
+                </button>
+            </li>
+            <li class="item-acoes">
+                <button class="btn-secoes" data-secao='vendas'> 
+                    <i class="material-icons"  data-secao='vendas'>payments</i>
+                    Vendas
+                </button>
+            </li>
+            <li class="item-acoes" id="item-acao-fichas">
+                <button class="btn-secoes cor-btn-selecionado" data-secao='fichas'> 
+                    <i class="material-icons"  data-secao='fichas'>description</i> 
+                    Fichas
+                </button>
+            </li>
+            <li class="item-acoes" id="item-acao-vendas-nao-finalizadas">
+                <button class="btn-secoes" data-secao='vendas-nao-finalizadas'> 
+                    <i class="material-icons"  data-secao='vendas-nao-finalizadas'>shopping_cart</i> 
+                    Vendas não finalizadas
+                </button>
+            </li>
+            <li class="item-acoes">
+                <button class="btn-secoes" data-secao='produtos'>
+                    <i class="material-icons" data-secao='produtos'>format_list_bulleted</i>
+                    Produtos
+                </button>
+            </li>
+            <li class="item-acoes" id="item-acao-gerar-codigo-de-barras">
+                <button class="btn-secoes" data-secao='gerar-codigo-de-barras' > 
+                    <i class="material-icons" data-secao='gerar-codigo-de-barras' >view_week</i>
+                    Gerar código de barras
+                </button>
+            </li>
+        </ul>
+    </header>
+
+    <main>
+
+        <!--================HOME================HOME================HOME================HOME================HOME-->
+
+        <section class="secao" id="home">
+            Home
+        </section>
+
+        <!--===============VENDA================VENDA================VENDA================VENDA================VENDA-->
+
+        <section class="secao" id="vender">
+
+            <audio src="assets/audios/beepCaixa.mp3" id="efeito_sonoro_caixa"></audio>
+            <div id="informacoes-dos-produtos-a-serem-vendidos">
+                <div id="campos-produto-venda">
+                    <div class="campo-codigo-de-barras">
+                        <div class="titulo-campo">Código do produto</div>
+                        <div id="campo-codigo-de-barras__divInput">
+                            <input type="text" id="input-codigo-de-barras-vender">
+                            <button onclick="limpar_input_codigo()" class="material-icons">clear</button>
+                        </div>
+                        
+                    </div>
+                    <div class="campo-descricao">
+                        <div class="titulo-campo">Descrição</div>
+                        <div id="campo-descricao__divInput">
+                            <input type="text" id="input-descricao-venda" class="input_maiusculo">
+                            <button onclick=" limpa_e_da_foco_input_descricao()" class="material-icons">clear</button>
+                        </div>
+                    </div>
+                    <!-- <h2 id="h2-cliente">Cliente: João da silva</h2> -->
+                </div>
+                <div id="produtos-encontrados">
+                    <div id="produtos-encontrados__titulo">Produtos encontrados</div>
+
+                    <div id="produtos-encontrados__conteudo">
+                        <ul id="produtos-encontrados__produtos">
+
+                        </ul>
+
+                        <button onclick="abrir_form_vender_produto_avulso()" id="produtos-encontrados__produtos__btn-vender-avulso">Vender produto avulso</button>
+
+                        <form id="form-vender-produto-avulso">
+
+                            <div id="form-vender-produto-avulso__inputs">
+                                <div id="form-vender-produto-avulso__div-input-codigo">
+                                    <div class="div-input__titulo-campo">
+                                        Código
+                                    </div>
+                                    <input class="form-vender-produto-avulso__input" type="text" id="form-vender-produto-avulso__div-input-codigo__input" name="codigo">
+                                </div>
+
+                                <div id="form-vender-produto-avulso__div-input-descricao">
+                                    <div class="div-input__titulo-campo">
+                                        Descrição
+                                    </div>
+                                    <input class="form-vender-produto-avulso__input input_maiusculo"  type="text" id="form-vender-produto-avulso__div-input-descricao__input" name="descricao">
+                                </div>
+
+                                <div id="form-vender-produto-avulso__div-input-un">
+                                    <div class="div-input__titulo-campo">
+                                        UN
+                                    </div>
+                                    <select class="form-vender-produto-avulso__input" id="form-vender-produto-avulso__div-input-un__input" name="un">
+                                        <option value="UN">UN</option>
+                                        <option value="KG">KG</option>
+                                        <option value="G">G</option>
+                                        <option value="MT">MT</option>
+                                        <option value="CM">CM</option>
+                                        <option value="MM">MM</option>
+                                        <option value="LT">LT</option>
+                                        <option value="ML">ML</option>
+                                    </select>
+                                </div>
+
+                                <div id="form-vender-produto-avulso__div-input-preco">
+                                    <div class="div-input__titulo-campo">
+                                        Vl unitário
+                                    </div>
+                                    <input class="form-vender-produto-avulso__input"  type="text" id="form-vender-produto-avulso__div-input-preco__input" name="vlunitario" step="any">
+                                </div>
+
+                                
+                                <div id="form-vender-produto-avulso__div-input-qtde">
+                                    <div class="div-input__titulo-campo">
+                                        Qtde
+                                    </div>
+                                    <input class="form-vender-produto-avulso__input"  type="number" id="form-vender-produto-avulso__div-input-qtde__input" name="qtde" step="any">
+                                </div>
+                            </div>
+                            <button id="form-vender-produto-avulso__btn">Adicionar produto na venda</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="lista-de-produtos-passados">
+                <div id="lista-de-produtos-passados__titulo">
+                    Lista de produtos
+                </div>
+                <div id="lista-de-produtos-passados__conteudo">
+                    <table id="lista-de-produtos-passados__tabela">
+                        <thead>
+                            <tr id="lista-de-produtos-passados__tabela__cabecalho">
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__codigo">Código</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__descricao">Descrição</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__un">UN</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__qtde">Qtde</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__vlunitario">Vl unitário</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__total">Total</td>
+                                <td id="lista-de-produtos-passados__tabela__cabecalho__acoes">Ações</td>
+                            </tr>
+                        </thead>
+
+                        <tbody id="lista-de-produtos-passados__tabela__tbody">
+                     
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <div id="informacoes-finais-da-venda">
+                <div id="informacoes-finais-da-venda__campos">
+                    <div id="soma-total-da-venda" class="informacoes-finais-da-venda__campo">
+                        <div id="soma-total-da-venda__titulo" class="informacoes-finais-da-venda__titulos-dos-campos">
+                            Total
+                        </div>
+                        <div id="soma-total-da-venda__valor" class="informacoes-finais-da-venda__valores">
+                            R$ 0,00
+                        </div>
+                    </div>
+
+                    <div id="soma-total-da-venda-com-desconto" class="informacoes-finais-da-venda__campo">
+                        <div id="soma-total-da-venda-com-desconto__titulo" class="informacoes-finais-da-venda__titulos-dos-campos">
+                            Total com desconto
+                        </div>
+                        <div id="soma-total-da-venda-com-desconto__valor" class="informacoes-finais-da-venda__valores">
+                            R$ 0,00
+                        </div>
+                    </div>
+
+                    <div id="desconto-da-venda" class="informacoes-finais-da-venda__campo">
+                        <div id="desconto-da-venda__titulo" class="informacoes-finais-da-venda__titulos-dos-campos">
+                            Desconto
+                        </div>
+                        <input type="text" value="R$ 0,00" id="input-desconto-da-venda__valor" class="campo-venda-que-recebe-informacoes informacoes-finais-da-venda__valores opacidade input_monetario" disabled="true">
+                    </div>
+
+                    <div id="valor-pago-na-venda" class="informacoes-finais-da-venda__campo">
+                        <div id="valor-pago-na-venda-venda__titulo"
+                            class="informacoes-finais-da-venda__titulos-dos-campos">
+                            Valor pago
+                        </div>
+                        <input type="text" value="R$ 0,00" id="input-valor-pago-da-venda__valor" class="campo-venda-que-recebe-informacoes informacoes-finais-da-venda__valores opacidade input_monetario" disabled="true">
+                    </div>
+
+                    <div id="troco-da-venda" class="informacoes-finais-da-venda__campo">
+                        <div id="troco-da-venda-venda__titulo" class="informacoes-finais-da-venda__titulos-dos-campos">
+                            Troco
+                        </div>
+                        <div id="troco-da-venda__valor" class="informacoes-finais-da-venda__valores opacidade-04">
+                            R$ 0,00
+                        </div>
+                    </div>
+                </div>
+
+                <div id="informacoes-finais-da-venda__botoes">
+
+                    <div id="informacoes-finais-da-venda__cliente" class="display-none">
+                        <p>Cliente: <span id="informacoes-finais-da-venda__cliente__nome">Não informado</span></p>
+                        <p>Cpf: <span id="informacoes-finais-da-venda__cliente__cpf">Não informado</span></p>
+                    </div>
+                               
+                    <button id="informacoes-finais-da-venda__BtnCancelarVenda" class="opacidade informacoes-finais-da-venda__btn" onclick="cancelar_venda()" disabled="true" >
+                        Cancelar venda 
+                        <i class="material-icons">delete</i>
+                    </button>
+
+                    <button id="informacoes-finais-da-venda__BtnMarcarNaFicha" class="opacidade informacoes-finais-da-venda__btn" onclick="marcar_na_ficha()" disabled="true" >
+                        Marcar na ficha
+                        <i class="material-icons">receipt_long</i>
+                        <div class="loader display-none" id="loader_marcar_na_ficha"></div> 
+                    </button>
+
+                    <button id="informacoes-finais-da-venda__BtnSalvarVenda" class="opacidade informacoes-finais-da-venda__btn" disabled="true" onclick="salvar_venda()">
+                        Salvar venda 
+                        <i class="material-icons" id="icone_salvar_venda">save</i>
+                        <div class="loader display-none" id="loader_salvar_venda"></div> 
+                    </button>
+
+                    <button id="informacoes-finais-da-venda__BtnFinalizarVenda" class="opacidade informacoes-finais-da-venda__btn" disabled="true" onclick="finalizar_venda()">
+                        Finalizar venda 
+                        <i class="material-icons" id="icone_finalizar_venda">payments</i>               
+                        <div class="loader display-none" id="loader_finalizar_venda"></div> 
+                    </button>
+                    
+                    <dialog id="dialog-modal-identificar-cliente">
+                        <div id="dialog-modal-identificar-cliente__divBtnFechar">
+                            <h2>Indentificar cliente (opcional)</h2>
+                            <button class="btn-fechar-modal material-icons" id="dialog-modal-identificar-cliente__btnFechar">close</button>
+                        </div>
+            
+
+                        <div id="div_tabela_clientes">
+                            <div id="dialog-modal-identificar-cliente_divFiltros">
+                                <input type="text" id="dialog-modal-identificar-cliente_divFiltros__nome" placeholder="Nome">
+                                <input type="text" id="dialog-modal-identificar-cliente_divFiltros__cpf" class="input_cpf" placeholder="Cpf">
+                            </div>
+                            <div id="dialog-modal-identificar-cliente__div_tabela_clientes">
+                              
+                                <table id="dialog-modal-identificar-cliente__tabela">
+
+                                </table> 
+
+                                <div id="dialog_modal_identificar_cliente__div_loader_buscar_clientes" class="display-none">
+                                    <div class="loader" id="dialog_modal_identificar_cliente__loader_buscar_clientes">
+                
+                                    </div>
+                                    Buscando clientes...
+                                </div>
+
+                            </div>
+                        </div>
+                    
+                        <button id="btn_cliente_nao_cadastrado">Cliente não cadastrado</button>
+                             
+                        <div id="dialog-modal-identificar-cliente__btns">
+                            <button id="dialog-modal-identificar-cliente__btns__btnNaoInformar">Não informar (continuar)</button>
+                            <button id="dialog-modal-identificar-cliente__btns__btnConfirmar" class="dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado" disabled="true">Confirmar</button>
+                        </div>
+                      
+
+                    </dialog>
+
+                    <dialog id="dialog_modal_cadastrar_cliente_na_venda">
+
+                        <div id="dialog_modal_cadastrar_cliente_na_venda__divTituloEBtnDeFechar">
+                            <p>Cadastrar cliente</p> 
+                            <button class="btn-fechar-modal_cadastrar_cliente_na_venda material-icons" id="dialog-modal-cadastrar-cliente-venda__btnFechar" onclick="fecha_modal_cadastrar_cliente_na_venda()">close</button>
+                        </div>
+                        
+
+                        <div id="div_loader_cadastrar_cliente_na_venda" class="display-none">
+                            <div class="loader" id="loader_cadastrar_cliente_na_venda">
+        
+                            </div>
+                            Cadastrando...
+                        </div>
+                     
+        
+                        <p id="erro_formulario_cadastro_cliente_na_venda" class="display-none"></p>
+        
+                        <form action="" id="form_cadastrar_cliente_na_venda">
+                            <input type="text" name="nome" placeholder="Nome">
+                            <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
+        
+                            <div id="div_botoes_form_cadastrar_cliente_na_venda">    
+                                <button type="button" id="btn_form_cadastrar_cliente_na_venda_cancelar" onclick="fecha_modal_cadastrar_cliente_na_venda()">Cancelar</button>
+                                <button id="btn_form_cadastrar_cliente_na_venda">Cadastrar</button>
+                            </div>
+        
+                        </form>
+                    </dialog>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <!--CLIENTES================CLIENTES================CLIENTES================CLIENTES================CLIENTES-->
+
+        <section class="secao" id="clientes">
+            
+            <dialog id="dialog_modal_cadastrar_cliente">
+                
+                <div id="div_loader_cadastrar_cliente" class="display-none">
+                    <div class="loader" id="loader_cadastrar_cliente">
+
+                    </div>
+                    Cadastrando...
+                </div>
+             
+
+                <p id="erro_formulario_cadastro_cliente" class="display-none"></p>
+
+                <form action="" id="form_cadastrar_cliente">
+                    <input type="text" name="nome" placeholder="Nome">
+                    <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
+
+                    <div id="div_botoes_form_cadastrar_cliente">    
+                        <button type="button" id="btn_form_cadastrar_cliente_cancelar" onclick="fecha_modal_cadastrar_cliente()">Cancelar</button>
+                        <button id="btn_form_cadastrar_cliente">Cadastrar</button>
+                    </div>
+
+                </form>
+            </dialog>
+
+            <dialog id="dialog_modal_editar_cliente">
+                
+                <div id="div_loader_editar_cliente" class="display-none">
+                    <div class="loader" id="loader_editar_cliente">
+
+                    </div>
+                    Salvando...
+                </div>
+             
+
+                <p id="erro_formulario_editar_cliente" class="display-none"></p>
+
+                <form action="" id="form_editar_cliente">
+                    <input type="text" name="nome" placeholder="Nome">
+                    <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
+
+                    <div id="div_botoes_form_editar_cliente">    
+                        <button type="button" id="btn_form_editar_cliente_cancelar" onclick="fecha_modal_editar_cliente()">Cancelar</button>
+                        <button id="btn_form_editar_cliente" class="btn_editar_cliente_desativado" disabled="true">Salvar</button>
+                    </div>
+
+                </form>
+            </dialog>
+
+            <div id="clientes__divBuscarClientes">
+                <form action="">
+                    <input type="text" name="nome" placeholder="Nome">
+                    <input type="text" name="cpf" placeholder="Cpf">
+                    <select name="" id="clientes__divBuscarClientes__selectOrdem">
+                        <option value="mais_antigo">Mais antigo</option>
+                        <option value="mais_recente">Mais recente</option>
+                        <option value="ordem_alfabetica">Ordem alfabética</option>
+                        <option value="ordem_alfabetica_dec">Ordem alfabética dec</option>
+                    </select>
+                    <button id="btn_buscar_clientes">
+                        BUSCAR
+                        <span class="material-icons">search</span>
+                    </button>
+                    <button type="button" id="btn_atualizar_lista_clientes" onclick="atualiza_lista_de_clientes()">
+                        <span class="material-icons">refresh</span>
+                    </button>
+                </form>
+            </div>
+            <table id="clientes__tabela">
+
+            </table>
+
+            <div id="div_loader_lista_clientes" class="display-none">
+                <div class="loader" id="loader_lista_clientes">
+
+                </div>
+                Buscando...
+            </div>
+
+            <button id="btn_cadastrar_cliente" class="material-icons" onclick="abrir_modal_cadastrar_cliente()">
+                add
+            </button>
+
+        </section>
+
+        <!--==========VENDAS================VENDAS================VENDAS================VENDAS================VENDAS-->
+
+        <section class="secao" id="vendas">
+        
+
+            <div id="div_opcoes_lista_de_vendas">
+                Ordenar por: 
+                <select name="" id="div_opcoes_lista_de_vendas__select-ordem">
+                    <option value="mais_antiga">Mais antiga</option>
+                    <option value="mais_recente">Mais recente</option>
+                </select>
+
+                <button onclick="atualiza_lista_de_vendas()"><i class="material-icons">refresh</i> </button>
+            </div>
+
+            <table id="vendas__tabela_lista_de_vendas">
+     
+            </table>
+
+            <div class="lds-default" id="loader_lista_de_vendas"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+        </section>
+
+         <!--==========FICHAS================FICHAS================FICHAS================FICHAS================FICHAS-->
+
+        <section id="fichas" class="secao display-flex" id="fichas">
+
+            <div id="fichas__divFiltros">
+                <input type="text" id="fichas__divFiltros__inputNome" placeholder="Nome">
+                <input type="text" id="fichas__divFiltros__inputCpf" class="input_cpf"  placeholder="Cpf">
+                <button id="fichas__divFiltros__btnAtualizarLista" class="material-icons" onclick="atualiza_lista_de_fichas()">refresh</button>
+
+                
+            </div>
+
+            <table id="fichas__listaDeFichas">
+
+            </table>
+
+            <div id="div_loader_lista_fichas" class="display-none">
+                <div class="loader" id="loader_lista_fichas">
+
+                </div>
+                Buscando...
+            </div>
+
+            <dialog id="fichas__dialogFicha">
+
+                <div id="div_loader_buscando_ficha" class="display-none">
+                    <div class="loader" id="loader_buscando_ficha">
+
+                    </div>
+                    Buscando informações...
+                </div>
+
+                <div id="fichas__dialogFicha__infoCliente">
+                    <span id="ficha__nomeCliente"></span>
+                    <span id="ficha__cpfCliente"></span>
+                </div>
+
+                <div id="fichas__dialogFicha__divProdutos" class="display-none">
+                    <table id="fichas__dialogFicha__produtos">
+                    
+                    </table>
+                </div>
+
+                <div id="fichas__dialogFicha__infoFicha">
+                    <div id="campo-qtdeItens" class="fichas__dialogFicha__infoFicha__campo">
+                        <div class="fichas__dialogFicha__infoFicha__titulo-campo">Itens</div>
+                        <input type="text" id="fichas__dialogFicha__infoFicha__input_qtdeItens" readonly>
+                    </div>
+                    <div id="campo-vlTotal" class="fichas__dialogFicha__infoFicha__campo">
+                        <div class="fichas__dialogFicha__infoFicha__titulo-campo">Valor total</div>
+                        <input ytpe="text" id="fichas__dialogFicha__infoFicha__input_vlTotal" readonly>
+                    </div>
+                    <div id="campo-valorPago" class="fichas__dialogFicha__infoFicha__campo">
+                        <div class="fichas__dialogFicha__infoFicha__titulo-campo">Valor pago</div>
+                        <input type="text" id="fichas__dialogFicha__infoFicha__input_valorPago" readonly>
+                    </div>
+                </div>    
+
+                <button id="fichas__dialogFicha__btnLimparFicha" onclick="limpar_ficha()">
+                    Limpar ficha
+                    <span class="material-icons">delete</span>
+                    <div class="loader display-none" id="loader_limpar_ficha"></div> 
+                </button>
+            </dialog>        
+
+        </section>
+
+        <!--==========VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS-->
+
+        <section class="secao" id="vendas-nao-finalizadas">
+
+            <div id="div_opcoes_lista_de_vendas_nao_finalizadas">
+                Ordenar por: 
+                <select name="" id="div_opcoes_lista_de_vendas_nao_finalizadas__select-ordem">
+                    <option value="mais_antiga">Mais antiga</option>
+                    <option value="mais_recente">Mais recente</option>
+                </select>
+
+                <button onclick="atualiza_lista_de_vendas_nao_finalizadas()"><i class="material-icons">refresh</i> </button>
+            </div>
+
+            <table id="vendas_nao_finalizadas__lista">
+
+            </table>
+
+            <div class="lds-default" id="loader_lista_de_vendas_nao_finalizadas"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </section>
+
+        <!--==========PRODUTOS================PRODUTOS================PRODUTOS================PRODUTOS================PRODUTOS-->
+
+        <section class="secao" id="produtos">
+
+            <button onclick="abrirModal__cadastrarProduto()" id="btn_flutuante_cadastrar_produto" class="material-icons">add</button>
+
+            <div id="div_btns_acoes_produtos">
+                <button class="div_btns_acoes_produtos__botao" onclick="abrirModal__cadastrarProduto()"><i class="material-icons">add_shopping_cart</i> Cadastrar novo produto</button>
+            </div>
+
+            <div id="produtos__divFiltrosListaProdutos"> 
+           
+                <form id="produtos__divFiltrosListaProdutos__form">
+                    Código: <input type="search" name="codigo" class="produtos__divFiltrosListaProdutos__input" id="produtos__input-codigo"> |
+                    Descrição: <input type="search" name="descricao" class="produtos__divFiltrosListaProdutos__input input_maiusculo" id="produtos__divFiltrosListaProdutos__input-descricao"> |
+                    Ordenar por: 
+                    <select name="" class="produtos__divFiltrosListaProdutos__input" id="produtos__divFiltrosListaProdutos__input-ordem">
+                        <option value="ordem_alfabetica">Ordem alfabética</option>    
+                        <option value="ordem_alfabetica_dec">Ordem alfabética dec</option>    
+                        <option value="mais_recente">Mais recente </option>    
+                        <option value="mais_antigo">Mais antigo</option>    
+                    </select>
+                    <button id="produtos__divFiltrosListaProdutos__btnBuscar" class="display-none" ></button>
+                </form>
+
+    
+
+                <div id="produtos__divFiltrosListaProdutos__informacoes-sobre-os-registros"> 
+                    <div id="produtos__divFiltrosListaProdutos__informacoes__div_quantidades">
+                        <span id="quantidade_de_resultados"></span> /
+                        <span id="quantidade_total_de_registros"></span> Produtos
+                    </div>
+                    |
+                    <div id="produtos__divFiltrosListaProdutos__informacoes__div_unidades">
+                        <span id="quantidade_de_unidades_de_produtos_resultado"></span> / 
+                        <span id="quantidade_de_unidades_de_produtos_total"></span> Unidades
+                    </div>
+
+                    <button onclick="atualiza_lista_de_produtos()"  id="btn_atualizar_lista_produtos">
+                        Atualizar
+                        <span class="material-icons" id="btn_atualizar_produtos__icone-refresh">refresh</span>
+                    </button>
+                    <button onclick="excluir_todos_produtos()" id="btn_excluir_todos_produtos">
+                        Apagar todo o estoque
+                        <span class="material-icons">delete</span>
+                        <div class="loader display-none" id="loader_excluir_todos_produtos"></div>
+                    </button>
+
+                    <button onclick="limpar_busca()" id="btn_limpar_busca" > 
+                        Limpar busca
+                        <span class="material-icons">close</span>
+                    </button>
+                </div>
+
+
+            
+         
+
+            </div>
+
+            <table id="produtos__tabela_lista_de_produtos">
+                <!-- <thead>
+                    <tr id="produtos__tabela_lista_de_produtos__trCabecalho">
+                        <td class="produtos__tabela_lista_de_produtos__campo-codigo">Código</td>
+                        <td class="produtos__tabela_lista_de_produtos__campo-descricao">Descrição</td>
+                        <td class="produtos__tabela_lista_de_produtos__campo-vlUnitario">Vl unitário</td>
+                        <td class="produtos__tabela_lista_de_produtos__campo-un">UN</td>
+                        <td class="produtos__tabela_lista_de_produtos__campo-qtdeDisponivel">Qtde disp.</td>
+                        <td class="produtos__tabela_lista_de_produtos__campo-acoes">Ações</td>
+                    </tr>
+                </thead> -->
+<!-- 
+                <tbody id="produtos__tabela_lista_de_produtos__tbody">
+                    
+                </tbody> -->
+
+            </table>
+
+            <!-- <div id="lista_de_produtos__div_opcoes_paginacao">
+                <nav id="lista_de_produtos__nav_opcoes_paginacao">
+                    <a class="material-icons"  id="lista_de_produtos__div_opcoes_paginacao__btn-voltar" onclick="voltar_pagina_lista_de_produtos()">keyboard_double_arrow_left</a>
+
+                    <div id="lista_de_produtos__nav_opcoes_paginacao__numeros_das_paginas">
+
+                    </div>
+
+                    <a class="material-icons" id="lista_de_produtos__div_opcoes_paginacao__btn-avancar" onclick="avancar_pagina_lista_de_produtos()" >keyboard_double_arrow_right</a>
+                </nav>
+
+            </div> -->
+
+            <div class="lds-default" id="loader_lista_de_produtos"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+     
+        </section>
+
+
+        <section class="secao" id="gerar-codigo-de-barras">
+            Gerar Codigo de barras
+        </section>
+
+        <div id="mensagem_lateral_da_tela">
+            <p id="mensagem_lateral__mensagem"></p> 
+            <button id="btn_fechar_mensagem_lateral_da_tela" onclick="fechar_mensagem_lateral_de_tela()"><i class="material-icons">close</i> </button>
+        </div>
+    </main>
+
+    <script>
+        // alert(window.innerWidth); 
+        var conteudo_lista_de_produtos = document.querySelector("#lista-de-produtos-passados__conteudo");
+        conteudo_lista_de_produtos.scrollTop = conteudo_lista_de_produtos.scrollHeight;
+    </script>
+    <script src="JavaScript/funcoes-globais.js"></script>
+    <script src="JavaScript/trocadorDeSecoes.js"></script>
+    <script src="JavaScript/zay_request.js"></script>
+    <script src="JavaScript/ZayDataTable/AcaoRegistro.js"></script>
+    <script src="JavaScript/ZayDataTable/ZayDataTable.js"></script>
+    <script src="JavaScript/modais.js"></script>
+    <script src="JavaScript/produtos_do_banco.js"></script>
+
+    <script src="JavaScript/venda/identificarCliente.js"></script>
+    <script src="JavaScript/venda/identificarFicha.js"></script>
+    <script src="JavaScript/venda/venda.js"></script>
+
+    <script src="JavaScript/clientes/clientes.js"></script>
+    <script src="JavaScript/clientes/listagemClientes.js"></script>
+    <script src="JavaScript/clientes/cadastroClientes.js"></script>
+    <script src="JavaScript/clientes/editarClientes.js"></script>
+    <script src="JavaScript/clientes/excluirClientes.js"></script>
+
+    <script src="JavaScript/vendas/listagemVendas.js"></script>
+    <script src="JavaScript/vendas/exibirInformacoesDaVenda.js"></script>
+    <script src="JavaScript/vendas/excluirVenda.js"></script>
+    <script src="JavaScript/vendas/vendas.js"></script>
+
+    <script src="JavaScript/vendasNaoFinalizadas/listagemDasVendasNFinalizadas.js"></script>
+    <script src="JavaScript/vendasNaoFinalizadas/excluirVendaNFinalizada.js"></script>
+    <script src="JavaScript/vendasNaoFinalizadas/exibirInfoVendasNFinalizadas.js"></script>
+    <script src="JavaScript/vendasNaoFinalizadas/vendas_nao_finalizadas.js"></script>
+    <script src="JavaScript/vendasNaoFinalizadas/vendas_nao_finalizadas.js"></script>
+
+    <script src="JavaScript/produtos/listagemProdutos.js"></script>
+    <script src="JavaScript/produtos/cadastroProdutos.js"></script>
+    <script src="JavaScript/produtos/editarProdutos.js"></script>
+    <script src="JavaScript/produtos/aumentarEstoque.js"></script>
+    <script src="JavaScript/produtos/excluirProduto.js"></script>
+    <script src="JavaScript/produtos/excluirTodosProdutos.js"></script>
+    <script src="JavaScript/produtos/produtos.js"></script>
+
+    <script src="JavaScript/fichas/listagemFichas.js"></script>
+    <script src="JavaScript/fichas/exibirFicha.js"></script>
+    <script src="JavaScript/fichas/excluirFicha.js"></script>
+    <script src="JavaScript/fichas/devolverProduto.js"></script>
+    <script src="JavaScript/fichas/excluirProduto.js"></script>
+    <script src="JavaScript/fichas/pagarProduto.js"></script>
+    <script src="JavaScript/fichas/limparFicha.js"></script>
+
+    <script src="JavaScript/mensagens_lateral_da_tela.js"></script>
+    <script src="JavaScript/modalCadastrarProduto.js"></script>
+
+    <script src="JavaScript/modal-confirmacoes.js"></script>
+    <script src="JavaScript/mascaraDeDinheiro.js"></script>
+</body>
+
+</html>
+
+
+
+<!-- 
+
+    <option value="UN">UN</option>
+    <option value="KG">KG</option>
+    <option value="G">G</option>
+    <option value="MT">MT</option>
+    <option value="CM">CM</option>
+    <option value="MM">MM</option>
+    <option value="LT">LT</option>
+    <option value="ML">ML</option>
+
+ -->
