@@ -619,6 +619,7 @@
 .produtos__tabela_lista_de_produtos__trProduto__td{
     text-align: center;
     height: 32px;
+    padding: 1px 0;
 }
 .produtos__tabela_lista_de_produtos__mensagem_nenhum_registro_encontrado{
     text-align: center;
