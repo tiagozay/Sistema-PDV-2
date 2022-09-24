@@ -4,7 +4,7 @@
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Infraestrutura\Repository\PdoClienteRepository;
     
-    $ordem = isset($_POST['ordem']) ? $_POST['ordem'] : exit();
+    $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : exit();
 
     $pdo = ConnectionCreator::CreateConnection();
 

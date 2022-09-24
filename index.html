@@ -301,6 +301,46 @@
         </dialog>
 
     </div>
+
+         <!-- ===MODAL IDENTIFICAR CLIENTE===MODAL IDENTIFICAR CLIENTE===MODAL IDENTIFICAR CLIENTE=== -->
+         <dialog id="dialog-modal-identificar-cliente">
+            <div id="dialog-modal-identificar-cliente__divBtnFechar">
+                <h2>Indentificar cliente (opcional)</h2>
+                <button class="btn-fechar-modal material-icons" id="dialog-modal-identificar-cliente__btnFechar">close</button>
+            </div>
+
+
+            <div id="div_tabela_clientes">
+                <div id="dialog-modal-identificar-cliente_divFiltros">
+                    <input type="text" id="dialog-modal-identificar-cliente_divFiltros__nome" placeholder="Nome">
+                    <input type="text" id="dialog-modal-identificar-cliente_divFiltros__cpf" class="input_cpf" placeholder="Cpf">
+                </div>
+                <div id="dialog-modal-identificar-cliente__div_tabela_clientes">
+                  
+                    <table id="dialog-modal-identificar-cliente__tabela">
+
+                    </table> 
+
+                    <div id="dialog_modal_identificar_cliente__div_loader_buscar_clientes" class="display-none">
+                        <div class="loader" id="dialog_modal_identificar_cliente__loader_buscar_clientes">
+    
+                        </div>
+                        Buscando clientes...
+                    </div>
+
+                </div>
+            </div>
+        
+            <button id="btn_cliente_nao_cadastrado">Cliente não cadastrado</button>
+                 
+            <div id="dialog-modal-identificar-cliente__btns">
+                <button id="dialog-modal-identificar-cliente__btns__btnNaoInformar">Não informar (continuar)</button>
+                <button id="dialog-modal-identificar-cliente__btns__btnConfirmar" class="dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado" disabled="true">Confirmar</button>
+            </div>
+          
+
+        </dialog>
+
     <header class="header-secoes">
         <!-- <img src="assets/imagens/logo-empresa.jpg" alt="" class="logo-empresa"> -->
         <ul class="lista-acoes">
@@ -546,44 +586,6 @@
                         <div class="loader display-none" id="loader_finalizar_venda"></div> 
                     </button>
                     
-                    <dialog id="dialog-modal-identificar-cliente">
-                        <div id="dialog-modal-identificar-cliente__divBtnFechar">
-                            <h2>Indentificar cliente (opcional)</h2>
-                            <button class="btn-fechar-modal material-icons" id="dialog-modal-identificar-cliente__btnFechar">close</button>
-                        </div>
-            
-
-                        <div id="div_tabela_clientes">
-                            <div id="dialog-modal-identificar-cliente_divFiltros">
-                                <input type="text" id="dialog-modal-identificar-cliente_divFiltros__nome" placeholder="Nome">
-                                <input type="text" id="dialog-modal-identificar-cliente_divFiltros__cpf" class="input_cpf" placeholder="Cpf">
-                            </div>
-                            <div id="dialog-modal-identificar-cliente__div_tabela_clientes">
-                              
-                                <table id="dialog-modal-identificar-cliente__tabela">
-
-                                </table> 
-
-                                <div id="dialog_modal_identificar_cliente__div_loader_buscar_clientes" class="display-none">
-                                    <div class="loader" id="dialog_modal_identificar_cliente__loader_buscar_clientes">
-                
-                                    </div>
-                                    Buscando clientes...
-                                </div>
-
-                            </div>
-                        </div>
-                    
-                        <button id="btn_cliente_nao_cadastrado">Cliente não cadastrado</button>
-                             
-                        <div id="dialog-modal-identificar-cliente__btns">
-                            <button id="dialog-modal-identificar-cliente__btns__btnNaoInformar">Não informar (continuar)</button>
-                            <button id="dialog-modal-identificar-cliente__btns__btnConfirmar" class="dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado" disabled="true">Confirmar</button>
-                        </div>
-                      
-
-                    </dialog>
-
                     <dialog id="dialog_modal_cadastrar_cliente_na_venda">
 
                         <div id="dialog_modal_cadastrar_cliente_na_venda__divTituloEBtnDeFechar">
@@ -933,6 +935,7 @@
     <script src="JavaScript/ZayDataTable/ZayDataTable.js"></script>
     <script src="JavaScript/modais.js"></script>
     <script src="JavaScript/produtos_do_banco.js"></script>
+    <script src="JavaScript/Services/SelecionarClienteService.js"></script>
 
     <script src="JavaScript/venda/identificarCliente.js"></script>
     <script src="JavaScript/venda/identificarFicha.js"></script>

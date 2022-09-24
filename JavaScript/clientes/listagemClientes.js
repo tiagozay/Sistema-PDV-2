@@ -47,7 +47,7 @@ function incializa_lista_clientes()
     let clientes = {};
 
     zay_request(
-        'POST',
+        'GET',
         './back-end/buscaClientesOrdenados.php',
         {ordem: ordem_lista_de_clientes},
         resposta => {
@@ -98,7 +98,7 @@ function atualiza_lista_de_clientes()
     loader_lista_de_clientes.classList.remove("display-none");
 
     zay_request(
-        'POST',
+        'GET',
         './back-end/buscaClientesOrdenados.php',
         {ordem: ordem_lista_de_clientes},
         resposta => {

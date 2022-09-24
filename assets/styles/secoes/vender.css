@@ -656,6 +656,9 @@
     border-radius: 5px;
     color: white;
     cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    padding: 5px 0;
 }
 #dialog-modal-identificar-cliente__btns__btnNaoInformar{
     background-color: rgb(120, 120, 120);
