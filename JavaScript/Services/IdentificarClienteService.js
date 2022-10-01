@@ -9,6 +9,7 @@ class IdentificarClienteService
         this._tabela;
         this._clientes;
         this._zayDataTable__clientes;
+        this._btn_cadastrar_cliente;
         this._btn_nao_informar_cliente;
         this._btn_confirmar_cliente;
 
@@ -28,6 +29,19 @@ class IdentificarClienteService
                 this._dialog_informar_cliente__campo_nome.value = "";
                 this._dialog_informar_cliente__campo_cpf.value = "";
 
+            }
+
+            this._btn_cadastrar_cliente.onclick = () => {
+                const service = new CadastrarClienteService();
+                service.abrirCadastro()
+                    .then( cliente_recem_cadastrado => {
+                        this._buscaClientes()
+                            .then(clientes => {
+                                this._atualizaListaESelecionaNovoCliente(clientes, cliente_recem_cadastrado.id);
+                            })
+                    
+                        // resolve(cliente_recem_cadastrado)
+                    })
             }
 
             this._btn_nao_informar_cliente.onclick = () => {
@@ -58,6 +72,7 @@ class IdentificarClienteService
         this._tabela = this._dialog.querySelector("#dialog-modal-identificar-cliente__tabela");
         this._dialog_informar_cliente__campo_nome = this._dialog.querySelector("#dialog-modal-identificar-cliente_divFiltros__nome");
         this._dialog_informar_cliente__campo_cpf = this._dialog.querySelector("#dialog-modal-identificar-cliente_divFiltros__cpf");
+        this._btn_cadastrar_cliente = document.querySelector("#btn_cliente_nao_cadastrado");
         this._btn_nao_informar_cliente = document.querySelector("#dialog-modal-identificar-cliente__btns__btnNaoInformar");
         this._btn_confirmar_cliente = document.querySelector("#dialog-modal-identificar-cliente__btns__btnConfirmar");
 
@@ -110,6 +125,14 @@ class IdentificarClienteService
             abrir_mensagem_lateral_da_tela("Não foi possível buscar clientes!");
         });
     
+    }
+
+    _atualizaListaESelecionaNovoCliente(clientes, id_novo_cliente)
+    {
+        this._clientes = this._formata_clientes(clientes);
+        this._atualiza_lista_clientes(this._clientes);
+        const elemento_novo = this._buscaElementoPeloId(id_novo_cliente);
+        this._seleciona_cliente(elemento_novo);
     }
 
     _fecharModalIdentificarCliente()
@@ -186,6 +209,15 @@ class IdentificarClienteService
 
         return clientes_formatados;
     
+    }
+
+    _buscaElementoPeloId(id)
+    {
+        const trs = [...document.querySelectorAll('.dialog_modal_identificar_cliente__tabela__tbody_tr')];
+
+        const elemento = trs.find( elemento => elemento.dataset.id == id );
+
+        return elemento;
     }
 
     _adiciona_evento_de_click_nos_clientes()
