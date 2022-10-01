@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="assets/styles/reset.css">
     <link rel="stylesheet" href="assets/styles/main.css">
     <link rel="stylesheet" href="assets/styles/modais/modais.css">
+    <link rel="stylesheet" href="assets/styles/modais/modal-cadastrar-cliente.css">
+    <link rel="stylesheet" href="assets/styles/modais/modal-identificar-cliente.css">
     <link rel="stylesheet" href="assets/styles/mensagem-lateral.css">
     <link rel="stylesheet" href="assets/styles/modais/modais-de-confirmacao/modal-confirmacoes.css">
     <link rel="stylesheet" href="assets/styles/modais/modais-de-confirmacao/remover-produto-da-venda.css">
@@ -340,6 +342,38 @@
         
         </dialog>
 
+
+        <!-- ===MODAL CADASTRAR CLIENTE===MODAL CADASTRAR CLIENTE===MODAL CADASTRAR CLIENTE=== -->
+        <dialog id="dialog_modal_cadastrar_cliente">
+
+            <div id="dialog_modal_cadastrar_cliente__divTituloEBtnDeFechar">
+                <p>Cadastrar cliente</p> 
+                <button class="btn-fechar-modal_cadastrar_cliente material-icons" id="dialog-modal-cadastrar-cliente__btnFechar">close</button>
+            </div>
+            
+
+            <div id="div_loader_cadastrar_cliente" class="display-none">
+                <div class="loader" id="loader_cadastrar_cliente">
+
+                </div>
+                Cadastrando...
+            </div>
+         
+
+            <p id="erro_formulario_cadastro_cliente" class="display-none"></p>
+
+            <form action="" id="form_cadastrar_cliente">
+                <input type="text" name="nome" placeholder="Nome">
+                <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
+
+                <div id="div_botoes_form_cadastrar_cliente">    
+                    <button type="button" id="btn_form_cadastrar_cliente_cancelar">Cancelar</button>
+                    <button id="btn_form_cadastrar_cliente">Cadastrar</button>
+                </div>
+
+            </form>
+        </dialog>
+
     <header class="header-secoes">
         <!-- <img src="assets/imagens/logo-empresa.jpg" alt="" class="logo-empresa"> -->
         <ul class="lista-acoes">
@@ -584,37 +618,7 @@
                         <i class="material-icons" id="icone_finalizar_venda">payments</i>               
                         <div class="loader display-none" id="loader_finalizar_venda"></div> 
                     </button>
-                    
-                    <dialog id="dialog_modal_cadastrar_cliente_na_venda">
-
-                        <div id="dialog_modal_cadastrar_cliente_na_venda__divTituloEBtnDeFechar">
-                            <p>Cadastrar cliente</p> 
-                            <button class="btn-fechar-modal_cadastrar_cliente_na_venda material-icons" id="dialog-modal-cadastrar-cliente-venda__btnFechar" onclick="fecha_modal_cadastrar_cliente_na_venda()">close</button>
-                        </div>
-                        
-
-                        <div id="div_loader_cadastrar_cliente_na_venda" class="display-none">
-                            <div class="loader" id="loader_cadastrar_cliente_na_venda">
-        
-                            </div>
-                            Cadastrando...
-                        </div>
-                     
-        
-                        <p id="erro_formulario_cadastro_cliente_na_venda" class="display-none"></p>
-        
-                        <form action="" id="form_cadastrar_cliente_na_venda">
-                            <input type="text" name="nome" placeholder="Nome">
-                            <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
-        
-                            <div id="div_botoes_form_cadastrar_cliente_na_venda">    
-                                <button type="button" id="btn_form_cadastrar_cliente_na_venda_cancelar" onclick="fecha_modal_cadastrar_cliente_na_venda()">Cancelar</button>
-                                <button id="btn_form_cadastrar_cliente_na_venda">Cadastrar</button>
-                            </div>
-        
-                        </form>
-                    </dialog>
-
+                
                 </div>
 
             </div>
@@ -625,30 +629,6 @@
         <!--CLIENTES================CLIENTES================CLIENTES================CLIENTES================CLIENTES-->
 
         <section class="secao" id="clientes">
-            
-            <dialog id="dialog_modal_cadastrar_cliente">
-                
-                <div id="div_loader_cadastrar_cliente" class="display-none">
-                    <div class="loader" id="loader_cadastrar_cliente">
-
-                    </div>
-                    Cadastrando...
-                </div>
-             
-
-                <p id="erro_formulario_cadastro_cliente" class="display-none"></p>
-
-                <form action="" id="form_cadastrar_cliente">
-                    <input type="text" name="nome" placeholder="Nome">
-                    <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
-
-                    <div id="div_botoes_form_cadastrar_cliente">    
-                        <button type="button" id="btn_form_cadastrar_cliente_cancelar" onclick="fecha_modal_cadastrar_cliente()">Cancelar</button>
-                        <button id="btn_form_cadastrar_cliente">Cadastrar</button>
-                    </div>
-
-                </form>
-            </dialog>
 
             <dialog id="dialog_modal_editar_cliente">
                 
@@ -934,6 +914,7 @@
     <script src="JavaScript/ZayDataTable/ZayDataTable.js"></script>
     <script src="JavaScript/modais.js"></script>
     <script src="JavaScript/produtos_do_banco.js"></script>
+    <script src="JavaScript/Services/CadastrarClienteService.js"></script>
     <script src="JavaScript/Services/IdentificarClienteService.js"></script>
 
     <script src="JavaScript/venda/identificarCliente.js"></script>
