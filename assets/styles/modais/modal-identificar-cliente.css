@@ -1,0 +1,171 @@
+#dialog-modal-identificar-cliente{
+    background-color: rgb(232, 232, 232);
+    width: 600px;
+    height: 500px;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid #000000!important;
+    padding: 10px;
+}
+#dialog-modal-identificar-cliente::backdrop{
+    background-color: rgba(0, 0, 0, 0.612);
+}
+#dialog-modal-identificar-cliente__divBtnFechar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    font-size: 19px!important;
+    padding-bottom: 5px;
+    border-bottom: 1px black solid;
+}
+#dialog-modal-identificar-cliente__btnFechar{
+    background-color: transparent!important;
+    font-size: 29px!important;
+    border: none!important;
+    width: auto!important;
+    height: auto!important;
+    color: rgb(22, 22, 22)!important;
+    outline: none;
+}
+#div_tabela_clientes{
+    border: 2px rgb(89, 89, 89) solid;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+#dialog-modal-identificar-cliente__div_tabela_clientes{
+    height: 250px;
+    overflow-y: scroll;
+}
+#dialog-modal-identificar-cliente_divFiltros{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 0 5px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+#dialog-modal-identificar-cliente__tabela{
+    width: 100%;
+}
+
+#dialog-modal-identificar-cliente_divFiltros input{
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px rgb(77, 77, 77) solid;
+    font-size: 18px;
+    width: 48%;
+    padding: 3px 0px;
+}
+#btn_cliente_nao_cadastrado{
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 9px;
+    margin-bottom: 4px;
+    border: none ;
+    background-color: transparent;
+    color: rgb(62, 62, 62);
+    transition: 100ms;
+    cursor: pointer;
+    font-size: 18px;
+}
+#btn_cliente_nao_cadastrado:hover{
+    color: rgb(146, 146, 146);
+}
+#dialog-modal-identificar-cliente__btns{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+#dialog-modal-identificar-cliente__btns button{
+    width: 48%;
+    box-shadow: 0 0 4px rgb(120 120 120);
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+    padding: 8px 0;
+}
+#dialog-modal-identificar-cliente__btns__btnNaoInformar{
+    background-color: rgb(120, 120, 120);
+    border: none;
+}   
+#dialog-modal-identificar-cliente__btns__btnConfirmar{
+    background-color: #00C300;
+    border: none;
+    transition: 200ms;
+
+}
+.dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado{
+    background-color: rgb(188, 188, 188)!important;
+    color: rgb(223, 223, 223)!important;
+    border: 2px rgb(179, 179, 179) solid!important;
+    box-shadow: none!important;
+    cursor: default!important;
+    padding: 6px 0!important;
+}
+#dialog-modal-identificar-cliente__tabela tbody{
+
+}
+.dialog_modal_identificar_cliente__tabela__thead_tr{
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px rgb(123, 123, 123) solid;
+    border-top: 1px rgb(123, 123, 123)solid;
+
+    background-color: rgb(221, 221, 221);
+}
+.dialog_modal_identificar_cliente__tabela__thead_td{
+    padding: 10px 5px;
+}
+.dialog_modal_identificar_cliente__tabela__tbody_tr{
+    border-bottom: 1px rgb(123, 123, 123) solid;
+    cursor: pointer;
+    transition: 100ms;
+}
+.dialog_modal_identificar_cliente__tabela__tbody_tr:hover{
+    background-color: rgb(217, 217, 217);
+}
+.tr_cliente_selecionado{
+    background-color: rgba(24, 95, 189, 0.807);
+    color: white;
+}
+.tr_cliente_selecionado:hover{
+    background-color: rgba(24, 95, 189, 0.807);
+}
+.dialog_modal_identificar_cliente__tabela__tbody_td{
+    font-size: 16px;
+    padding: 10px 5px;
+}
+.dialog_modal_identificar_cliente__tabela__mensagemSemRegistros{
+    font-size: 15px;
+    text-align: center;
+    padding-top: 20px;
+}
+.dialog_modal_identificar_cliente__tabela__navPaginacao{
+    display: none!important;
+}
+.dialog_modal_identificar_cliente__tabela__paginacao__btnVoltarEAvancar{
+
+}
+.dialog_modal_identificar_cliente__tabela__paginacao__btnNumeroDaPagina{
+
+}
+#dialog_modal_identificar_cliente__div_loader_buscar_clientes{
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+#dialog_modal_identificar_cliente__loader_buscar_clientes{
+    border: 5px solid rgb(230, 230, 230)!important;
+    border-top: 5px solid  rgb(81, 81, 81)!important; 
+    width: 28px!important;
+    height: 28px!important;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    
+}
