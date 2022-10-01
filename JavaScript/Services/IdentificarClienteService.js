@@ -1,4 +1,4 @@
-class ClienteService
+class IdentificarClienteService
 {
     constructor()
     {
@@ -158,7 +158,7 @@ class ClienteService
         
         let clientes_encontrados = this._clientes.filter( cliente =>{
             let reg = new RegExp(cpf_digitado, 'i');
-            return reg.test(cliente.cpf);
+            return reg.test(remove_mascara_cpf(cliente.cpf));
         });
 
         this._atualiza_lista_clientes(clientes_encontrados);
@@ -208,7 +208,7 @@ class ClienteService
         elemento_clicado.classList.add("tr_cliente_selecionado");
 
         this._btn_confirmar_cliente.classList.remove("dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado");
-        btn_confirmar_cliente.removeAttribute("disabled");
+        this._btn_confirmar_cliente.removeAttribute("disabled");
 
         const id_cliente = elemento_clicado.dataset.id;
 
@@ -224,7 +224,7 @@ class ClienteService
         trs_clientes.forEach( tr => tr.classList.remove("tr_cliente_selecionado"));
 
         this._btn_confirmar_cliente.classList.add("dialog-modal-identificar-cliente__btns__btnConfirmar-desabilitado");
-        btn_confirmar_cliente.setAttribute("disabled", true);
+        this._btn_confirmar_cliente.setAttribute("disabled", true);
 
         this._cliente_selecionado = null;
     }
