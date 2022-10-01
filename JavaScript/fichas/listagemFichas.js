@@ -36,10 +36,7 @@ function gerar_lista_de_fichas()
         './back-end/buscaFichas.php',
         {},
         (resposta) => {
-    
-            console.log(resposta);
-
-
+            
             loader_lista_de_fichas.classList.add("display-none");
 
             try{
