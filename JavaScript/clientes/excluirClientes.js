@@ -29,7 +29,7 @@ function excluir_cliente(event)
             }else{
                 if(resposta.mensagem == 'tem_ficha'){
                     abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
-                    setTimeout( () => alert("Clientes que têm fichas não podem ser excluídos! Remova a ficha primeiro!"), 500);
+                    setTimeout( () => alert("Clientes que contêm fichas não podem ser excluídos! Remova a ficha primeiro!"), 500);
                 }
             }
 
