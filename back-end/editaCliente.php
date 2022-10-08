@@ -1,6 +1,4 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
-
     require_once "autoloader.php";
 
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
@@ -18,8 +16,11 @@
 
     $cliente->editar($nome, $cpf);
 
-    $resposta['sucesso']  = $repository->save($cliente);
+    $save = $repository->save($cliente);
 
-    echo json_encode($resposta);
-
+    if(!$save){
+        header('HTTP/1.1 500 Internal Server Error');
+    }else{
+        header('HTTP/1.1 200 OK');
+    }
 ?>

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/styles/main.css">
     <link rel="stylesheet" href="assets/styles/modais/modais.css">
     <link rel="stylesheet" href="assets/styles/modais/modal-cadastrar-cliente.css">
+    <link rel="stylesheet" href="assets/styles/modais/modal-editar-cliente.css">
     <link rel="stylesheet" href="assets/styles/modais/modal-identificar-cliente.css">
     <link rel="stylesheet" href="assets/styles/mensagem-lateral.css">
     <link rel="stylesheet" href="assets/styles/modais/modais-de-confirmacao/modal-confirmacoes.css">
@@ -374,6 +375,37 @@
             </form>
         </dialog>
 
+        <!-- ===MODAL EDITAR CLIENTE===MODAL EDITAR CLIENTE===MODAL EDITAR CLIENTE=== -->
+        <dialog id="dialog_modal_editar_cliente">
+
+            <div id="dialog_modal_editar_cliente__divTituloEBtnDeFechar">
+                <p>Editar cliente</p> 
+                <button class="btn-fechar-modal_editar_cliente material-icons" id="dialog-modal-editar-cliente__btnFechar">close</button>
+            </div>
+            
+
+            <div id="div_loader_editar_cliente" class="display-none">
+                <div class="loader" id="loader_editar_cliente">
+
+                </div>
+                Salvando...
+            </div>
+            
+
+            <p id="erro_formulario_editar_cliente" class="display-none"></p>
+
+            <form action="" id="form_editar_cliente">
+                <input type="text" name="nome" placeholder="Nome">
+                <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
+
+                <div id="div_botoes_form_editar_cliente">    
+                    <button type="button" id="btn_form_editar_cliente_cancelar">Cancelar</button>
+                    <button id="btn_form_editar_cliente" class="btn_editar_cliente_desativado" disabled="true">Salvar</button>
+                </div>
+
+            </form>
+        </dialog>
+
     <header class="header-secoes">
         <!-- <img src="assets/imagens/logo-empresa.jpg" alt="" class="logo-empresa"> -->
         <ul class="lista-acoes">
@@ -629,30 +661,6 @@
         <!--CLIENTES================CLIENTES================CLIENTES================CLIENTES================CLIENTES-->
 
         <section class="secao" id="clientes">
-
-            <dialog id="dialog_modal_editar_cliente">
-                
-                <div id="div_loader_editar_cliente" class="display-none">
-                    <div class="loader" id="loader_editar_cliente">
-
-                    </div>
-                    Salvando...
-                </div>
-             
-
-                <p id="erro_formulario_editar_cliente" class="display-none"></p>
-
-                <form action="" id="form_editar_cliente">
-                    <input type="text" name="nome" placeholder="Nome">
-                    <input type="text" name="cpf" placeholder="Cpf" class="input_cpf">
-
-                    <div id="div_botoes_form_editar_cliente">    
-                        <button type="button" id="btn_form_editar_cliente_cancelar" onclick="fecha_modal_editar_cliente()">Cancelar</button>
-                        <button id="btn_form_editar_cliente" class="btn_editar_cliente_desativado" disabled="true">Salvar</button>
-                    </div>
-
-                </form>
-            </dialog>
 
             <div id="clientes__divBuscarClientes">
                 <form action="">
@@ -915,6 +923,7 @@
     <script src="JavaScript/modais.js"></script>
     <script src="JavaScript/produtos_do_banco.js"></script>
     <script src="JavaScript/Services/CadastrarClienteService.js"></script>
+    <script src="JavaScript/Services/EditarClienteService.js"></script>
     <script src="JavaScript/Services/IdentificarClienteService.js"></script>
 
     <script src="JavaScript/venda/identificarCliente.js"></script>
