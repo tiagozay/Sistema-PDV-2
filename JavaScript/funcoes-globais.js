@@ -30,31 +30,22 @@ inputs_so_com_numeros.forEach( input => input.addEventListener("input", (event)=
 let inputs_cpf = document.querySelectorAll(".input_cpf");
 inputs_cpf.forEach( input => {
 
+    input.setAttribute("maxlength", 14);
+
     input.addEventListener("input", (event) => {
         let input = event.target;
 
-        input_sem_espacos_vazios(input);
-
-        let valor_sem_mascara = remove_mascara_cpf(input.value);
-        input_somente_com_numeros(input, valor_sem_mascara);
-
-        input.setAttribute("maxlength", 14);
-    });
-
-    input.addEventListener("keypress", (event) => {
-        let input = event.target;
-
-        input_sem_espacos_vazios(input);
-
         let valor_digitado = input.value;
 
-        if(valor_digitado.length == 3 || valor_digitado.length == 7){
-            input.value += ".";
-        }else if(valor_digitado.length == 11){
-            input.value += "-";
-        }
+        valor_digitado=valor_digitado.replace(/\D/g,"") 
+        valor_digitado=valor_digitado.replace(/(\d{3})(\d)/,"$1.$2")
+        valor_digitado=valor_digitado.replace(/(\d{3})(\d)/,"$1.$2")
+        valor_digitado=valor_digitado.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+
+        input.value = valor_digitado;
 
     });
+    
 });
 
 function input_maiusculo(elemento)
