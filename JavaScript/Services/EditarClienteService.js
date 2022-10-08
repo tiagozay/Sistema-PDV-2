@@ -151,7 +151,7 @@ class EditarClienteService
 
     _adicionaVerificacaoParaHabilitarBtnDeSalvar()
     {
-        this._formulario.nome.addEventListener("input", () => {
+        this._formulario.nome.oninput = () => {
             if(this._verifica_se_dados_do_cliente_foram_modificados()){
                 this._btnSalvar.classList.remove("btn_editar_cliente_desativado");
                 this._btnSalvar.removeAttribute("disabled");
@@ -159,9 +159,9 @@ class EditarClienteService
                 this._btnSalvar.classList.add("btn_editar_cliente_desativado");
                 this._btnSalvar.setAttribute("disabled", true);
             }
-        });
+        };
         
-        this._formulario.cpf.addEventListener("input", () => {
+        this._formulario.cpf.oninput = () => {
             if(this._verifica_se_dados_do_cliente_foram_modificados()){
                 this._btnSalvar.classList.remove("btn_editar_cliente_desativado");
                 this._btnSalvar.removeAttribute("disabled");
@@ -169,7 +169,7 @@ class EditarClienteService
                 this._btnSalvar.classList.add("btn_editar_cliente_desativado");
                 this._btnSalvar.setAttribute("disabled", true);
             }
-        });
+        };
     }
 
     _verifica_se_dados_do_cliente_foram_modificados()

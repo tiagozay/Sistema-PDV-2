@@ -78,12 +78,13 @@ class IdentificarClienteService
 
         const self = this;
 
-        this._dialog_informar_cliente__campo_nome.addEventListener("input", function(event){
+        this._dialog_informar_cliente__campo_nome.oninput = function(event){
+            console.log("Opa");
             self._busca_cliente_por_nome(event)
-        }  );
-        this._dialog_informar_cliente__campo_cpf.addEventListener("input", function(event){
+        };
+        this._dialog_informar_cliente__campo_cpf.oninput = function(event){
             self._busca_cliente_por_cpf(event)
-        }  );
+        };
 
         loader.classList.remove("display-none");
 
