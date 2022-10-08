@@ -323,7 +323,7 @@ function marcar_na_ficha()
                 (resposta) => {            
         
                     loader.classList.add("display-none");
-                    
+
                     try{    
                         resposta = JSON.parse(resposta);
                     }catch{
@@ -379,15 +379,18 @@ function finalizar_venda()
     if(venda.cliente == null){
         //Aqui mesmo que o cliente seja informado ou não, a fução de envia_venda é chamada, já que o mesmo não é obrigatório
 
-        abrir_modal_identificar_cliente()
-        .then( cliente => {
-            venda.cliente = cliente;
-            envia_venda();
-        } ).catch( () => {
-            venda.cliente = null;
-            envia_venda();
-        } )
+        const service = new IdentificarClienteService();
 
+        service.identificarCliente()
+            .then( cliente => {
+                venda.cliente = cliente;
+                envia_venda();
+            } )
+            .catch( () => {
+                venda.cliente = null;
+                envia_venda();
+            } );
+            
         return;
     }
 
