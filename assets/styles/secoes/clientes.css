@@ -139,18 +139,6 @@
 
     
 }
-#btn_buscar_clientes{
-    display: flex;
-    border: none;
-    align-items: center;
-    color: white;
-    background-color: #2BBBAD;
-    padding: 5px 16px;
-    box-shadow: 0 0 4px rgb(120, 120, 120);
-    cursor: pointer;
-    margin-left: 10px;
-    border-radius: 5px;
-}
 #btn_atualizar_lista_clientes{
     display: flex;
     border: none;
@@ -160,7 +148,7 @@
     padding: 5px 16px;
     box-shadow: 0 0 4px rgb(120, 120, 120);
     cursor: pointer;
-    margin-left: 7px;
+    margin-left: 12px;
     border-radius: 5px;
 }
 #btn_buscar_clientes span{

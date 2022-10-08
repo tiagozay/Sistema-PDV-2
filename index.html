@@ -664,18 +664,14 @@
 
             <div id="clientes__divBuscarClientes">
                 <form action="">
-                    <input type="text" name="nome" placeholder="Nome">
-                    <input type="text" name="cpf" placeholder="Cpf">
+                    <input type="text" name="nome" placeholder="Nome" id="clientes__divBuscarClientes__nome">
+                    <input type="text" name="cpf" placeholder="Cpf" id="clientes__divBuscarClientes__cpf" class="input_cpf">
                     <select name="" id="clientes__divBuscarClientes__selectOrdem">
                         <option value="mais_antigo">Mais antigo</option>
                         <option value="mais_recente">Mais recente</option>
                         <option value="ordem_alfabetica">Ordem alfabética</option>
                         <option value="ordem_alfabetica_dec">Ordem alfabética dec</option>
                     </select>
-                    <button id="btn_buscar_clientes">
-                        BUSCAR
-                        <span class="material-icons">search</span>
-                    </button>
                     <button type="button" id="btn_atualizar_lista_clientes" onclick="atualiza_lista_de_clientes()">
                         <span class="material-icons">refresh</span>
                     </button>

@@ -28,6 +28,21 @@ let select_ordem_lista_de_clientes = document.querySelector("#clientes__divBusca
 
 select_ordem_lista_de_clientes.addEventListener("change", selecionar_ordem_lista_clientes);
 
+const inputBuscarClienteNome = document.querySelector("#clientes__divBuscarClientes__nome");
+const inputBuscarClienteCpf = document.querySelector("#clientes__divBuscarClientes__cpf");
+
+inputBuscarClienteNome.addEventListener("input", (event) => {
+    inputBuscarClienteCpf.value = "";
+    let clientes_filtrados = busca_clientes_por_nome(event.target.value);
+    zayDataTable__clientes.atualiza_registros(clientes_filtrados);
+});
+inputBuscarClienteCpf.addEventListener("input", (event) => {
+    inputBuscarClienteNome.value = "";
+    let clientes_filtrados = busca_clientes_por_cpf(event.target.value);
+    zayDataTable__clientes.atualiza_registros(clientes_filtrados);
+});
+
+
 let zayDataTable__clientes;
 
 let ordem_lista_de_clientes = 'mais_antigo';
@@ -42,10 +57,10 @@ let loader_acoes_lista_de_clientes = cria_elemento_dom('div', 'loader_acoes_list
 
 incializa_lista_clientes();
 
+let clientes = {};
+
 function incializa_lista_clientes()
 {
-    let clientes = {};
-
     zay_request(
         'GET',
         './back-end/buscaClientesOrdenados.php',
@@ -152,6 +167,19 @@ function atualiza_cliente(id)
             zayDataTable__clientes.atualiza_registro(cliente);
         }
     )
+}
+
+function busca_clientes_por_nome(nome) {
+    let reg = new RegExp(nome, 'i');
+    return clientes.filter( (cliente) => reg.test(cliente.nome));
+}
+
+function busca_clientes_por_cpf(cpf) {
+    cpf = remove_mascara_cpf(cpf);
+    let reg = new RegExp(cpf, 'i');
+    return clientes.filter( (cliente) => reg.test(
+        cliente.cpf == "Não informado" ? '' : remove_mascara_cpf(cliente.cpf)
+    ));
 }
 
 function formata_clientes(array_clientes)
