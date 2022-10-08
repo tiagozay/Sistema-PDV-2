@@ -30,7 +30,8 @@ class CadastrarClienteService
 
                 this._remove_mensagem_erro_form_cadastrar_cliente();
 
-                cpf = remove_mascara_cpf(cpf);
+                //Antes de remover a máscara, verifica se tem cpf, pois se não tiver e passar para a função, ela retorna undefined, aí salva como undefined no banco.
+                cpf = cpf.length > 0 ? remove_mascara_cpf(cpf) : cpf;
 
                 this._cadastraCliente(nome, cpf)
                     .then(id => {
