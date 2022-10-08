@@ -307,47 +307,47 @@ function marcar_na_ficha()
 {
     let loader = document.querySelector("#loader_marcar_na_ficha");
 
-    abrir_modal_identificar_cliente()
-    .then( cliente => {
+    const service = new IdentificarClienteService();
+
+    service.identificarCliente()
+        .then( cliente => {
+
+            venda.cliente = cliente;
         
-        venda.cliente = cliente;
-    
-        loader.classList.remove("display-none");
+            loader.classList.remove("display-none");
 
-        zay_request(
-            'POST',
-            './back-end/marcarNaFicha.php',
-            {venda: JSON.stringify(venda)},
-            (resposta) => {            
-    
-                loader.classList.add("display-none");
-
-                console.log(resposta);
-
-                try{    
-                    resposta = JSON.parse(resposta);
-                }catch{
+            zay_request(
+                'POST',
+                './back-end/marcarNaFicha.php',
+                {venda: JSON.stringify(venda)},
+                (resposta) => {            
+        
+                    loader.classList.add("display-none");
+                    
+                    try{    
+                        resposta = JSON.parse(resposta);
+                    }catch{
+                        abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
+                        return;
+                    }
+        
+                    if(resposta.sucesso){
+                        abrir_mensagem_lateral_da_tela("Venda marcada com sucesso!");
+                        limpa_venda();
+                        atualiza_array_de_produtos_do_banco__async();
+                    }
+                },
+                () => {            
+                    loader.classList.add("display-none");
                     abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
-                    return;
                 }
-    
-                if(resposta.sucesso){
-                    abrir_mensagem_lateral_da_tela("Venda marcada com sucesso!");
-                    limpa_venda();
-                    atualiza_array_de_produtos_do_banco__async();
-                }
-            },
-            () => {            
-                loader.classList.add("display-none");
-                abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
-            }
-        );
+            );
 
-    } )
-    .catch( () => {
-        alert("Você precisa informar um cliente para marcar na ficha!");
-        marcar_na_ficha();
-    } )
+        } )
+        .catch( () => {
+            alert("Você precisa informar um cliente para marcar na ficha!");
+            marcar_na_ficha();
+        });
 }
 
 function salvar_venda()
