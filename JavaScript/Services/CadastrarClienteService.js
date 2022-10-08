@@ -30,6 +30,8 @@ class CadastrarClienteService
 
                 this._remove_mensagem_erro_form_cadastrar_cliente();
 
+                cpf = remove_mascara_cpf(cpf);
+
                 this._cadastraCliente(nome, cpf)
                     .then(id => {
                         this._fecharModalCadastrarCliente();

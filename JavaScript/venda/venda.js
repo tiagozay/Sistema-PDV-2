@@ -352,7 +352,21 @@ function marcar_na_ficha()
 
 function salvar_venda()
 {
-    abrir_modal_identificar_cliente(envia_venda_nao_finalizada, envia_venda_nao_finalizada);
+    const service = new IdentificarClienteService();
+    service.identificarCliente()
+    .then( cliente => {
+
+        venda.cliente = cliente;
+
+        envia_venda_nao_finalizada();
+
+    } )
+    .catch( (msg) => {
+        venda.cliente = null;
+        envia_venda_nao_finalizada();
+    } )
+
+
 }
 
 function finalizar_venda()
