@@ -131,7 +131,8 @@
             return $this;
         }
 
-        public function jsonSerialize() {
+        public function jsonSerialize() : mixed
+        {
             $vars = array_merge(get_object_vars($this));
             return $vars;
         }
