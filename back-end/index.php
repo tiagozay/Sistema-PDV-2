@@ -6,7 +6,7 @@
     use PDV\Infraestrutura\Repository\PdoProdutoRepository;
     use PDV\Infraestrutura\Repository\PdoVendaNaoFinalizadaRepository;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $pdo = ConnectionCreator::CreateConnection();
 

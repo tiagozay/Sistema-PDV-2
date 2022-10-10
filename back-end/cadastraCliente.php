@@ -3,7 +3,7 @@
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Infraestrutura\Repository\PdoClienteRepository;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $cpf = $_POST['cpf'];
     $nome = $_POST['nome'];

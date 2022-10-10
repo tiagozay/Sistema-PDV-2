@@ -2,7 +2,7 @@
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $id =  isset($_GET['id']) ? $_GET['id'] : exit();
     

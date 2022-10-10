@@ -1,7 +1,7 @@
 <?php
     $resposta = ['sucesso' => "", 'mensagem' => ""];
 
-    require_once "autoloader.php";
+    require_once "vendor/autoload.php";
 
     use PDV\Domain\Model\Cliente;
     use PDV\Domain\Model\Produto;

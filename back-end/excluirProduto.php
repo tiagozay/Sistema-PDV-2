@@ -4,7 +4,7 @@
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $id =  isset($_POST['id']) ? $_POST['id'] : exit();
 

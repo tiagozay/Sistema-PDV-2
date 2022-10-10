@@ -1,5 +1,6 @@
 <?php
-    require_once "autoloader.php";
+    require_once "vendor/autoload.php";
+
 
     use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Infraestrutura\Repository\PdoClienteRepository;

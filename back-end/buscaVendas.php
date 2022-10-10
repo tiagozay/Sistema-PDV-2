@@ -4,7 +4,7 @@
 
     $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : null;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $pdo = ConnectionCreator::CreateConnection();
 

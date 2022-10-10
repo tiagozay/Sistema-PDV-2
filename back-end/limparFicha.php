@@ -7,7 +7,7 @@
 
     $resposta = ['sucesso' => "", 'mensagem' => "", 'ficha'=> ""];
 
-    require_once "autoloader.php";
+    require_once "vendor/autoload.php";
 
     $id_ficha = isset($_POST['id_ficha']) ? $_POST['id_ficha'] : exit();
 
