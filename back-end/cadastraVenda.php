@@ -58,6 +58,10 @@
     //Baixa no estoque
     $produto_repository = new PdoProdutoEstoqueRepository($pdo);
 
+
+    $microtime = explode(" ", microtime());
+    $inicio = $microtime[0]+$microtime[1];
+  
     foreach($produtos_da_venda as $produto_venda){
         if(!$produto_venda->getAvulso()){
 
@@ -69,6 +73,11 @@
 
         }
     }
+    $microtime = explode(" ", microtime());
+    $fim = $microtime[0]+$microtime[1];
+  
+    echo json_encode( intval(($fim - $inicio) * 1000));
+    exit();
 
     $venda_repository = new PdoVendaRepository($pdo);
 
