@@ -32,6 +32,15 @@
             return count($result) > 0 ? $this->hidrata_produtos($result)[0] : null;
         }
 
+        public function produto_com_codigo(string $codigo): ?ProdutoEstoque
+        {
+            $stmt = $this->conexao->prepare("SELECT * FROM sistema_pdv_produtos WHERE codigo = ?");
+            $stmt->bindValue(1 ,$codigo);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return count($result) > 0 ? $this->hidrata_produtos($result)[0] : null;
+        }
+
         private function hidrata_produtos(array $produtos) : array
         {
             $produtos_list = [];

@@ -30,7 +30,7 @@
     //Volta o estoque
     $produto_estoque_repository = new PdoProdutoEstoqueRepository($pdo);
 
-    $produto_estoque = $produto_estoque_repository->produto_com_id($produto_ficha->getIdProdutoEstoque());
+    $produto_estoque = $produto_estoque_repository->produto_com_codigo($produto_ficha->getCodigo());
 
     $produto_estoque->aumentar_estoque($produto_ficha->getQtde());
     

@@ -22,7 +22,6 @@
     foreach($venda_front->produtos as $produto){
         $novos_produtos_da_ficha[] = new ProdutoFicha(
             null,
-            $produto->id_produto_estoque,
             DataHelper::dataAtual(),
             $produto->codigo,
             $produto->descricao,
@@ -65,7 +64,7 @@
     foreach($novos_produtos_da_ficha as $produto_venda){
         if(!$produto_venda->getAvulso()){
 
-            $produto_do_banco = $produto_repository->produto_com_id($produto_venda->getIdProdutoEstoque());
+            $produto_do_banco = $produto_repository->produto_com_codigo($produto_venda->getCodigo());
 
             $produto_do_banco->baixa_no_estoque($produto_venda->getQtde());
 

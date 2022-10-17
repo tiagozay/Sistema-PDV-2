@@ -25,11 +25,17 @@
 
         if(!$produto_venda->getAvulso()){
             
-            $produto = $produto_repository->produto_com_id($produto_venda->getIdProdutoEstoque());
+           //Busca o produto no estoque pelo Código. Como ele já pode ser sido excluído, passa uma validação para que só realize as operações se ele ainda existir
 
-            $produto->aumentar_estoque($produto_venda->getQtde());
+           $produto = $produto_estoque_repository->produto_com_codigo($produto_venda->getCodigo());
 
-            $produto_repository->save($produto);
+           if($produto){
+
+               $produto->aumentar_estoque($produto_venda->getQtde());
+
+               $produto_estoque_repository->save($produto);
+
+           }
         }
 
     }

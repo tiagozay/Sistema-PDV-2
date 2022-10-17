@@ -156,7 +156,6 @@
             foreach($result_produtos as $produto){
                 $produtos[] = new ProdutoFicha(
                     $produto['id'],
-                    $produto['id_produto_estoque'],
                     $produto['data_registro'],
                     $produto['codigo'],
                     $produto['descricao'],
@@ -204,7 +203,6 @@
             return array_map(function($produto){
                 return new ProdutoFicha(
                     $produto['id'],
-                    $produto['id_produto_estoque'],
                     $produto['data_registro'],
                     $produto['codigo'],
                     $produto['descricao'],
@@ -266,10 +264,12 @@
         {
             if(count($produtos) < 1) return;
 
-
             $query_cadastrar_produtos = "";
 
             foreach($produtos as $produto){
+
+                $produto_avulso = !$produto->getAvulso() ?  0 : 1;
+
                 $query_cadastrar_produtos .= "INSERT INTO produtos_ficha (
                     data_registro,
                     codigo,
@@ -280,8 +280,7 @@
                     vl_total,
                     estado,
                     avulso,
-                    ficha,
-                    id_produto_estoque
+                    ficha
                 ) VALUES (
                     '{$produto->getData_registro()}',
                     '{$produto->getCodigo()}',
@@ -291,9 +290,8 @@
                     '{$produto->getQtde()}',
                     '{$produto->getVlTotal()}',
                     '{$produto->getEstado()}',
-                    '{$produto->getAvulso()}',
-                    '{$id_ficha}',
-                    '{$produto->getIdProdutoEstoque()}'
+                    '{$produto_avulso}',
+                    '{$id_ficha}'
                 ); ";
             }
 

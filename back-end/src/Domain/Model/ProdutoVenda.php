@@ -5,23 +5,16 @@
 
     class ProdutoVenda extends Produto implements JsonSerializable
     {
-        protected ?int $id_produto_estoque;
         protected float $qtde;
         protected float $vl_total;
         protected bool $avulso;
 
-        public function __construct(?int $id, ?int $id_produto_estoque, string $codigo, string $descricao, string $un, float $qtde, float $vl_unitario, float $vl_total, bool $avulso)
+        public function __construct(?int $id, string $codigo, string $descricao, string $un, float $qtde, float $vl_unitario, float $vl_total, bool $avulso)
         {
             parent::__construct($id, $codigo, $descricao, $un, $vl_unitario);
-            $this->id_produto_estoque = $id_produto_estoque; 
             $this->qtde = $qtde;
             $this->vl_total = $vl_total;
             $this->avulso = $avulso;
-        }
-
-        public function getIdProdutoEstoque(): ?int
-        {
-            return $this->id_produto_estoque;
         }
 
         public function getQtde(): float

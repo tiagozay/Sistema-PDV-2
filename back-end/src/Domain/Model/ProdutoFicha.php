@@ -9,9 +9,9 @@
         private string $estado;
 
 
-        public function __construct(?int $id, ?int $id_produto_estoque, string $data_registro, string $codigo, string $descricao, string $un, float $qtde, float $vl_unitario, float $vl_total, string $estado, bool $avulso)
+        public function __construct(?int $id, string $data_registro, string $codigo, string $descricao, string $un, float $qtde, float $vl_unitario, float $vl_total, string $estado, bool $avulso)
         {
-            parent::__construct($id, $id_produto_estoque , $codigo, $descricao, $un, $qtde ,$vl_unitario, $vl_total, $avulso);
+            parent::__construct($id, $codigo, $descricao, $un, $qtde ,$vl_unitario, $vl_total, $avulso);
             $this->data_registro = $data_registro;
             $this->estado = $estado;
 

@@ -2,8 +2,8 @@
     namespace PDV\Infraestrutura\Repository;
 
     use Exception;
-use PDV\Domain\Model\Ficha;
-use PDV\Domain\Model\Produto;
+    use PDV\Domain\Model\Ficha;
+    use PDV\Domain\Model\Produto;
     use PDV\Domain\Model\ProdutoFicha;
 
     class PdoProdutoFichaRepository
@@ -40,7 +40,6 @@ use PDV\Domain\Model\Produto;
             foreach($produtos as $produto){
                 $produtos_list[] = new ProdutoFicha(
                     $produto['id'],
-                    $produto['id_produto_estoque'],
                     $produto['data_registro'],
                     $produto['codigo'],
                     $produto['descricao'],
@@ -80,8 +79,7 @@ use PDV\Domain\Model\Produto;
                     vl_total,
                     estado,
                     avulso,
-                    ficha,
-                    id_produto_estoque
+                    ficha
                 ) values (
                     :data_registro,
                     :codigo, 
@@ -92,8 +90,7 @@ use PDV\Domain\Model\Produto;
                     :vl_total,
                     :estado,
                     :avulso,
-                    :ficha,
-                    :id_produto_estoque,
+                    :ficha
                 );
             ");
 
@@ -107,7 +104,6 @@ use PDV\Domain\Model\Produto;
             $stmt->bindValue(':estado', $produto->getEstado());
             $stmt->bindValue(':avulso', $produto->getAvulso());
             $stmt->bindValue(':ficha', $id_ficha);
-            $stmt->bindValue(':id_produto_estoque', $produto->getIdProdutoEstoque());
 
 
             return $stmt->execute();
@@ -116,6 +112,9 @@ use PDV\Domain\Model\Produto;
 
         private function editar_produto(ProdutoFicha $produto): bool
         {
+            
+            $produto_avulso = !$produto->getAvulso() ?  0 : 1;
+
             $stmt = $this->conexao->prepare("UPDATE produtos_ficha SET 
                 data_registro = :data_registro,
                 codigo = :codigo,
@@ -125,8 +124,7 @@ use PDV\Domain\Model\Produto;
                 qtde = :qtde,
                 vl_total = :vl_total,
                 estado = :estado,
-                avulso = :avulso,
-                id_produto_estoque = :id_produto_estoque 
+                avulso = :avulso
                 WHERE id = :id"
             );
 
@@ -138,8 +136,7 @@ use PDV\Domain\Model\Produto;
             $stmt->bindValue(':qtde', $produto->getQtde());
             $stmt->bindValue(':vl_total', $produto->getVlTotal());
             $stmt->bindValue(':estado', $produto->getEstado());
-            $stmt->bindValue(':avulso', $produto->getAvulso());
-            $stmt->bindValue(':id_produto_estoque', $produto->getIdProdutoEstoque());
+            $stmt->bindValue(':avulso', $produto_avulso);
             $stmt->bindValue(':id', $produto->getId());
 
 
