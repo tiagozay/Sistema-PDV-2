@@ -25,9 +25,9 @@
 
         if(!$produto_venda->getAvulso()){
             
-            //Busca o produto no estoque pelo ID. Como ele já pode ser sido excluído, passa uma validação para que só realize as operações se ele ainda existir
+            //Busca o produto no estoque pelo Código. Como ele já pode ser sido excluído, passa uma validação para que só realize as operações se ele ainda existir
 
-            $produto = $produto_estoque_repository->produto_com_id($produto_venda->getIdProdutoEstoque());
+            $produto = $produto_estoque_repository->produto_com_codigo($produto_venda->getCodigo());
 
             if($produto){
 

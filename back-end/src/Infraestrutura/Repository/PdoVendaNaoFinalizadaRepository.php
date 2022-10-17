@@ -106,7 +106,6 @@ use PDV\Domain\Model\Venda;
             foreach($result_produtos as $produto){
                 $produto = new ProdutoVendaNaoFinalizada(
                     $produto['id'],
-                    $produto['id_produto_estoque'],
                     $produto['codigo'],
                     $produto['descricao'],
                     $produto['un'],
@@ -239,6 +238,9 @@ use PDV\Domain\Model\Venda;
             $query_cadastrar_produtos = "";
 
             foreach($produtos as $produto){
+
+                $produto_avulso = !$produto->getAvulso() ?  0 : 1;
+
                 $query_cadastrar_produtos .= "INSERT INTO produtos_venda_nao_finalizada (
                     codigo,
                     descricao,
@@ -247,8 +249,7 @@ use PDV\Domain\Model\Venda;
                     qtde,
                     vl_total,
                     avulso,
-                    venda,
-                    id_produto_estoque
+                    venda
                 ) VALUES (
                     '{$produto->getCodigo()}',
                     '{$produto->getDescricao()}',
@@ -256,9 +257,8 @@ use PDV\Domain\Model\Venda;
                     '{$produto->getVlUnitario()}',
                     '{$produto->getQtde()}',
                     '{$produto->getVlTotal()}',
-                    '{$produto->getAvulso()}',
-                    '{$id_venda}',
-                    '{$produto->getIdProdutoEstoque()}'
+                    '{$produto_avulso}',
+                    '{$id_venda}'
                 ); ";
             }
 

@@ -103,7 +103,6 @@
             foreach($result_produtos as $produto){
                 $produto = new ProdutoVenda(
                     $produto['id'],
-                    $produto['id_produto_estoque'],
                     $produto['codigo'],
                     $produto['descricao'],
                     $produto['un'],
@@ -238,6 +237,9 @@
             $query_cadastrar_produtos = "";
 
             foreach($produtos as $produto){
+
+                $produto_avulso = !$produto->getAvulso() ?  0 : 1;
+
                 $query_cadastrar_produtos .= "INSERT INTO produtos_venda (
                     codigo,
                     descricao,
@@ -246,8 +248,7 @@
                     qtde,
                     vl_total,
                     avulso,
-                    venda,
-                    id_produto_estoque
+                    venda
                 ) VALUES (
                     '{$produto->getCodigo()}',
                     '{$produto->getDescricao()}',
@@ -255,9 +256,8 @@
                     '{$produto->getVlUnitario()}',
                     '{$produto->getQtde()}',
                     '{$produto->getVlTotal()}',
-                    '{$produto->getAvulso()}',
-                    '{$id_venda}',
-                    '{$produto->getIdProdutoEstoque()}'
+                    '{$produto_avulso}',
+                    '{$id_venda}'
                 ); ";
             }
 

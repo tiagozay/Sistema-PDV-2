@@ -15,12 +15,12 @@
 
     $pdo = ConnectionCreator::CreateConnection();
 
+    /** @var ProdutoVenda[] */
     $produtos_da_venda = [];
 
     foreach($venda_front->produtos as $produto){
         $produtos_da_venda[] = new ProdutoVenda(
             null,
-            $produto->id_produto_estoque,
             $produto->codigo,
             $produto->descricao,
             $produto->un,
@@ -61,7 +61,7 @@
     foreach($produtos_da_venda as $produto_venda){
         if(!$produto_venda->getAvulso()){
 
-            $produto_do_banco = $produto_repository->produto_com_id($produto_venda->getIdProdutoEstoque());
+            $produto_do_banco = $produto_repository->produto_com_codigo($produto_venda->getCodigo());
 
             $produto_do_banco->baixa_no_estoque($produto_venda->getQtde());
 
