@@ -2,7 +2,7 @@ let tabela_lista_de_vendas_nao_finalizadas = document.querySelector("#vendas_nao
 let loader_lista_de_vendas_nao_finalizadas = document.querySelector("#loader_lista_de_vendas_nao_finalizadas");
 let select_ordem_lista_de_vendas_nao_finalizadas = document.querySelector("#div_opcoes_lista_de_vendas_nao_finalizadas__select-ordem");
 
-let ordem_da_busca__vendas_nao_finalizadas = "mais_recente";
+let ordem_da_busca__vendas_nao_finalizadas = "mais_antiga";
 
 let zayDataTable__vendasNaoFinalizadas;
 

@@ -2,7 +2,7 @@ let select_ordem_lista_de_vendas = document.querySelector("#div_opcoes_lista_de_
 let tabela_lista_de_vendas = document.querySelector("#vendas__tabela_lista_de_vendas");
 let loader_lista_de_vendas = document.querySelector("#loader_lista_de_vendas");
 
-let ordem_da_busca = 'mais_recente';
+let ordem_da_busca = 'mais_antiga';
 select_ordem_lista_de_vendas.value = ordem_da_busca;
 
 select_ordem_lista_de_vendas.addEventListener("change", ()=>{
