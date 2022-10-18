@@ -1,14 +1,15 @@
 <?php
+
     require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
-    
-    $pdo = ConnectionCreator::CreateConnection();
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
-    $repository = new PdoProdutoEstoqueRepository($pdo);
+    $entityManager = EntityManagerCreator::create();
 
-    $produtos = $repository->todos_produtos();
+    $repository = $entityManager->getRepository(ProdutoEstoque::class);
+
+    $produtos = $repository->findAll();
 
     echo json_encode($produtos);
 ?>

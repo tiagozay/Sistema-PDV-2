@@ -1,16 +1,20 @@
 <?php
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
     require_once "vendor/autoload.php";  
 
     $id =  isset($_GET['id']) ? $_GET['id'] : exit();
     
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repositorio = new PdoProdutoEstoqueRepository($pdo);
-
-    $produto = $repositorio->produto_com_id($id);
+    try{
+        $produto = $entityManager->find(ProdutoEstoque::class, $id);
+        header('HTTP/1.1 200 OK');
+    }catch( Exception ){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
 
     echo json_encode($produto);
 ?>

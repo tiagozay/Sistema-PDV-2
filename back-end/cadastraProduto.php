@@ -1,9 +1,6 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
-
+    use PDV\Domain\Helper\EntityManagerCreator;
     use PDV\Domain\Model\ProdutoEstoque;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
 
     require_once "vendor/autoload.php"; 
 
@@ -13,34 +10,22 @@
     $vl_unitario = $_POST['vl_unitario'];
     $qtde = $_POST['qtde'];
 
+    $entityManager = EntityManagerCreator::create();
 
-    $pdo = ConnectionCreator::CreateConnection();
-
-    $repository = new PdoProdutoEstoqueRepository($pdo);
-
-    $produto = new ProdutoEstoque(null, $codigo, $descricao, $un, $qtde, $vl_unitario);
+    $produto = new ProdutoEstoque($codigo, $descricao, $un, $qtde, $vl_unitario);
 
     try{
 
-        $save = $repository->save($produto);
+        $entityManager->persist($produto);
 
-        if(!$save){
-            $resposta['sucesso'] = false;
-            $resposta['mensagem'] = "";
-            echo json_encode($resposta);
+        $entityManager->flush();
 
-            exit();
-        }
-       
-    }catch(Exception $e){
-        $resposta['sucesso'] = false;
-        $resposta['mensagem'] = $e->getMessage();
-        echo json_encode($resposta);
-        exit();
+        header('HTTP/1.1 200 OK');
+
+    }catch( Exception ){
+
+        header('HTTP/1.1 500 Internal Server Error');
+
     }
-
-    $resposta['sucesso'] = true;
-    $resposta['mensagem'] = "";
-    echo json_encode($resposta);
 
 ?>
