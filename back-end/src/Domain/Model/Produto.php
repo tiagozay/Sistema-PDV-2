@@ -1,26 +1,36 @@
 <?php
     namespace PDV\Domain\Model;
-    
+
+    use Doctrine\ORM\Mapping\Column;
+    use Doctrine\ORM\Mapping\Entity;
+    use Doctrine\ORM\Mapping\GeneratedValue;
+    use Doctrine\ORM\Mapping\Id;
+    use Doctrine\ORM\Mapping\MappedSuperclass;
+
+    #[MappedSuperclass()]
     abstract class Produto
     {
-        protected ?int $id;
+        #[Id, Column, GeneratedValue]
+        public int $id;
+
+        #[Column(length:100)]
         protected string $codigo;
+
+        #[Column()]
         protected string $descricao;
+
+        #[Column(length:5)]
         protected string $un;
+
+        #[Column(type:'decimal')]
         protected float $vl_unitario;
 
-        public function __construct(?int $id, string $codigo, string $descricao, string $un, float $vl_unitario)
+        public function __construct(string $codigo, string $descricao, string $un, float $vl_unitario)
         {
-            $this->id = $id;
             $this->codigo = $codigo;
             $this->descricao = $descricao;
             $this->un = $un;
             $this->vl_unitario = $vl_unitario;
-        }
-
-        public function getId(): ?int
-        {
-            return $this->id;
         }
 
         public function getCodigo(): string
