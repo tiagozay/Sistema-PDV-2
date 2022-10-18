@@ -21,26 +21,13 @@ function excluir_todos_produtos()
     icone_lixeira.classList.add("display-none");
     loader.classList.remove("display-none");
 
-    zay_request(
-        'GET', 
-        './back-end/excluirTodosProdutos.php', 
-        {}, 
-        function(resposta){
-            icone_lixeira.classList.remove("display-none");
-            loader.classList.add("display-none");
-        
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível concluir!");
-                return;
-            }
-    
-            if(!resposta.sucesso){
-                abrir_mensagem_lateral_da_tela("Não foi possível concluir!");
-                return;
-            }
-    
+    fetch('./back-end/excluirTodosProdutos.php')
+    .then( resposta => {
+
+        icone_lixeira.classList.remove("display-none");
+        loader.classList.add("display-none");
+
+        if(resposta.ok){
             abrir_mensagem_lateral_da_tela("Produtos excluídos com sucesso");
             atualiza_lista_de_produtos();
             atualiza_array_de_produtos_do_banco__async();
@@ -49,11 +36,13 @@ function excluir_todos_produtos()
                 escreve_quantidade_de_produtos_exibidos_e_total();
                 escreve_quantidade_de_unidades_de_produtos();
             }, 1000);
-        },
-        function(){
-            icone_lixeira.classList.remove("display-none");
-            loader.classList.add("display-none");
-            abrir_mensagem_lateral_da_tela("Não foi possível concluir!");
+        }else{
+            abrir_mensagem_lateral_da_tela("Não foi possível concluir!"); 
         }
-    );
+    } )
+    .catch(() => {
+        icone_lixeira.classList.remove("display-none");
+        loader.classList.add("display-none");
+        abrir_mensagem_lateral_da_tela("Não foi possível concluir!");
+    })
 }
