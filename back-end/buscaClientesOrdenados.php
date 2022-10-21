@@ -24,5 +24,7 @@
 
     $clientes = $repository->findBy([], $ordem);
 
+    $clientes = Cliente::toArrays($clientes);
+
     echo json_encode($clientes);
 ?>

@@ -12,5 +12,7 @@
 
     $clientes = $repository->findAll();
 
+    $clientes = Cliente::toArrays($clientes);
+
     echo json_encode($clientes);
 ?>

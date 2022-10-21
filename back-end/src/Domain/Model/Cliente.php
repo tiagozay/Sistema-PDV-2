@@ -45,6 +45,12 @@
             return $this->nome;
         }
 
+        public function getFicha(): ?Ficha
+        {
+            return isset($this->ficha) ? $this->ficha : null;
+        }
+
+
         public function setCpf(?string $cpf): void
         {
             $this->cpf = $cpf;
@@ -58,6 +64,22 @@
         public function setFicha(Ficha $ficha): void
         {
             $this->ficha = $ficha;
+        }
+     
+        public static function toArrays(array $clientes): array
+        {
+            return array_map(function($cliente){
+                return $cliente->toArray();
+            }, $clientes);
+        }
+
+        public function toArray(): array
+        {
+            return [
+                'id' => $this->id,
+                'cpf' => $this->cpf,
+                'nome' => $this->nome
+            ];
         }
 
         public function jsonSerialize(): mixed {
