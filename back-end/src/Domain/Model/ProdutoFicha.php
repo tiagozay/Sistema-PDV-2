@@ -85,6 +85,11 @@
             return $this->data_registro;
         }
 
+        public function getFicha(): ?Ficha
+        {
+            return $this->ficha;
+        }
+
         public function setData_registro(DateTime $data_registro)
         {
             $this->data_registro = $data_registro;
