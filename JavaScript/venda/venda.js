@@ -316,32 +316,28 @@ function marcar_na_ficha()
         
             loader.classList.remove("display-none");
 
-            zay_request(
-                'POST',
+            fetch(
                 './back-end/marcarNaFicha.php',
-                {venda: JSON.stringify(venda)},
-                (resposta) => {            
-        
-                    loader.classList.add("display-none");
-
-                    try{    
-                        resposta = JSON.parse(resposta);
-                    }catch{
-                        abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
-                        return;
-                    }
-        
-                    if(resposta.sucesso){
-                        abrir_mensagem_lateral_da_tela("Venda marcada com sucesso!");
-                        limpa_venda();
-                        atualiza_array_de_produtos_do_banco__async();
-                    }
-                },
-                () => {            
-                    loader.classList.add("display-none");
+                {   
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'POST',
+                    body: `venda=${JSON.stringify(venda)}`
+                }
+            )
+            .then(resposta => {
+                loader.classList.add("display-none");
+                if(resposta.ok){
+                    abrir_mensagem_lateral_da_tela("Venda marcada com sucesso!");
+                    limpa_venda();
+                    atualiza_array_de_produtos_do_banco__async();
+                }else{
                     abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
                 }
-            );
+            })
+            .catch(() => {
+                loader.classList.add("display-none");
+                abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
+            });
 
         } )
         .catch( () => {
