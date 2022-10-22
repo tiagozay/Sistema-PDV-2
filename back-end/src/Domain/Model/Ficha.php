@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
+use DomainException;
+use Exception;
 use JsonSerializable;
-
+use Symfony\Component\Console\Event\ConsoleEvent;
 
         #[Entity]
         class Ficha implements JsonSerializable
@@ -18,7 +20,7 @@ use JsonSerializable;
                 #[Id, Column, GeneratedValue]
                 public int $id;
 
-                #[OneToOne(inversedBy: 'ficha', targetEntity:Cliente::class)]
+                #[OneToOne(inversedBy: 'ficha', targetEntity:Cliente::class, cascade:['persist'])]
                 private Cliente $cliente;
 
                 #[OneToMany(mappedBy: 'ficha', targetEntity: ProdutoFicha::class, cascade:['persist', 'remove'])]
@@ -40,7 +42,7 @@ use JsonSerializable;
                         float $valor_pago, 
                 )
                 {
-                        $this->cliente = $cliente;
+                        $this->setCliente($cliente);
                         $this->produtos = new ArrayCollection();
                         $this->qtde_itens = $qtde_itens;
                         $this->total = $total;
@@ -67,6 +69,13 @@ use JsonSerializable;
                         $this->calcula_qtde_de_itens();
                         $this->calcula_valor_total();
                         $this->calcula_valor_pago();
+                }
+
+                public function adiciona_produtos(Array $produtos)
+                {
+                        foreach($produtos as $produto){
+                                $this->adiciona_produto($produto);
+                        }
                 }
 
                 public function devolve_produto(ProdutoFicha $produto)
@@ -160,13 +169,6 @@ use JsonSerializable;
                         return $this->cliente;
                 }
 
-                public function setCliente($cliente)
-                {
-                        $this->cliente = $cliente;
-
-                        return $this;
-                }
-
                 /** @return ProdutoFicha[] */
                 public function getProdutos(): iterable
                 {
@@ -207,6 +209,29 @@ use JsonSerializable;
                         $this->valor_pago = $valor_pago;
 
                         return $this;
+                }
+
+                private function setCliente(Cliente $cliente)
+                {
+                        if(!is_null($cliente->getFicha())){
+                                throw new DomainException("O cliente informado já possui uma ficha");
+                        }
+
+                        $cliente->setFicha($this);
+                        $this->cliente = $cliente;
+              
+                }
+
+                public function toArray(): array
+                {
+                        return [
+                                'id' => $this->id,
+                                'qtde_itens' => $this->qtde_itens,
+                                'total' => $this->total,
+                                'valor_pago' => $this->valor_pago,
+                                'cliente' => $this->cliente->toArray(),
+                                'produtos' => ProdutoFicha::toArrays($this->produtos->toArray())
+                        ];
                 }
 
                 public function jsonSerialize(): mixed

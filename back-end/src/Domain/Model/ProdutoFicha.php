@@ -2,6 +2,7 @@
     namespace PDV\Domain\Model;
 
     use DateTime;
+    use PDV\Domain\Helper\DataHelper;
     use Doctrine\ORM\Mapping\Column;
     use Doctrine\ORM\Mapping\Entity;
     use Doctrine\ORM\Mapping\ManyToOne;
@@ -30,7 +31,6 @@
         private Ficha $ficha;
 
         public function __construct(
-            string $data_registro, 
             string $codigo, 
             string $descricao, 
             string $un, 
@@ -43,7 +43,7 @@
             $this->qtde = $qtde;
             $this->vl_total = $vl_total;
             $this->avulso = $avulso;
-            $this->data_registro = $data_registro;
+            $this->data_registro = DataHelper::dataAtual();
             $this->estado = $estado;
             parent::__construct($codigo, $descricao, $un, $vl_unitario);
 
@@ -94,6 +94,30 @@
         {
             $this->ficha = $ficha;
             $ficha->adiciona_produto($this);
+        }
+
+        public static function toArrays(array $produtos): array
+        {
+            return array_map(function($produto){
+                return $produto->toArray();
+            }, $produtos);
+        }
+
+        public function toArray(): array
+        {
+            return [
+                'id' => $this->id,
+                'id_ficha' => $this->ficha->id,
+                'codigo' => $this->codigo,
+                'descricao' => $this->descricao,
+                'un' => $this->un,
+                'vl_unitario' => $this->vl_unitario,
+                'qtde' => $this->qtde,
+                'vl_total' => $this->vl_total,
+                'avulso' => $this->avulso,
+                'data_registo' => $this->data_registro,
+                'estado' => $this->estado,
+            ];
         }
 
         public function jsonSerialize() : mixed
