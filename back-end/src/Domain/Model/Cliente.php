@@ -14,10 +14,10 @@
         #[Id, GeneratedValue, Column()]
         public int $id;
 
-        #[Column(length:11, unique: true)]
+        #[Column(length:11, unique: true, nullable:true)]
         private ?string $cpf;
 
-        #[Column(length:60)]
+        #[Column(length:60, nullable:true)]
         private ?string $nome;
 
         #[OneToOne(mappedBy: 'cliente', targetEntity: Ficha::class)]

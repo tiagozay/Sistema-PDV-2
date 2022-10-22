@@ -24,13 +24,6 @@ var id_ficha;
 
 var ficha;
 
-// let evento = {target: {
-//     dataset: {
-//         id: 13
-//     }
-// }}
-
-// abrir_modal_ficha(evento);
 function abrir_modal_ficha(event)
 {
     id_ficha = event.target.dataset.id;
@@ -41,71 +34,65 @@ function abrir_modal_ficha(event)
 
     div_loader_buscando_ficha.classList.remove("display-none");
 
-    zay_request(
-        "POST",
-        './back-end/buscaFichaComProdutos.php',
-        {id: id_ficha},
-        (resposta) => {
-            
-            div_loader_buscando_ficha.classList.add("display-none");
+    fetch(`./back-end/buscaFichaComProdutos.php?id=${id_ficha}`)
+    .then(resposta => resposta.ok ? resposta.json() : Promise.reject())
+    .then( ficha => {
 
-            fichas__dialogFicha__divProdutos.classList.remove("display-none");
+        div_loader_buscando_ficha.classList.add("display-none");
 
-            try{
-                ficha = JSON.parse(resposta);
-            }catch{
-                fecha_dialog_ficha();
-                abrir_mensagem_lateral_da_tela("Não foi possível obter informações da ficha!");
-                return;
-            }
-            
-            preenche_informacoes_da_ficha(ficha);
+        fichas__dialogFicha__divProdutos.classList.remove("display-none");
 
+        preenche_informacoes_da_ficha(ficha);
 
-            let produtos_ficha = formata_produtos_da_ficha_para_serem_escritos(ficha['produtos']);
+        let produtos_ficha = formata_produtos_da_ficha_para_serem_escritos(ficha['produtos']);
 
-            zayDataTable__produtosFicha = new ZayDataTable(
-                'produtos_ficha',
-                dialog_ficha__tabelaProdutos,
-                {
-                    "Data": 'data_registro',
-                    "Código": 'codigo',
-                    "Descrição": 'descricao',
-                    "UN": 'un',
-                    'Valor': 'vl_unitario',
-                    'Qtde': 'qtde',
-                    'Total': 'vl_total',
-                    'Estado': 'estado',
-                },
-                'id',
-                produtos_ficha,
-                [
-                    new AcaoRegistro(btn_devolver_produto_ficha, devolver_produto_ficha),
-                    new AcaoRegistro(btn_pagar_produto_ficha, pagar_produto_ficha),
-                    new AcaoRegistro(btn_excluir_produto_ficha, excluir_produto_ficha),
+        zayDataTable__produtosFicha = new ZayDataTable(
+            'produtos_ficha',
+            dialog_ficha__tabelaProdutos,
+            {
+                "Data": 'data_registro',
+                "Código": 'codigo',
+                "Descrição": 'descricao',
+                "UN": 'un',
+                'Valor': 'vl_unitario',
+                'Qtde': 'qtde',
+                'Total': 'vl_total',
+                'Estado': 'estado',
+            },
+            'id',
+            produtos_ficha,
+            [
+                new AcaoRegistro(btn_devolver_produto_ficha, devolver_produto_ficha),
+                new AcaoRegistro(btn_pagar_produto_ficha, pagar_produto_ficha),
+                new AcaoRegistro(btn_excluir_produto_ficha, excluir_produto_ficha),
 
-                ],
-                loader_acoes_lista_de_fichas,
-                100,
-                'produtos_ficha__tr_thead',
-                'produtos_ficha__td_thead',
-                'produtos_ficha__tr_tbody',
-                'produtos_ficha__td_tbody',
-                'produtos_ficha__msgSemRegistros',
-                'produtos_ficha__navPaginacao',
-                'produtos_ficha__btnVoltarEAvancarPag',
-                'produtos_ficha__numeroPagina',
-                'produtos_ficha__pagSelecionada',
-                'produtos_ficha__paginaDesativada',
-            );
+            ],
+            loader_acoes_lista_de_fichas,
+            100,
+            'produtos_ficha__tr_thead',
+            'produtos_ficha__td_thead',
+            'produtos_ficha__tr_tbody',
+            'produtos_ficha__td_tbody',
+            'produtos_ficha__msgSemRegistros',
+            'produtos_ficha__navPaginacao',
+            'produtos_ficha__btnVoltarEAvancarPag',
+            'produtos_ficha__numeroPagina',
+            'produtos_ficha__pagSelecionada',
+            'produtos_ficha__paginaDesativada',
+        );
 
-            sublinha_produtos_devolvidos_e_pagos();
+        sublinha_produtos_devolvidos_e_pagos();
 
-        },
-        () => {
-            abrir_mensagem_lateral_da_tela("Não foi possíbel obter informações da ficha!");
-        }
-    )
+    })
+    .catch(() => {
+
+        div_loader_buscando_ficha.classList.add("display-none");
+
+        fichas__dialogFicha__divProdutos.classList.remove("display-none");
+
+        fecha_dialog_ficha();
+        abrir_mensagem_lateral_da_tela("Não foi possível obter informações da ficha!");
+    });
 }
 
 function limpa_dialog_ficha()
@@ -163,7 +150,7 @@ function formata_produto_da_ficha_para_ser_escrito(produto)
 {
     return new ProdutoDaFichaParaSerEscrito(
         produto.id,
-        produto.data_registro,
+        DateHelper.formataData(new Date(produto.data_registro.date)),
         produto.codigo,
         produto.descricao,
         produto.un,

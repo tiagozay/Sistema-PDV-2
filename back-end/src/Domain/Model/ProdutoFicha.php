@@ -115,7 +115,7 @@
                 'qtde' => $this->qtde,
                 'vl_total' => $this->vl_total,
                 'avulso' => $this->avulso,
-                'data_registo' => $this->data_registro,
+                'data_registro' => $this->data_registro,
                 'estado' => $this->estado,
             ];
         }

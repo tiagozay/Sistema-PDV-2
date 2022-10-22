@@ -222,6 +222,13 @@ use Symfony\Component\Console\Event\ConsoleEvent;
               
                 }
 
+                public static function toArrays(array $fichas): array
+                {
+                    return array_map(function($ficha){
+                        return $ficha->toArray();
+                    }, $fichas);
+                }
+
                 public function toArray(): array
                 {
                         return [

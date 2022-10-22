@@ -1,14 +1,14 @@
 <?php
     require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoFichaRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Ficha;
     
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoFichaRepository($pdo);
+    $repository = $entityManager->getRepository(Ficha::class);
 
-    $fichas = $repository->todas_fichas();
+    $fichas = $repository->findAll();
 
-    echo json_encode($fichas);
+    echo json_encode(Ficha::toArrays($fichas));
 ?>
