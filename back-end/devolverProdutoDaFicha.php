@@ -1,8 +1,4 @@
 <?php
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoFichaRepository;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
-    use PDV\Infraestrutura\Repository\PdoProdutoFichaRepository;
     use PDV\Domain\Helper\EntityManagerCreator;
     use PDV\Domain\Model\ProdutoEstoque;
     use PDV\Domain\Model\ProdutoFicha;
