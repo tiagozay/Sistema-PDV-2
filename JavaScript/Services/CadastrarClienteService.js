@@ -75,7 +75,14 @@ class CadastrarClienteService
             if(resposta.ok){
                 abrir_mensagem_lateral_da_tela("Cliente cadastrado com sucesso!");
                 return resposta.json();
-            } 
+            }else{
+                resposta.json()
+                .then( erro => {
+                    if(erro == '1062'){
+                        this._abre_mensagem_erro_form_cadastrar_cliente("Este CPF já foi cadastrado!");
+                    }
+                } )
+            }
 
             return Promise.reject();
         })
