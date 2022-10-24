@@ -15,8 +15,6 @@ function pagar_produto_ficha(event)
             body: `id_produto=${id_produto}&id_ficha=${id_ficha}`
         }
     )
-    // .then( resposta => resposta.text())
-    // .then( resposta => console.log(resposta) )
     .then(resposta => resposta.ok ? resposta.json() : Promise.reject())
     .then( ficha => {
 

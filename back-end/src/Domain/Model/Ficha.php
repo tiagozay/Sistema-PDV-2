@@ -89,7 +89,8 @@ use Symfony\Component\Console\Event\ConsoleEvent;
 
                 public function remove_produto(ProdutoFicha $produto)
                 {
-                        $this->produtos->remove($produto);
+                        $chaveProduto = $this->buscaChaveProduto($produto);
+                        $this->produtos->remove($chaveProduto);
 
                         $this->calcula_qtde_de_itens();
                         $this->calcula_valor_total();
@@ -152,6 +153,21 @@ use Symfony\Component\Console\Event\ConsoleEvent;
                         $this->valor_pago = $valor_pago;
                 }
 
+
+                public function buscaChaveProduto(ProdutoFicha $produtoFicha): ?int
+                {
+                        $chave = null;
+
+                        for($i = 0; $i < $this->produtos->count(); $i++){
+                                if($this->produtos->get($i)->id == $produtoFicha->id){
+                                        $chave = $i;
+                                        break;
+                                }
+                        }
+
+                        return $chave;
+
+                }
 
 
                 private function ehPendente($produto): bool
