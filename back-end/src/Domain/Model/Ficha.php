@@ -85,6 +85,20 @@ use Symfony\Component\Console\Event\ConsoleEvent;
                         $this->calcula_qtde_de_itens();
                         $this->calcula_valor_total();
                         $this->calcula_valor_pago();
+
+                }
+                public function paga_todos_produtos()
+                {
+                        $produtos = $this->getProdutos();
+                        foreach($produtos as $produto){
+                                if($produto->getEstado() == 'Pendente'){
+                                        $produto->pagar();
+                                }
+                        }
+
+                        $this->calcula_qtde_de_itens();
+                        $this->calcula_valor_total();
+                        $this->calcula_valor_pago();
                 }
 
                 public function remove_produto(ProdutoFicha $produto)
@@ -199,8 +213,6 @@ use Symfony\Component\Console\Event\ConsoleEvent;
                 public function setQtde_itens($qtde_itens)
                 {
                         $this->qtde_itens = $qtde_itens;
-
-                        return $this;
                 }
 
                 public function getTotal(): float
