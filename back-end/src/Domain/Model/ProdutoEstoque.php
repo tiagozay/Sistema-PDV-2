@@ -12,6 +12,9 @@
         #[Column(type:'decimal')]
         private float $qtde_disponivel;
 
+        #[Column(length:100, unique:true)]
+        protected string $codigo;
+
         public function __construct(
             string $codigo, 
             string $descricao, 
@@ -20,6 +23,7 @@
             float $vl_unitario
         ){
             parent::__construct($codigo, $descricao, $un, $vl_unitario);
+            $this->codigo = $codigo;
             $this->qtde_disponivel = $qtde_diponivel;
         }
 
