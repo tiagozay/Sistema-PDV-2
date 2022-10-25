@@ -12,16 +12,19 @@
     use Doctrine\ORM\Mapping\InheritanceType;
     use Doctrine\ORM\Mapping\DiscriminatorColumn;
     use Doctrine\ORM\Mapping\DiscriminatorMap;
-use Doctrine\ORM\Mapping\ManyToOne;
-use JsonSerializable;
+    use Doctrine\ORM\Mapping\ManyToOne;
+    use JsonSerializable;
 
     #[
         Entity, 
         InheritanceType("SINGLE_TABLE"), 
-        DiscriminatorColumn('tipo_da_venda', type:"string"), 
-        DiscriminatorMap(['venda_nao_finalizada' => VendaNaoFinalizada::class])
+        DiscriminatorColumn('tipo_de_venda', type:"string"), 
+        DiscriminatorMap([
+            'venda_finalizada' => Venda::class,
+            'venda_nao_finalizada' => VendaNaoFinalizada::class
+        ])
     ]
-    class Venda implements JsonSerializable
+    class Venda
     {
         #[Id, Column(), GeneratedValue()]
         public int $id; 
@@ -159,10 +162,27 @@ use JsonSerializable;
 
         }
 
-        public function jsonSerialize() : mixed
+        public static function toArrays(array $vendas): array
         {
-            $vars = array_merge(get_object_vars($this));
-            return $vars;
+            return array_map(function($venda){
+                return $venda->toArray();
+            }, $vendas);
+        }
+
+        public function toArray(): array
+        {
+                return [
+                    'id' => $this->id,
+                    'data_registro' => $this->data_registro,
+                    'produtos' => ProdutoVenda::toArrays($this->produtos->toArray()),
+                    'cliente' => $this->cliente->toArray(),
+                    'desconto' => $this->desconto,
+                    'qtde_itens' => $this->qtde_itens,
+                    'total' => $this->total,
+                    'total_com_desconto' => $this->total_com_desconto,
+                    'valor_pago' => $this->valor_pago,
+                    'troco' => $this->troco,
+                ];
         }
     }
 ?>

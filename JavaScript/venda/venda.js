@@ -436,31 +436,36 @@ function envia_venda()
     icone.classList.add("display-none");
     loader.classList.remove("display-none");
     desabilita_e_adiciona_loader_nos_elementos([btn_finalizar_venda]);
-
-    zay_request(
-        'POST',
+    
+    fetch(
         './back-end/cadastraVenda.php',
-        {venda: JSON.stringify(venda)},
-        (resposta)=>{            
-            console.log(resposta);
-            icone.classList.remove("display-none");
-            loader.classList.add("display-none");
-            habilita_e_remove_loader_dos_elementos([btn_finalizar_venda]);
-
-            try{    
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível finalizar a venda!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                abrir_mensagem_lateral_da_tela("Venda finalizada com sucesso!");
-                limpa_venda();
-                atualiza_array_de_produtos_do_banco__async();
-            }
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `venda=${JSON.stringify(venda)}`
         }
-    );
+    )
+    .then( resposta => {
+
+        icone.classList.remove("display-none");
+        loader.classList.add("display-none");
+        habilita_e_remove_loader_dos_elementos([btn_finalizar_venda]);
+
+        if(resposta.ok){
+            abrir_mensagem_lateral_da_tela("Venda finalizada com sucesso!");
+            limpa_venda();
+            atualiza_array_de_produtos_do_banco__async();
+        }else{
+            abrir_mensagem_lateral_da_tela("Não foi possível finalizar a venda!");
+        }
+
+    } )
+    .catch( () => {
+        icone.classList.remove("display-none");
+        loader.classList.add("display-none");
+        habilita_e_remove_loader_dos_elementos([btn_finalizar_venda]);
+        abrir_mensagem_lateral_da_tela("Não foi possível finalizar a venda!");
+    } )
 }
 
 function verifica_se_btns_finais_da_venda_podem_ser_habilitados()

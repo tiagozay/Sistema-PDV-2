@@ -1,26 +1,22 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
-
     require_once "vendor/autoload.php";
 
+    use PDV\Domain\Helper\DataHelper;
     use PDV\Domain\Model\Cliente;
-    use PDV\Domain\Model\Produto;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
     use PDV\Domain\Model\ProdutoVenda;
-    use PDV\Infraestrutura\Repository\PdoVendaRepository;
     use PDV\Domain\Model\Venda;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
     $venda_front = isset($_POST['venda']) ? json_decode($_POST['venda']) : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
     /** @var ProdutoVenda[] */
     $produtos_da_venda = [];
 
     foreach($venda_front->produtos as $produto){
         $produtos_da_venda[] = new ProdutoVenda(
-            null,
             $produto->codigo,
             $produto->descricao,
             $produto->un,
@@ -31,21 +27,16 @@
         );
     }
 
+
     $cliente;
     if(is_null($venda_front->cliente)){
         $cliente = null;
     }else{
-        $cliente = new Cliente(
-            $venda_front->cliente->id,
-            $venda_front->cliente->cpf,
-            $venda_front->cliente->nome
-        );
+        $cliente = $entityManager->find(Cliente::class, $venda_front->cliente->id);
     }
 
     $venda = new Venda(
-        null,
-        null,
-        $produtos_da_venda,
+        DataHelper::dataAtual(),
         $cliente,
         $venda_front->desconto,
         $venda_front->qtde_itens,
@@ -56,35 +47,27 @@
     );
 
     //Baixa no estoque
-    $produto_repository = new PdoProdutoEstoqueRepository($pdo);
-
-
-    $microtime = explode(" ", microtime());
-    $inicio = $microtime[0]+$microtime[1];
+    $produtoEstoqueRepository = $entityManager->getRepository(ProdutoEstoque::class);
   
     foreach($produtos_da_venda as $produto_venda){
         if(!$produto_venda->getAvulso()){
 
-            $produto_do_banco = $produto_repository->produto_com_codigo($produto_venda->getCodigo());
+            /** @var ProdutoEstoque */
+            $produto_do_estoque = $produtoEstoqueRepository->findOneBy(['codigo' => $produto_venda->getCodigo()]);
 
-            $produto_do_banco->baixa_no_estoque($produto_venda->getQtde());
-
-            $produto_repository->save($produto_do_banco);
+            $produto_do_estoque->baixa_no_estoque($produto_venda->getQtde());
 
         }
     }
-    $microtime = explode(" ", microtime());
-    $fim = $microtime[0]+$microtime[1];
-  
-    echo json_encode( intval(($fim - $inicio) * 1000));
-    exit();
 
-    $venda_repository = new PdoVendaRepository($pdo);
+    $entityManager->persist($venda);
+    $entityManager->flush();
 
-    $save = $venda_repository->save($venda);
+    try{
 
-    $resposta['sucesso'] = $save;
-    
-    echo json_encode($resposta);
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
 
 ?>
