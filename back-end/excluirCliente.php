@@ -3,52 +3,36 @@
 
     require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoClienteRepository;
-use PDV\Infraestrutura\Repository\PdoFichaRepository;
-use PDV\Infraestrutura\Repository\PdoVendaRepository;
-    use PDV\Infraestrutura\Repository\PdoVendaNaoFinalizadaRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Cliente;
 
-    
     $id = isset($_POST['id']) ? $_POST['id'] : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $cliente_repository = new PdoClienteRepository($pdo);
+    /** @var Cliente */
+    $cliente = $entityManager->find(Cliente::class, $id);
 
-    $venda_repository = new PdoVendaRepository($pdo);
+    $ficha = $cliente->getFicha();
 
-    $venda_nao_finalizada_repository = new PdoVendaNaoFinalizadaRepository($pdo);
-
-    $cliente = $cliente_repository->cliente_com_id($id);
-
-    $ficha_repository = new PdoFichaRepository($pdo);
-
-    $ficha_cliente = $ficha_repository->busca_ficha_de_cliente($cliente);
-
-    if($ficha_cliente){
-        $resposta['sucesso'] = false;
-        $resposta['mensagem'] = "tem_ficha";
-
-        echo json_encode($resposta);
-
+    if($ficha){
+        echo json_encode('tem_ficha');
+        header('HTTP/1.1 500 Internal Server Error');
         exit();
     }
 
+    $vendas_cliente = $cliente->getVendas();
 
-    $vendas_do_cliente = $venda_repository->vendas_do_cliente($cliente);
-    $vendas_nao_finalizadas_do_cliente = $venda_nao_finalizada_repository->vendas_do_cliente($cliente);
-
-    foreach($vendas_do_cliente as $venda){
-        $venda_repository->remove_cliente($venda);
+    foreach($vendas_cliente as $venda){
+        $venda->removeCliente();
     }
 
-    foreach($vendas_nao_finalizadas_do_cliente as $venda){
-        $venda_nao_finalizada_repository->remove_cliente($venda);
+    try{
+        $entityManager->remove($cliente);
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
     }
-
-    $resposta['sucesso'] = $cliente_repository->excluir_cliente($id);
-
-    echo json_encode($resposta);
 
 ?>

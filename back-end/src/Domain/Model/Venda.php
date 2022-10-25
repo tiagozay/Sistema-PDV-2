@@ -32,7 +32,7 @@ use JsonSerializable;
         #[OneToMany(mappedBy: 'venda', targetEntity: ProdutoVenda::class, cascade:['persist', 'remove'])]
         private Collection $produtos;
 
-        #[ManyToOne(targetEntity: Cliente::class)]
+        #[ManyToOne(targetEntity: Cliente::class, inversedBy:'vendas')]
         private ?Cliente $cliente;
 
         #[Column(type:'decimal')]
@@ -58,6 +58,11 @@ use JsonSerializable;
             $this->data_registro = $data_registro;
             $this->produtos = new ArrayCollection();
             $this->cliente = $cliente;
+
+            if(!is_null($cliente)){
+                $cliente->addVenda($this);
+            }
+
             $this->desconto = $desconto;
             $this->qtde_itens = $qtde_itens;
             $this->total = $total;
@@ -113,53 +118,45 @@ use JsonSerializable;
             return $this->troco;
         }
         
-        public function setCliente(?Cliente $cliente)
+        public function removeCliente()
         {
-            $this->cliente = $cliente;
-
-            return $this;
+            $this->cliente = null;
         }
 
         public function setDesconto(float $cliente)
         {
             $this->cliente = $cliente;
 
-            return $this;
         }
 
         public function setQtde_itens($qtde_itens)
         {
             $this->qtde_itens = $qtde_itens;
 
-            return $this;
         }
 
         public function setTotal($total)
         {
             $this->total = $total;
 
-            return $this;
         }
 
         public function setTotal_com_desconto($total_com_desconto)
         {
             $this->total_com_desconto = $total_com_desconto;
 
-            return $this;
         }
 
         public function setValor_pago($valor_pago)
         {
             $this->valor_pago = $valor_pago;
 
-            return $this;
         }
 
         public function setTroco($troco)
         {
             $this->troco = $troco;
 
-            return $this;
         }
 
         public function jsonSerialize() : mixed

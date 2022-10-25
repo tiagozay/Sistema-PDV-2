@@ -8,35 +8,34 @@ function excluir_cliente(event)
 
     zayDataTable__clientes.ativa_loader_de_um_registro(id);
 
-    zay_request(
-        'POST',
+    fetch(
         './back-end/excluirCliente.php',
-        {id},
-        function(resposta){
-
-            zayDataTable__clientes.desativa_loader_de_um_registro(id);
-
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                zayDataTable__clientes.remove_registro(id);
-                abrir_mensagem_lateral_da_tela("Cliente excluído com sucesso!");
-            }else{
-                if(resposta.mensagem == 'tem_ficha'){
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `id=${id}`
+        }
+    )
+    .then( resposta => {
+        zayDataTable__clientes.desativa_loader_de_um_registro(id);
+        if(resposta.ok){
+            zayDataTable__clientes.remove_registro(id);
+            abrir_mensagem_lateral_da_tela("Cliente excluído com sucesso!");
+        }else{
+            resposta.json()
+            .then( msg => {
+                if(msg == 'tem_ficha'){
                     abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
                     setTimeout( () => alert("Clientes que contêm fichas não podem ser excluídos! Remova a ficha primeiro!"), 500);
                 }
-            }
-
-        },
-        function(){
-            zayDataTable__clientes.desativa_loader_de_um_registro(id);
-            abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
+            }  )
+            .catch( () => {
+                abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
+            } )
         }
-    )
+    } )
+    .catch(() => {
+        zayDataTable__clientes.desativa_loader_de_um_registro(id);
+        abrir_mensagem_lateral_da_tela("Não foi possível excluir cliente!");
+    });
 }

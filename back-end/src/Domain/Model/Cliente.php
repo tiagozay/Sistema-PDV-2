@@ -1,11 +1,14 @@
 <?php
     namespace PDV\Domain\Model;
 
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Doctrine\Common\Collections\Collection;
     use Doctrine\ORM\Mapping\Column;
     use Doctrine\ORM\Mapping\Entity;
     use Doctrine\ORM\Mapping\Id;
     use Doctrine\ORM\Mapping\GeneratedValue;
     use Doctrine\ORM\Mapping\OneToOne;
+    use Doctrine\ORM\Mapping\OneToMany;
     use JsonSerializable;
 
     #[Entity]
@@ -23,10 +26,14 @@
         #[OneToOne(mappedBy: 'cliente', targetEntity: Ficha::class)]
         private Ficha $ficha;
 
+        #[OneToMany(mappedBy:'cliente', targetEntity:Venda::class)]
+        private Collection $vendas;
+
         public function __construct(?string $cpf, ?string $nome)
         {
             $this->cpf = $cpf;
             $this->nome = $nome;
+            $this->vendas = new ArrayCollection();
         }
         
         public function editar(string $nome, string $cpf): void
@@ -50,6 +57,12 @@
             return isset($this->ficha) ? $this->ficha : null;
         }
 
+        /** @return Venda[] */
+        public function getVendas(): iterable
+        {
+            return $this->vendas;
+        }
+
 
         public function setCpf(?string $cpf): void
         {
@@ -64,6 +77,11 @@
         public function setFicha(Ficha $ficha): void
         {
             $this->ficha = $ficha;
+        }
+
+        public function addVenda(Venda $venda): void
+        {
+            $this->vendas->add($venda);
         }
      
         public static function toArrays(array $clientes): array
