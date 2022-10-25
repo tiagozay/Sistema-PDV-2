@@ -1,17 +1,18 @@
 <?php
     require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoClienteRepository;
-    
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Cliente;
+
     $id = isset($_POST['id']) ? $_POST['id'] : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoClienteRepository($pdo);
+    /** @var Cliente */
+    $cliente = $entityManager->find(Cliente::class, $id);
 
-    $cliente = $repository->cliente_com_id($id);
+    echo json_encode($cliente->toArray());
 
-    echo json_encode($cliente);
+    
 
 ?>
