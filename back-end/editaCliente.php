@@ -1,26 +1,23 @@
 <?php
     require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoClienteRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Cliente;
     
     $id = isset($_POST['id']) ? $_POST['id'] : exit();
     $nome = isset($_POST['nome']) ? $_POST['nome'] : exit();
     $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoClienteRepository($pdo);
-
-    $cliente = $repository->cliente_com_id($id);
+    $cliente = $entityManager->find(Cliente::class, $id);
 
     $cliente->editar($nome, $cpf);
 
-    $save = $repository->save($cliente);
-
-    if(!$save){
-        header('HTTP/1.1 500 Internal Server Error');
-    }else{
+    try{
+        $entityManager->flush();
         header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
     }
 ?>
