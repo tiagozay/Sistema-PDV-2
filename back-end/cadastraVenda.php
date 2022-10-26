@@ -60,11 +60,9 @@
         }
     }
 
-    $entityManager->persist($venda);
-    $entityManager->flush();
-
     try{
-
+        $entityManager->persist($venda);
+        $entityManager->flush();
         header('HTTP/1.1 200 OK');
     }catch(Exception){
         header('HTTP/1.1 500 Internal Server Error');

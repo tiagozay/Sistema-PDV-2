@@ -403,29 +403,35 @@ function envia_venda_nao_finalizada()
 
     desabilita_e_adiciona_loader_nos_elementos([btn_salvar_venda]);
 
-    zay_request(
-        'POST',
+    fetch(
         './back-end/cadastraVendaNaoFinalizada.php',
-        {venda: JSON.stringify(venda)},
-        (resposta)=>{            
-            icone.classList.remove("display-none");
-            loader.classList.add("display-none");
-            habilita_e_remove_loader_dos_elementos([btn_salvar_venda]);
-
-            try{    
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível salvar venda!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                abrir_mensagem_lateral_da_tela("Venda salva com sucesso!");
-                limpa_venda();
-                atualiza_array_de_produtos_do_banco__async();
-            }
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `venda=${JSON.stringify(venda)}`
         }
-    );
+    )
+    .then( resposta => {
+
+        icone.classList.remove("display-none");
+        loader.classList.add("display-none");
+        habilita_e_remove_loader_dos_elementos([btn_salvar_venda]);
+
+        if(resposta.ok){
+            abrir_mensagem_lateral_da_tela("Venda salva com sucesso!");
+            limpa_venda();
+            atualiza_array_de_produtos_do_banco__async();
+        }else{
+            abrir_mensagem_lateral_da_tela("Não foi possível salvar a venda!");
+        }
+
+    } )
+    .catch( () => {
+        icone.classList.remove("display-none");
+        loader.classList.add("display-none");
+        habilita_e_remove_loader_dos_elementos([btn_finalizar_venda]);
+        abrir_mensagem_lateral_da_tela("Não foi possível salvar a venda!");
+    } )
 }
 
 function envia_venda()
