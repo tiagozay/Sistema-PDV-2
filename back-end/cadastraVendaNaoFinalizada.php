@@ -45,6 +45,8 @@
         $venda_front->troco
     );
 
+    $venda->adiciona_produtos($produtos_da_venda);
+
     //Baixa no estoque
     $produtoEstoqueRepository = $entityManager->getRepository(ProdutoEstoque::class);
   
