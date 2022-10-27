@@ -86,6 +86,14 @@
             $produto->setVenda($this);
         }
 
+        public function adiciona_produtos(array $produtos):void
+        {
+            foreach($produtos as $produto){
+                $this->produtos->add($produto);
+                $produto->setVenda($this);
+            }
+        }
+
         public function getCliente(): ?Cliente
         {
             return $this->cliente;
@@ -162,6 +170,19 @@
 
         }
 
+        /** @return Venda[] */
+        public static function filtrar(array $vendas): array
+        {
+            $novas_vendas = array_filter($vendas, function($venda){
+                if(get_class($venda) == Venda::class){
+                    return true;
+                }
+                return false;
+            });
+        
+            return array_values($novas_vendas);
+        }
+
         public static function toArrays(array $vendas): array
         {
             return array_map(function($venda){
@@ -175,7 +196,7 @@
                     'id' => $this->id,
                     'data_registro' => $this->data_registro,
                     'produtos' => ProdutoVenda::toArrays($this->produtos->toArray()),
-                    'cliente' => $this->cliente->toArray(),
+                    'cliente' => !is_null($this->cliente) ? $this->cliente->toArray() : null,
                     'desconto' => $this->desconto,
                     'qtde_itens' => $this->qtde_itens,
                     'total' => $this->total,
