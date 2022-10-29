@@ -13,7 +13,6 @@ var troco_da_venda_valor = document.querySelector("#troco-da-venda__valor");
 var campo_valor_desconto_venda = document.querySelector("#input-desconto-da-venda__valor");
 let btn_cancelar_venda = document.querySelector("#informacoes-finais-da-venda__BtnCancelarVenda");
 let btn_marcar_na_ficha = document.querySelector("#informacoes-finais-da-venda__BtnMarcarNaFicha");
-let btn_salvar_venda = document.querySelector("#informacoes-finais-da-venda__BtnSalvarVenda");
 let btn_finalizar_venda = document.querySelector("#informacoes-finais-da-venda__BtnFinalizarVenda");
 var efeito_sonoro_caixa = document.querySelector("#efeito_sonoro_caixa");
 
@@ -291,7 +290,6 @@ function limpa_venda()
     campo_valor_pago_venda.value = "R$ 0,00";
     atualiza_campos_total_venda_e_troco();
     escrever_produtos_na_tabela_de_produtos_passados();
-    escreve_cliente();
 }
 
 function cancelar_venda()
@@ -334,7 +332,8 @@ function marcar_na_ficha()
                     abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
                 }
             })
-            .catch(() => {
+            .catch((msg) => {
+                console.log(msg);
                 loader.classList.add("display-none");
                 abrir_mensagem_lateral_da_tela("Não foi possível marcar na ficha!");
             });
@@ -344,25 +343,6 @@ function marcar_na_ficha()
             alert("Você precisa informar um cliente para marcar na ficha!");
             marcar_na_ficha();
         });
-}
-
-function salvar_venda()
-{
-    const service = new IdentificarClienteService();
-    service.identificarCliente()
-    .then( cliente => {
-
-        venda.cliente = cliente;
-
-        envia_venda_nao_finalizada();
-
-    } )
-    .catch( (msg) => {
-        venda.cliente = null;
-        envia_venda_nao_finalizada();
-    } )
-
-
 }
 
 function finalizar_venda()
@@ -393,46 +373,6 @@ function finalizar_venda()
     envia_venda();
 }
 
-function envia_venda_nao_finalizada()
-{
-    let loader = btn_salvar_venda.querySelector("#loader_salvar_venda");
-    let icone = btn_salvar_venda.querySelector("#icone_salvar_venda");
-
-    icone.classList.add("display-none");
-    loader.classList.remove("display-none");
-
-    desabilita_e_adiciona_loader_nos_elementos([btn_salvar_venda]);
-
-    fetch(
-        './back-end/cadastraVendaNaoFinalizada.php',
-        {   
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            method: 'POST',
-            body: `venda=${JSON.stringify(venda)}`
-        }
-    )
-    .then( resposta => {
-
-        icone.classList.remove("display-none");
-        loader.classList.add("display-none");
-        habilita_e_remove_loader_dos_elementos([btn_salvar_venda]);
-
-        if(resposta.ok){
-            abrir_mensagem_lateral_da_tela("Venda salva com sucesso!");
-            limpa_venda();
-            atualiza_array_de_produtos_do_banco__async();
-        }else{
-            abrir_mensagem_lateral_da_tela("Não foi possível salvar a venda!");
-        }
-
-    } )
-    .catch( () => {
-        icone.classList.remove("display-none");
-        loader.classList.add("display-none");
-        habilita_e_remove_loader_dos_elementos([btn_finalizar_venda]);
-        abrir_mensagem_lateral_da_tela("Não foi possível salvar a venda!");
-    } )
-}
 
 function envia_venda()
 {
@@ -489,8 +429,6 @@ function verifica_se_btns_finais_da_venda_podem_ser_habilitados()
         btn_cancelar_venda.setAttribute("disabled", true);
         btn_marcar_na_ficha.classList.add("opacidade");
         btn_marcar_na_ficha.setAttribute("disabled", true);
-        btn_salvar_venda.classList.add("opacidade");
-        btn_salvar_venda.setAttribute("disabled", true);
     }else{
         campo_valor_pago_venda.classList.remove('opacidade');
         campo_valor_pago_venda.removeAttribute("disabled");
@@ -501,8 +439,6 @@ function verifica_se_btns_finais_da_venda_podem_ser_habilitados()
         btn_cancelar_venda.removeAttribute("disabled", true);
         btn_marcar_na_ficha.classList.remove("opacidade");
         btn_marcar_na_ficha.removeAttribute("disabled", true);
-        btn_salvar_venda.classList.remove("opacidade");
-        btn_salvar_venda.removeAttribute("disabled", true);
     }
 
     if(venda.valor_pago != 0 && venda.valor_pago >= venda.total_com_desconto && venda.produtos.length > 0){
@@ -512,22 +448,6 @@ function verifica_se_btns_finais_da_venda_podem_ser_habilitados()
         btn_finalizar_venda.classList.add("opacidade");
         btn_finalizar_venda.setAttribute("disabled", true);
     };
-}
-
-
-function escreve_cliente()
-{
-    let campo_nome = document.querySelector("#informacoes-finais-da-venda__cliente__nome");
-    let campo_cpf = document.querySelector("#informacoes-finais-da-venda__cliente__cpf");
-
-    if(venda.cliente == null){
-        campo_nome.textContent = "Não informado";
-        campo_cpf.textContent = "Não informado";
-        return;
-    }
-
-    campo_nome.textContent = venda.cliente.nome != null ? venda.cliente.nome : "Não informado";
-    campo_cpf.textContent = venda.cliente.cpf != null ? formata_cpf(venda.cliente.cpf) : "Não informado";
 }
 
 function atualiza_campos_total_venda_e_troco()

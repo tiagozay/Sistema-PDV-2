@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="assets/styles/secoes/secoes.css">
     <link rel="stylesheet" href="assets/styles/secoes/vender.css">
     <link rel="stylesheet" href="assets/styles/secoes/vendas.css">
-    <link rel="stylesheet" href="assets/styles/secoes/vendasNaoFinalizadas.css">
     <link rel="stylesheet" href="assets/styles/secoes/produtos.css">
     <link rel="stylesheet" href="assets/styles/secoes/clientes.css">
     <link rel="stylesheet" href="assets/styles/secoes/fichas.css">
@@ -439,12 +438,6 @@
                     Fichas
                 </button>
             </li>
-            <li class="item-acoes" id="item-acao-vendas-nao-finalizadas">
-                <button class="btn-secoes" data-secao='vendas-nao-finalizadas'> 
-                    <i class="material-icons"  data-secao='vendas-nao-finalizadas'>shopping_cart</i> 
-                    Vendas não finalizadas
-                </button>
-            </li>
             <li class="item-acoes">
                 <button class="btn-secoes" data-secao='produtos'>
                     <i class="material-icons" data-secao='produtos'>format_list_bulleted</i>
@@ -622,11 +615,6 @@
                 </div>
 
                 <div id="informacoes-finais-da-venda__botoes">
-
-                    <div id="informacoes-finais-da-venda__cliente" class="display-none">
-                        <p>Cliente: <span id="informacoes-finais-da-venda__cliente__nome">Não informado</span></p>
-                        <p>Cpf: <span id="informacoes-finais-da-venda__cliente__cpf">Não informado</span></p>
-                    </div>
                                
                     <button id="informacoes-finais-da-venda__BtnCancelarVenda" class="opacidade informacoes-finais-da-venda__btn" onclick="cancelar_venda()" disabled="true" >
                         Cancelar venda 
@@ -637,12 +625,6 @@
                         Marcar na ficha
                         <i class="material-icons">receipt_long</i>
                         <div class="loader display-none" id="loader_marcar_na_ficha"></div> 
-                    </button>
-
-                    <button id="informacoes-finais-da-venda__BtnSalvarVenda" class="opacidade informacoes-finais-da-venda__btn" disabled="true" onclick="salvar_venda()">
-                        Salvar venda 
-                        <i class="material-icons" id="icone_salvar_venda">save</i>
-                        <div class="loader display-none" id="loader_salvar_venda"></div> 
                     </button>
 
                     <button id="informacoes-finais-da-venda__BtnFinalizarVenda" class="opacidade informacoes-finais-da-venda__btn" disabled="true" onclick="finalizar_venda()">
@@ -795,27 +777,6 @@
 
         </section>
 
-        <!--==========VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS================VENDAS NÃO FINALIZADAS-->
-
-        <section class="secao" id="vendas-nao-finalizadas">
-
-            <div id="div_opcoes_lista_de_vendas_nao_finalizadas">
-                Ordenar por: 
-                <select name="" id="div_opcoes_lista_de_vendas_nao_finalizadas__select-ordem">
-                    <option value="mais_antiga">Mais antiga</option>
-                    <option value="mais_recente">Mais recente</option>
-                </select>
-
-                <button onclick="atualiza_lista_de_vendas_nao_finalizadas()"><i class="material-icons">refresh</i> </button>
-            </div>
-
-            <table id="vendas_nao_finalizadas__lista">
-
-            </table>
-
-            <div class="lds-default" id="loader_lista_de_vendas_nao_finalizadas"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-        </section>
-
         <!--==========PRODUTOS================PRODUTOS================PRODUTOS================PRODUTOS================PRODUTOS-->
 
         <section class="secao" id="produtos">
@@ -949,12 +910,6 @@
     <script src="JavaScript/vendas/exibirInformacoesDaVenda.js"></script>
     <script src="JavaScript/vendas/excluirVenda.js"></script>
     <script src="JavaScript/vendas/vendas.js"></script>
-
-    <script src="JavaScript/vendasNaoFinalizadas/listagemDasVendasNFinalizadas.js"></script>
-    <script src="JavaScript/vendasNaoFinalizadas/excluirVendaNFinalizada.js"></script>
-    <script src="JavaScript/vendasNaoFinalizadas/exibirInfoVendasNFinalizadas.js"></script>
-    <script src="JavaScript/vendasNaoFinalizadas/vendas_nao_finalizadas.js"></script>
-    <script src="JavaScript/vendasNaoFinalizadas/vendas_nao_finalizadas.js"></script>
 
     <script src="JavaScript/produtos/listagemProdutos.js"></script>
     <script src="JavaScript/produtos/cadastroProdutos.js"></script>

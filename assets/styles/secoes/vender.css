@@ -531,7 +531,7 @@
 
 }
 .informacoes-finais-da-venda__btn{
-    width: 23%;
+    width: 30%;
     font-size: 25px;
     padding: 5px 0;
     height: 50px;
@@ -549,13 +549,6 @@
     margin-left: 5px;
 }
 #loader_finalizar_venda{
-    border: 3px solid rgb(240, 240, 240)!important;
-    border-top: 3px solid  rgb(99, 99, 99)!important; 
-    width: 14px!important;
-    height: 14px!important;
-    margin-left: 5px;
-}
-#loader_salvar_venda{
     border: 3px solid rgb(240, 240, 240)!important;
     border-top: 3px solid  rgb(99, 99, 99)!important; 
     width: 14px!important;

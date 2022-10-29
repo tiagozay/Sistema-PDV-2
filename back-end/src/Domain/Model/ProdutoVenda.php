@@ -1,23 +1,11 @@
 <?php
     namespace PDV\Domain\Model;
 
-    use JsonSerializable;
     use Doctrine\ORM\Mapping\Column;
     use Doctrine\ORM\Mapping\Entity;
-    use Doctrine\ORM\Mapping\InheritanceType;
-    use Doctrine\ORM\Mapping\DiscriminatorColumn;
-    use Doctrine\ORM\Mapping\DiscriminatorMap;
     use Doctrine\ORM\Mapping\ManyToOne;
 
-    #[
-        Entity, 
-        InheritanceType("SINGLE_TABLE"), 
-        DiscriminatorColumn('tipo_da_venda', type:"string"), 
-        DiscriminatorMap([
-            'venda_finalizada' => ProdutoVenda::class, 
-            'venda_nao_finalizada' => ProdutoVendaNaoFinalizada::class
-        ])
-    ]
+    #[Entity]
     class ProdutoVenda extends Produto
     {
         #[Column(type:'decimal')]
