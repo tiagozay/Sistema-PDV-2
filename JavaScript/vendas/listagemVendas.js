@@ -23,12 +23,6 @@ btn_excluir_venda.classList.add('material-icons');
 btn_excluir_venda.id = 'lista_de_vendas__btnExcluir';
 btn_excluir_venda.textContent = 'delete';
 
-let btn_emitir_cupom_venda = document.createElement('a');
-btn_emitir_cupom_venda.classList.add('material-icons');
-btn_emitir_cupom_venda.id = 'lista_de_vendas__btnEmitirCupom';
-btn_emitir_cupom_venda.setAttribute("target", '_blank');
-btn_emitir_cupom_venda.textContent = 'receipt';
-
 let loader_acoes_lista_de_vendas = document.createElement("div");
 loader_acoes_lista_de_vendas.classList.add('loader');
 loader_acoes_lista_de_vendas.id = 'loader_acoes_lista_de_vendas';
@@ -57,7 +51,6 @@ function busca_e_lista_vendas(){
             [
                 new AcaoRegistro(btn_ver_info_venda, exibir_informacoes_venda),
                 new AcaoRegistro(btn_excluir_venda, excluir_venda),
-                new AcaoRegistro(btn_emitir_cupom_venda, emitir_cumpom),
             ],
             loader_acoes_lista_de_vendas,
             100,
