@@ -39,7 +39,7 @@ class IdentificarClienteService
                             .then(clientes => {
                                 this._atualizaListaESelecionaNovoCliente(clientes, cliente_recem_cadastrado.id);
                             });
-                    });
+                    })
             }
 
             this._btn_nao_informar_cliente.onclick = () => {

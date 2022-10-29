@@ -39,6 +39,7 @@ class CadastrarClienteService
                         resolve({id, nome, cpf});
                     })
                     .catch( () => {
+                        this._fecharModalCadastrarCliente();
                         reject();
                     })
 
@@ -59,30 +60,44 @@ class CadastrarClienteService
     
     _cadastraCliente(nome, cpf)
     {
-        this._loader.classList.remove("display-none");
+        return new Promise( ( resolve, reject ) => {
 
-        return fetch(
-            './back-end/cadastraCliente.php', 
-            {   
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                method: 'POST',
-                body: `nome=${nome}&cpf=${cpf}`
-            }
-        )
-        .then( resposta => {
-            this._loader.classList.add("display-none");
+            this._loader.classList.remove("display-none");
 
-            if(resposta.ok){
-                abrir_mensagem_lateral_da_tela("Cliente cadastrado com sucesso!");
-                return resposta.json();
-            } 
+            fetch(
+                './back-end/cadastraCliente.php', 
+                {   
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'POST',
+                    body: `nome=${nome}&cpf=${cpf}`
+                }
+            )
+            .then( resposta => {
+                this._loader.classList.add("display-none");
+    
+                if(resposta.ok){
+                    abrir_mensagem_lateral_da_tela("Cliente cadastrado com sucesso!");
+                    resolve(resposta.json());
+                }else{
+                    resposta.json()
+                    .then( erro => {
+                        if(erro == '1062'){
+                            this._abre_mensagem_erro_form_cadastrar_cliente("Este CPF já foi cadastrado!");
+                        }
+                    } )
+                    .catch( () => {
+                        abrir_mensagem_lateral_da_tela("Não foi possível cadastrar cliente!");
+                        reject();
+                    });
+                }
+    
+            })
+            .catch(() => {
+                abrir_mensagem_lateral_da_tela("Não foi possível cadastrar cliente!");
+                reject();
+            })
 
-            return Promise.reject();
-        })
-        .catch(() => {
-            abrir_mensagem_lateral_da_tela("Não foi possível cadastrar cliente!");
-            return Promise.reject();
-        })
+        } );
     }
 
     _validaDados(nome, cpf)
