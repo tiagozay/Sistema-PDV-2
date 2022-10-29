@@ -3,8 +3,6 @@
 
     use PDV\Domain\Helper\EntityManagerCreator;
     use PDV\Domain\Model\Cliente;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoClienteRepository;
     
     $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : exit();
 

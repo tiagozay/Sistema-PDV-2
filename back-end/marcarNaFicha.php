@@ -1,15 +1,11 @@
 <?php
     require_once "vendor/autoload.php";
 
-    use PDV\Domain\Helper\DataHelper;
     use PDV\Domain\Helper\EntityManagerCreator;
     use PDV\Domain\Model\Cliente;
     use PDV\Domain\Model\Ficha;
     use PDV\Domain\Model\ProdutoEstoque;
     use PDV\Domain\Model\ProdutoFicha;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoFichaRepository;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
 
     $venda_front = isset($_POST['venda']) ? json_decode($_POST['venda']) : exit();
 
