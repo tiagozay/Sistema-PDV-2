@@ -12,7 +12,7 @@ class CadastrarClienteService
         this._cliente;
     }
 
-
+    //Funcão principal
     abrirCadastro()
     {
         return new Promise( (resolve, reject) => {

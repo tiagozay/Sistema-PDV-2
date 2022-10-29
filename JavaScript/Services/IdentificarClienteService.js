@@ -16,6 +16,7 @@ class IdentificarClienteService
         this._cliente_selecionado;
     }
 
+    //Funcão principal
     identificarCliente() 
     {
         return new Promise( ( resolve, reject ) => {
