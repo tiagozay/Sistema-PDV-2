@@ -1054,7 +1054,7 @@ function limpa_inputs_form_produto_avulso()
     form_vender_produto_avulso.codigo.value = "";
     form_vender_produto_avulso.descricao.value = "";
     form_vender_produto_avulso.un.value = "";
-    form_vender_produto_avulso.vlunitario.value = "";
+    form_vender_produto_avulso.vlunitario.value = "R$ 0,00";
     form_vender_produto_avulso.qtde.value = "";
 }
 

@@ -137,7 +137,7 @@ function limpa_formulario_de_cadastro_de_produto()
     form_cadastrar_produto.codigo.value = "";
     form_cadastrar_produto.descricao.value = "";
     form_cadastrar_produto.un.value = "";
-    form_cadastrar_produto.vl_unitario.value = "";
+    form_cadastrar_produto.vl_unitario.value = 'R$ 0,00';
     form_cadastrar_produto.qtde.value = "";
 }
 

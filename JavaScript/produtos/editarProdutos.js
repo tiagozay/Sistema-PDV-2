@@ -130,7 +130,7 @@ function abrirModal__editarProduto(event)
     form.codigo.value = produto_para_ser_editado.codigo;
     form.descricao.value = produto_para_ser_editado.descricao;
     form.un.value = produto_para_ser_editado.un;
-    form.vl_unitario.value = Number(produto_para_ser_editado.vl_unitario).toFixed(2);
+    form.vl_unitario.value = "R$ "+Number(produto_para_ser_editado.vl_unitario).toFixed(2);
     form.qtde_disponivel.value = produto_para_ser_editado.qtde_disponivel;
 
     let inputs = form.querySelectorAll(".input");
