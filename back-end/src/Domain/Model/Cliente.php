@@ -12,7 +12,7 @@
     use JsonSerializable;
 
     #[Entity]
-    class Cliente implements JsonSerializable
+    class Cliente
     {
         #[Id, GeneratedValue, Column()]
         public int $id;
@@ -99,11 +99,5 @@
                 'nome' => $this->nome
             ];
         }
-
-        public function jsonSerialize(): mixed {
-            $vars = array_merge(get_object_vars($this));
-            return $vars;
-        }
-
     }
 ?>

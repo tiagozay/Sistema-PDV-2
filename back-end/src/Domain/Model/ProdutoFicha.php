@@ -9,7 +9,7 @@
     use JsonSerializable;
 
     #[Entity()]
-    class ProdutoFicha extends Produto implements JsonSerializable
+    class ProdutoFicha extends Produto
     {
         
         #[Column(type:'decimal')]
@@ -123,12 +123,6 @@
                 'data_registro' => $this->data_registro,
                 'estado' => $this->estado,
             ];
-        }
-
-        public function jsonSerialize() : mixed
-        {
-            $vars = array_merge(get_object_vars($this));
-            return $vars;
         }
     }
 

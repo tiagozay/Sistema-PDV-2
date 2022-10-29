@@ -11,5 +11,5 @@
 
     $produtos = $repository->findAll();
 
-    echo json_encode($produtos);
+    echo json_encode(ProdutoEstoque::toArrays($produtos));
 ?>

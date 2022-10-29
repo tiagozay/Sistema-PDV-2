@@ -15,7 +15,7 @@ use JsonSerializable;
 use Symfony\Component\Console\Event\ConsoleEvent;
 
         #[Entity]
-        class Ficha implements JsonSerializable
+        class Ficha
         {
                 #[Id, Column, GeneratedValue]
                 public int $id;
@@ -267,12 +267,6 @@ use Symfony\Component\Console\Event\ConsoleEvent;
                                 'cliente' => $this->cliente->toArray(),
                                 'produtos' => ProdutoFicha::toArrays($this->produtos->toArray())
                         ];
-                }
-
-                public function jsonSerialize(): mixed
-                {
-                        $vars = array_merge(get_object_vars($this));
-                        return $vars;
                 }
 
         }

@@ -6,7 +6,7 @@
     use JsonSerializable;
 
     #[Entity()]
-    class ProdutoEstoque extends Produto implements JsonSerializable
+    class ProdutoEstoque extends Produto
     {
 
         #[Column(type:'decimal')]
@@ -57,10 +57,23 @@
             return $this->qtde_disponivel;
         }
 
-        public function jsonSerialize() : mixed
+        public static function toArrays(array $produtos): array
         {
-            $vars = array_merge(get_object_vars($this));
-            return $vars;
+            return array_map(function($produto){
+                return $produto->toArray();
+            }, $produtos);
+        }
+
+        public function toArray(): array
+        {   
+            return [
+                'id' => $this->id,
+                'codigo' => $this->codigo,
+                'descricao' => $this->descricao,
+                'un' => $this->un,
+                'vl_unitario' => $this->vl_unitario,
+                'qtde_disponivel' => $this->qtde_disponivel,
+            ];
         }
     }
 ?>
