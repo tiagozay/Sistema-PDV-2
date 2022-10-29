@@ -90,6 +90,18 @@
             return $this->ficha;
         }
 
+        public function alterarCodigo(string $novoCodigo): void
+        {
+            $this->codigo = $novoCodigo;
+        }
+
+        public static function alteraCodigoDeProdutos(array $produtos, string $novoCodigo): void
+        {
+            foreach($produtos as $produto){
+                $produto->alterarCodigo($novoCodigo);
+            }
+        }
+
         public function setData_registro(DateTime $data_registro)
         {
             $this->data_registro = $data_registro;

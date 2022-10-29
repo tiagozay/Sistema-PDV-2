@@ -72,6 +72,18 @@
             return $this->avulso;
         }
 
+        public function alterarCodigo(string $novoCodigo): void
+        {
+            $this->codigo = $novoCodigo;
+        }
+
+        public static function alteraCodigoDeProdutos(array $produtos, string $novoCodigo): void
+        {
+            foreach($produtos as $produto){
+                $produto->alterarCodigo($novoCodigo);
+            }
+        }
+
         public static function toArrays(array $produtos): array
         {
             return array_map(function($produto){
