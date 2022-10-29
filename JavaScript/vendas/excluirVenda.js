@@ -9,35 +9,27 @@ function excluir_venda(event)
 
     zayDataTable.ativa_loader_de_um_registro(id);
 
-    zay_request(
-        'POST',
+    fetch(
         './back-end/excluirVenda.php',
-        {id},
-        function(resposta){
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `id=${id}`
+        }
+    )
+    .then( resposta => {
 
-            zayDataTable.desativa_loader_de_um_registro(id);
+        zayDataTable.desativa_loader_de_um_registro(id);
 
-            console.log(resposta);
-            
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível cancelar venda!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                zayDataTable.remove_registro(id);
-                abrir_mensagem_lateral_da_tela("Venda cancelada com sucesso!");
-                atualiza_array_de_produtos_do_banco__async();
-            }
-       
-        },
-        function(){
-            zayDataTable.desativa_loader_de_um_registro(id);
-            abrir_mensagem_lateral_da_tela("Não foi possível cancelar venda!");
+        if(resposta.ok){
+            zayDataTable.remove_registro(id);
+            abrir_mensagem_lateral_da_tela("Venda excluída com sucesso!");
+            atualiza_array_de_produtos_do_banco__async();
         }
 
-    )
-
+    } )
+    .catch( () => {
+        zayDataTable.desativa_loader_de_um_registro(id);
+        abrir_mensagem_lateral_da_tela("Não foi possível excluir venda!");
+    } );
 }

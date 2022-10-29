@@ -1,10 +1,9 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+    require_once "vendor/autoload.php";  
 
-    require_once "autoloader.php";  
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
     $id = $_POST['id'];    
     $codigo = $_POST['codigo'];
@@ -13,23 +12,18 @@
     $vl_unitario = $_POST['vl_unitario'];
     $qtde = $_POST['qtde_disponivel'];
 
+    $entityManager = EntityManagerCreator::create();
 
-    $pdo = ConnectionCreator::CreateConnection();
-
-    $repository = new PdoProdutoEstoqueRepository($pdo);
-
-    $produto = $repository->produto_com_id($id);
+    /** @var ProdutoEstoque */
+    $produto = $entityManager->find(ProdutoEstoque::class, $id);
 
     $produto->editar($codigo, $descricao, $un, $qtde ,$vl_unitario);
 
-    if(!$repository->save($produto)){
-        $resposta['sucesso'] = false;
-        $resposta['mensagem'] = "Não foi possível editar produto!";
-        echo json_encode($resposta);
-        exit();
-    };
-        
-    $resposta['sucesso'] = true;
-    $resposta['mensagem'] = "";
-    echo json_encode($resposta);
+    try{
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
+    }catch( Exception ){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
+
 ?>

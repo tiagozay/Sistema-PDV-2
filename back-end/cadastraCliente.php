@@ -1,26 +1,23 @@
 <?php
     use PDV\Domain\Model\Cliente;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoClienteRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
     $cpf = $_POST['cpf'];
     $nome = $_POST['nome'];
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoClienteRepository($pdo);
+    $cliente = new Cliente($cpf, $nome);
 
-    $cliente = new Cliente(null, $cpf, $nome);
-
-    $save = $repository->save($cliente);
-
-    if(!$save){
-        header('HTTP/1.1 500 Internal Server Error');
-    }else{
+    try{
+        $entityManager->persist($cliente);
+        $entityManager->flush();
         header('HTTP/1.1 200 OK');
+        echo json_encode($cliente->id);
+    }catch(Exception $e){
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode($e->getCode());
     }
-
-    echo json_encode($pdo->lastInsertId());
 ?>

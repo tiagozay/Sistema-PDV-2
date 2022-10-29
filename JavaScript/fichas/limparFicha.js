@@ -7,35 +7,28 @@ function limpar_ficha()
 
     loader_limpar_ficha.classList.remove("display-none");
 
-    zay_request(
-        'POST',
+    fetch(
         './back-end/limparFicha.php',
-        {id_ficha: id_ficha},
-        resposta => {
-
-            loader_limpar_ficha.classList.add("display-none");
-
-
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível limpar ficha!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                preenche_informacoes_da_ficha(resposta.ficha);
-
-                zayDataTable__produtosFicha.limpa_lista();
-
-                abrir_mensagem_lateral_da_tela("Ficha limpa com sucesso!");
-            }else{
-                abrir_mensagem_lateral_da_tela("Não foi possível limpar ficha!");
-            }
-        },
-        () => {
-            loader_limpar_ficha.classList.add("display-none");
-            abrir_mensagem_lateral_da_tela("Não foi possível limpar ficha!");
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `id_ficha=${id_ficha}`
         }
-    );
+    )
+    .then(resposta => resposta.ok ? resposta.json() : Promise.reject())
+    .then( ficha => {
+
+        loader_limpar_ficha.classList.add("display-none");
+
+        preenche_informacoes_da_ficha(ficha);
+
+        zayDataTable__produtosFicha.limpa_lista();
+
+        abrir_mensagem_lateral_da_tela("Ficha limpa com sucesso!");
+
+    } )
+    .catch( () => {
+        loader_limpar_ficha.classList.add("display-none");
+        abrir_mensagem_lateral_da_tela("Não foi possível limpar ficha!");
+    } );
 }

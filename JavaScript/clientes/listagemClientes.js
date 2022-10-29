@@ -148,25 +148,20 @@ function atualiza_cliente(id)
 {
     zayDataTable__clientes.ativa_loader_de_um_registro(id);
 
-    zay_request(
-        "POST",
-        "./back-end/buscaUmCliente.php",
-        {id},
-        function(resposta){
+    fetch(`./back-end/buscaUmCliente.php?id=${id}`)
+    .then( resposta => {
 
-            zayDataTable__clientes.desativa_loader_de_um_registro(id);
+        zayDataTable__clientes.desativa_loader_de_um_registro(id);
 
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                return;
-            }
+        resposta.json()
+        .then( cliente => {
 
-            let cliente = formata_cliente(resposta);
-
+            cliente = formata_cliente(cliente);
+            
             zayDataTable__clientes.atualiza_registro(cliente);
-        }
-    )
+
+        } )
+    } );
 }
 
 function busca_clientes_por_nome(nome) {

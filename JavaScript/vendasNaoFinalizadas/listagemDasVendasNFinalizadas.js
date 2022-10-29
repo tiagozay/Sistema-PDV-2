@@ -26,57 +26,45 @@ select_ordem_lista_de_vendas_nao_finalizadas.addEventListener("change", ()=>{
     atualiza_lista_de_vendas_nao_finalizadas();
 });
 
-zay_request(
-    'GET',
-    './back-end/buscaVendasNaoFinalizadas.php',
-    {ordem: ordem_da_busca__vendas_nao_finalizadas},
-    function(resposta){
-        loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
+fetch(`./back-end/buscaVendasNaoFinalizadas.php?ordem=${ordem_da_busca__vendas_nao_finalizadas}`)
+.then(resposta => resposta.ok ? resposta.json() : Promise.reject())
+.then( vendas => {
 
-        try{
-            resposta = JSON.parse(resposta);
-        }catch{
-            abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas!");
-            return;
-        }
+    loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
 
-        let vendas = resposta;
-        
-        let vendas_simplificadas = transforma_vendas_para_arrays_simples(vendas);
+    let vendas_simplificadas = transforma_vendas_nf_para_arrays_simples(vendas);
 
-        let vendas_formatadas = formata_vendas(vendas_simplificadas);
+    let vendas_formatadas = formata_vendas_nao_finalizadas(vendas_simplificadas);
 
-        zayDataTable__vendasNaoFinalizadas = new ZayDataTable(
-            'vendas_nao_finalizadas',
-            tabela_lista_de_vendas_nao_finalizadas,
-            {'Nome': 'nome', 'CPF': 'cpf', 'Data': 'data_registro', 'Qtde itens': 'qtde_itens', 'Valor total': 'valor_total', 'Desconto': 'desconto', 'Valor com desconto': 'valor_com_desconto', 'Valor pago': 'valor_pago', 'Troco': 'troco'},
-            'id',
-            vendas_formatadas,
-            [
-                new AcaoRegistro(btn_ver_info_venda_nao_finalizada, exibir_informacoes_venda_nao_finalizada),
-                new AcaoRegistro(btn_excluir_venda_nao_finalizada, excluir_venda_nao_finalizada)
-            ],
-            loader_acoes_lista_de_vendas_nao_finalizadas,
-            100,
-            'vendas_nao_finalizadas__thead__tr',
-            'vendas_nao_finalizadas__thead__td',
-            'vendas_nao_finalizadas__tbody__tr',
-            'vendas_nao_finalizadas__tbody__td',
-            'vendas_nao_finalizadas__mensagem_sem_registro',
-            'vendas_nao_finalizadas__nav_paginacao',
-            'vendas_nao_finalizadas__btn_voltar_e_avancar_pagincao',
-            'vendas_nao_finalizadas__btn_nuero_da_pagina',
-            'vendas_nao_finalizadas__btn_paginacao_selecionado',
-            'vendas_nao_finalizadas__btn_paginacao_desativado',
-            escrita_das_vendas_concluida
-        );
+    zayDataTable__vendasNaoFinalizadas = new ZayDataTable(
+        'vendas_nao_finalizadas',
+        tabela_lista_de_vendas_nao_finalizadas,
+        {'Nome': 'nome', 'CPF': 'cpf', 'Data': 'data_registro', 'Qtde itens': 'qtde_itens', 'Valor total': 'valor_total', 'Desconto': 'desconto', 'Valor com desconto': 'valor_com_desconto', 'Valor pago': 'valor_pago', 'Troco': 'troco'},
+        'id',
+        vendas_formatadas,
+        [
+            new AcaoRegistro(btn_ver_info_venda_nao_finalizada, exibir_informacoes_venda_nao_finalizada),
+            new AcaoRegistro(btn_excluir_venda_nao_finalizada, excluir_venda_nao_finalizada)
+        ],
+        loader_acoes_lista_de_vendas_nao_finalizadas,
+        100,
+        'vendas_nao_finalizadas__thead__tr',
+        'vendas_nao_finalizadas__thead__td',
+        'vendas_nao_finalizadas__tbody__tr',
+        'vendas_nao_finalizadas__tbody__td',
+        'vendas_nao_finalizadas__mensagem_sem_registro',
+        'vendas_nao_finalizadas__nav_paginacao',
+        'vendas_nao_finalizadas__btn_voltar_e_avancar_pagincao',
+        'vendas_nao_finalizadas__btn_nuero_da_pagina',
+        'vendas_nao_finalizadas__btn_paginacao_selecionado',
+        'vendas_nao_finalizadas__btn_paginacao_desativado'
+    );
 
-    },
-    function(resposta){
-        loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
-        abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas! Verifique sua conexão");
-    }
-);
+})
+.catch( () => {
+    loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
+    abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas!");
+} );
 
 function atualiza_lista_de_vendas_nao_finalizadas()
 {   
@@ -85,39 +73,30 @@ function atualiza_lista_de_vendas_nao_finalizadas()
 
     loader_lista_de_vendas_nao_finalizadas.classList.add("display-flex");
 
-    zay_request(
-        'GET',
-        './back-end/buscaVendasNaoFinalizadas.php',
-        {ordem: ordem_da_busca__vendas_nao_finalizadas},
-        function(resposta){
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas!");
-                return;
-            }
 
-            let vendas = resposta;
+    fetch(`./back-end/buscaVendasNaoFinalizadas.php?ordem=${ordem_da_busca__vendas_nao_finalizadas}`)
+    .then(resposta => resposta.ok ? resposta.json() : Promise.reject())
+    .then( vendas => {
+        
+        loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
 
-            loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
+        let vendas_simplificadas = transforma_vendas_nf_para_arrays_simples(vendas);
 
-            let vendas_simplificadas = transforma_vendas_para_arrays_simples(vendas);
+        let vendas_formatadas = formata_vendas_nao_finalizadas(vendas_simplificadas)
 
-            let vendas_formatadas = formata_vendas(vendas_simplificadas)
+        zayDataTable__vendasNaoFinalizadas.atualiza_registros(vendas_formatadas);
 
-            zayDataTable__vendasNaoFinalizadas.atualiza_registros(vendas_formatadas);
-
-        },
-        function(){
-            abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas! Verifique sua conexão");
-        }
-    );
+    })
+    .catch(() => {
+        loader_lista_de_vendas_nao_finalizadas.classList.remove("display-flex");
+        abrir_mensagem_lateral_da_tela("Não foi possível buscar as vendas!");
+    })
 }
 
-function formata_vendas(vendas)
+function formata_vendas_nao_finalizadas(vendas)
 {
     let vendas_da_lista_formatadas = vendas.map((venda)=>{
-        venda.data_registro = formata_data(venda.data_registro);
+        venda.data_registro = DateHelper.formataData(new Date(venda.data_registro.date));
         venda.nome = !venda.nome ? "Não informado" : venda.nome;
         venda.cpf = !venda.cpf ? "Não informado" : formata_cpf(venda.cpf);
         venda.valor_total = adiciona_virgula_e_duas_casas_para_numero(venda.valor_total);
@@ -132,7 +111,7 @@ function formata_vendas(vendas)
     return vendas_da_lista_formatadas;
 }
 
-function transforma_vendas_para_arrays_simples(array_vendas)
+function transforma_vendas_nf_para_arrays_simples(array_vendas)
 {
     function VendaParaSerEscrita(id, nome, cpf, data_registro, qtde_itens, valor_total, desconto, valor_com_desconto, valor_pago, troco){
         this.id = id;
@@ -153,8 +132,8 @@ function transforma_vendas_para_arrays_simples(array_vendas)
 
         let venda = new VendaParaSerEscrita(
             registro.id,
-            registro.cliente.nome,
-            registro.cliente.cpf,
+            registro.cliente ? registro.cliente.nome : null,
+            registro.cliente ? registro.cliente.cpf : null,
             registro.data_registro,
             registro.qtde_itens,
             registro.total,

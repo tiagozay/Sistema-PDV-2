@@ -1,46 +1,46 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
+    require_once "vendor/autoload.php";
 
-    require_once "autoloader.php";
-
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoVendaRepository;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
+    use PDV\Domain\Model\Venda;
 
     $id_venda = isset($_POST['id']) ? $_POST['id'] : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $venda_repository = new PdoVendaRepository($pdo);
-
-    $produto_estoque_repository = new PdoProdutoEstoqueRepository($pdo);
-
-    $venda = $venda_repository->venda_com_produtos($id_venda);
+    $venda = $entityManager->find(Venda::class, $id_venda);
 
     $produtos_venda = $venda->getProdutos();
 
-    foreach($produtos_venda as $produto_venda){
+    $produtoEstoqueRepository = $entityManager->getRepository(ProdutoEstoque::class);
 
-        $pdo->exec("DELETE FROM produtos_venda WHERE id = {$produto_venda->getId()}");
+    foreach($produtos_venda as $produto_venda){
 
         if(!$produto_venda->getAvulso()){
             
             //Busca o produto no estoque pelo Código. Como ele já pode ser sido excluído, passa uma validação para que só realize as operações se ele ainda existir
 
-            $produto = $produto_estoque_repository->produto_com_codigo($produto_venda->getCodigo());
+            $produto_estoque = $produtoEstoqueRepository->findOneBy(['codigo' => $produto_venda->getCodigo()]);
 
-            if($produto){
+            if($produto_estoque){
 
-                $produto->aumentar_estoque($produto_venda->getQtde());
-
-                $produto_estoque_repository->save($produto);
+                $produto_estoque->aumentar_estoque($produto_venda->getQtde());
 
             }
            
         }
 
+        $entityManager->remove($produto_venda);
+
     }
 
-    $resposta['sucesso']  = $venda_repository->exclui_venda($id_venda);;
-    echo json_encode($resposta);
+    try{
+        $entityManager->remove($venda);
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
+
 ?>

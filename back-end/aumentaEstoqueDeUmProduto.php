@@ -1,32 +1,24 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";
 
     $id =  isset($_POST['id']) ? $_POST['id'] : exit();
     $qtde = $_POST['quantidade'];
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoProdutoEstoqueRepository($pdo);
-
-    $produto = $repository->produto_com_id($id);
+    $produto = $entityManager->find(ProdutoEstoque::class, $id);
 
     $produto->aumentar_estoque($qtde);
 
-    $repository->save($produto);
+    try{
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
     
-    if(!$produto->aumentar_estoque($qtde)){
-        $resposta['sucesso'] = false;
-        $resposta['mensagem'] = "Não foi possível editar quantidade!";
-        echo json_encode($resposta);
-        exit();
-    };
-
-    $resposta['sucesso'] = true;
-    $resposta['mensagem'] = "";
-    echo json_encode($resposta);
 ?>

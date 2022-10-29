@@ -1,16 +1,32 @@
 <?php
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoVendaRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Venda;
 
     $ordem = isset($_GET['ordem']) ? $_GET['ordem'] : null;
 
-    require_once "autoloader.php";  
+    require_once "vendor/autoload.php";  
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $venda_repository = new PdoVendaRepository($pdo);
+    $venda_repository = $entityManager->getRepository(Venda::class);
 
-    $vendas = $venda_repository->vendas_ordenadas($ordem);
+    $ordens = [
+        'mais_recente' => ['id' => 'DESC'], 
+        'mais_antigo' => ['id' => 'ASC']
+    ];
 
-    echo json_encode($vendas);
+    $ordem = isset($ordens[$ordem]) ? $ordens[$ordem] : [];
+
+    try{
+        $vendas = $venda_repository->findBy([], $ordem);
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+        exit();
+    }
+    
+    //Filtra para que só venham as vendas que foram finalizadas
+    $somente_vendas = Venda::filtrar($vendas);
+
+    echo json_encode(Venda::toArrays($somente_vendas));
 ?>

@@ -11,34 +11,28 @@ function excluir_venda_nao_finalizada()
 
     zayDataTable__vendasNaoFinalizadas.ativa_loader_de_um_registro(id);
 
-    zay_request(
-        'POST',
+    fetch(
         './back-end/excluirVendaNaoFinalizada.php',
-        {id},
-        function(resposta){
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `id=${id}`
+        }
+    )
+    .then( resposta => {
 
-            zayDataTable__vendasNaoFinalizadas.desativa_loader_de_um_registro(id);
+        zayDataTable__vendasNaoFinalizadas.desativa_loader_de_um_registro(id);
 
-            console.log(resposta);
-            
-            try{
-                resposta = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível cancelar venda!");
-                return;
-            }
-
-            if(resposta.sucesso){
-                zayDataTable__vendasNaoFinalizadas.remove_registro(id);
-                abrir_mensagem_lateral_da_tela("Venda cancelada com sucesso!");
-                atualiza_array_de_produtos_do_banco__async();
-            }
-       
-        },
-        function(){
-            zayDataTable__vendasNaoFinalizadas.desativa_loader_de_um_registro(id);
-            abrir_mensagem_lateral_da_tela("Não foi possível cancelar venda!");
+        if(resposta.ok){
+            zayDataTable__vendasNaoFinalizadas.remove_registro(id);
+            abrir_mensagem_lateral_da_tela("Venda excluída com sucesso!");
+            atualiza_array_de_produtos_do_banco__async();
         }
 
-    )
+    } )
+    .catch( () => {
+        zayDataTable__vendasNaoFinalizadas.desativa_loader_de_um_registro(id);
+        abrir_mensagem_lateral_da_tela("Não foi possível excluir venda!");
+    } );
+
 }

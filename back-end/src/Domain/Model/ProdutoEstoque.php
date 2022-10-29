@@ -1,30 +1,35 @@
 <?php
     namespace PDV\Domain\Model;
 
+    use Doctrine\ORM\Mapping\Column;
+    use Doctrine\ORM\Mapping\Entity;
     use JsonSerializable;
 
+    #[Entity()]
     class ProdutoEstoque extends Produto implements JsonSerializable
     {
+
+        #[Column(type:'decimal')]
         private float $qtde_disponivel;
 
-        public function __construct(?int $id, string $codigo, string $descricao, string $un, float $qtde_diponivel, float $vl_unitario)
-        {
-            parent::__construct($id, $codigo, $descricao, $un, $vl_unitario);
+        #[Column(length:100, unique:true)]
+        protected string $codigo;
+
+        public function __construct(
+            string $codigo, 
+            string $descricao, 
+            string $un, 
+            float $qtde_diponivel, 
+            float $vl_unitario
+        ){
+            parent::__construct($codigo, $descricao, $un, $vl_unitario);
+            $this->codigo = $codigo;
             $this->qtde_disponivel = $qtde_diponivel;
         }
 
         public function baixa_no_estoque(float $qtde)
         {
             $this->qtde_disponivel -= $qtde; 
-        }
-
-        public function editar(string $codigo, string $descricao, string $un, float $qtde_disponivel ,float $vl_unitario): void
-        {
-            $this->codigo = $codigo;
-            $this->descricao = $descricao;
-            $this->un = $un;
-            $this->qtde_disponivel = $qtde_disponivel;
-            $this->vl_unitario = $vl_unitario;
         }
 
         public function aumentar_estoque(float $aumento): bool
@@ -37,35 +42,19 @@
 
             return true;
         }
-        
-        public function getId(): ?int
-        {
-            return $this->id;
-        }
 
-        public function getCodigo(): string
+        public function editar(string $codigo, string $descricao, string $un, float $qtde_disponivel ,float $vl_unitario): void
         {
-            return $this->codigo;
-        }
-        
-        public function getDescricao(): string
-        {
-            return $this->descricao;
-        }
-
-        public function getUn(): string
-        {
-            return $this->un;
+            $this->codigo = $codigo;
+            $this->descricao = $descricao;
+            $this->un = $un;
+            $this->qtde_disponivel = $qtde_disponivel;
+            $this->vl_unitario = $vl_unitario;
         }
 
         public function getQtdeDisponivel(): float
         {
             return $this->qtde_disponivel;
-        }
-
-        public function getVlUnitario(): float
-        {
-            return $this->vl_unitario;
         }
 
         public function jsonSerialize() : mixed

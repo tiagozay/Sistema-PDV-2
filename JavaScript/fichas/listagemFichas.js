@@ -31,58 +31,50 @@ function gerar_lista_de_fichas()
 
     loader_lista_de_fichas.classList.remove("display-none");
 
-    zay_request(
-        'GET',
-        './back-end/buscaFichas.php',
-        {},
-        (resposta) => {
-            
-            loader_lista_de_fichas.classList.add("display-none");
+    fetch('./back-end/buscaFichas.php')
+    .then(resposta => resposta.ok ? resposta.json() : Promise.reject())
+    .then(fichas => {
 
-            try{
-                fichas = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Não foi possível buscar as fichas!");
-                return;
-            }
+        loader_lista_de_fichas.classList.add("display-none");
 
-            fichas = formata_fichas_para_serem_escritas(fichas);
-    
-            zayDataTable__fichas = new ZayDataTable(
-                'lista_fichas',
-                tabela_lista_de_fichas,
-                {
-                    "CPF": 'cpf', 
-                    "Nome": 'nome', 
-                    "Itens": 'qtde_itens',
-                    "Total": 'total',
-                    "Valor pago": 'valor_pago',
-                },
-                'id',
-                fichas,
-                [
-                    new AcaoRegistro(btn_ver_ficha, abrir_modal_ficha),
-                    new AcaoRegistro(btn_excluir_ficha, excluir_ficha),
+        fichas = formata_fichas_para_serem_escritas(fichas);
+        
+        zayDataTable__fichas = new ZayDataTable(
+            'lista_fichas',
+            tabela_lista_de_fichas,
+            {
+                "CPF": 'cpf', 
+                "Nome": 'nome', 
+                "Itens": 'qtde_itens',
+                "Total": 'total',
+                "Valor pago": 'valor_pago',
+            },
+            'id',
+            fichas,
+            [
+                new AcaoRegistro(btn_ver_ficha, abrir_modal_ficha),
+                new AcaoRegistro(btn_excluir_ficha, excluir_ficha),
 
-                ],
-                loader_acoes_lista_de_fichas,
-                100,
-                'lista_fichas__tr_thead',
-                'lista_fichas__td_thead',
-                'lista_fichas__tr_tbody',
-                'lista_fichas__td_tbody',
-                'lista_fichas__mensagem_sem_registros',
-                'lista_fichas__nav_paginacao',
-                'lista_fichas__btn_voltar_e_avancar',
-                'lista_fichas__btn_pagina',
-                'lista_fichas__btn_selecionado',
-                'lista_fichas__btn_desativado'  
-            );
-        },
-        () => {
-            abrir_mensagem_lateral_da_tela("Não foi possível buscar as fichas!");
-        }
-    )
+            ],
+            loader_acoes_lista_de_fichas,
+            100,
+            'lista_fichas__tr_thead',
+            'lista_fichas__td_thead',
+            'lista_fichas__tr_tbody',
+            'lista_fichas__td_tbody',
+            'lista_fichas__mensagem_sem_registros',
+            'lista_fichas__nav_paginacao',
+            'lista_fichas__btn_voltar_e_avancar',
+            'lista_fichas__btn_pagina',
+            'lista_fichas__btn_selecionado',
+            'lista_fichas__btn_desativado'  
+        );
+
+    })
+    .catch(() => {
+        loader_lista_de_fichas.classList.add("display-none");
+        abrir_mensagem_lateral_da_tela("Não foi possível buscar as fichas!");
+    });
 }
 
 function atualiza_lista_de_fichas()

@@ -29,46 +29,36 @@ function cadastrar_produto(event)
     loader_cadastrar_produto.classList.add("display-flex");
     desabilita_e_adiciona_loader_nos_elementos([btn_enviar_cadastro_do_produto]);
 
-    zay_request(
-        'POST', 
-        './back-end/cadastraProduto.php', 
-        {
-            codigo,
-            descricao, 
-            un, 
-            vl_unitario,
-            qtde
-        },
-        sucesso_requisicao_cadastrar_produto,
-        erro_requisicao_cadastrar_produto,
-    );
+    fetch(
+        './back-end/cadastraProduto.php',
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `codigo=${codigo}&descricao=${descricao}&un=${un}&vl_unitario=${vl_unitario}&qtde=${qtde}`
+        }
+    )
+    .then( resposta => {
+        if(resposta.ok){
+            sucesso_requisicao_cadastrar_produto() 
+        }else{
+            erro_requisicao_cadastrar_produto();
+        }
+    })
+    .catch(erro_requisicao_cadastrar_produto)
 }   
 
-function sucesso_requisicao_cadastrar_produto(resposta)
+function sucesso_requisicao_cadastrar_produto()
 {
     loader_cadastrar_produto.classList.remove("display-flex");
     habilita_e_remove_loader_dos_elementos([btn_enviar_cadastro_do_produto]);
-
-    try{
-        resposta = JSON.parse(resposta);
-    }catch{
-        abrir_mensagem_lateral_da_tela("Erro ao cadastrar produto!");
-        limpa_formulario_de_cadastro_de_produto();
-        fecha_erro_form_cadastrar_produto();
-        fecharModal();
-        atualiza_array_de_produtos_do_banco__async();
-    }
    
-    if(resposta.sucesso){
-        abrir_mensagem_lateral_da_tela("Produto cadastrado com sucesso!");
-        limpa_formulario_de_cadastro_de_produto();
-        fecha_erro_form_cadastrar_produto();
-        fecharModal();
-        atualiza_lista_de_produtos();   
-        atualiza_array_de_produtos_do_banco__async();
-    }else{
-        abre_erro_form_cadastrar_produto(resposta.mensagem);
-    }
+    abrir_mensagem_lateral_da_tela("Produto cadastrado com sucesso!");
+    limpa_formulario_de_cadastro_de_produto();
+    fecha_erro_form_cadastrar_produto();
+    fecharModal();
+    atualiza_lista_de_produtos();   
+    atualiza_array_de_produtos_do_banco__async();
+  
 }
 
 function erro_requisicao_cadastrar_produto()

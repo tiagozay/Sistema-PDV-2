@@ -1,42 +1,35 @@
 <?php
 
-    use PDV\Domain\Model\ProdutoFicha;
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoFichaRepository;
-    use PDV\Infraestrutura\Repository\PdoProdutoFichaRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\Ficha;
 
-    $resposta = ['sucesso' => "", 'mensagem' => "", 'ficha'=> ""];
-
-    require_once "autoloader.php";
+    require_once "vendor/autoload.php";
 
     $id_ficha = isset($_POST['id_ficha']) ? $_POST['id_ficha'] : exit();
 
-
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
     //Busca a ficha
-    $ficha_repository = new PdoFichaRepository($pdo);
-
-    $ficha = $ficha_repository->ficha_com_produtos($id_ficha);
-
+    /** @var Ficha */
+    $ficha = $entityManager->find(Ficha::class, $id_ficha);
 
     //Busca os produtos e deleta eles do banco
     $produtos_ficha = $ficha->getProdutos();
 
-    $produtos_ficha_repository = new PdoProdutoFichaRepository($pdo);
-
     foreach($produtos_ficha as $produto){
-        $produtos_ficha_repository->excluir_produto($produto->getId());
+        $entityManager->remove($produto);
     }
 
-    
-    //Limpa a ficha
     $ficha->limpa_ficha();
 
-    //Salva as alterações no banco e devolve resposta
-    $resposta['ficha'] = $ficha;
-    $resposta['sucesso'] = $ficha_repository->save($ficha);
+    try{    
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+    }
 
-    echo json_encode($resposta);
+
+    echo json_encode($ficha->toArray());
 
 ?>

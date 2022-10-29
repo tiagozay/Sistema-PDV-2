@@ -289,16 +289,44 @@
     outline: none;
     text-align: center;
 }
-#fichas__dialogFicha__btnLimparFicha{
-    width: 100%;
+#fichas__dialogFicha__btnsFicha{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+#fichas__dialogFicha__btnPagarTudo{
+    width: 48%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     box-shadow: 0 0 4px rgb(144, 144, 144);
-    background-color: rgb(112, 112, 112);
+    background-color: rgb(120, 120, 120);
+    color: white;
+    border: none;
+    border: rgb(119, 119, 119) 1px solid;
+    font-size: 16px;
+    padding: 5px 6px;
+    border-radius: 5px;
+    transition: 200ms;
+}
+#fichas__dialogFicha__btnPagarTudo:hover{
+    background-color: rgb(99, 99, 99);
+
+}
+#fichas__dialogFicha__btnPagarTudo span{
+    margin-left: 5px;
+}
+#fichas__dialogFicha__btnLimparFicha{
+    width: 48%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 0 4px rgb(144, 144, 144);
+    background-color: rgb(120, 120, 120);
     color: white;
     border: none;
     border: rgb(119, 119, 119) 1px solid;
@@ -315,6 +343,13 @@
     margin-left: 5px;
 }
 #loader_limpar_ficha{
+    border: 3px solid rgb(240, 240, 240)!important;
+    border-top: 3px solid  rgb(99, 99, 99)!important; 
+    width: 14px!important;
+    height: 14px!important;
+    margin-left: 5px;
+}
+#loader_pagar_tudo_ficha{
     border: 3px solid rgb(240, 240, 240)!important;
     border-top: 3px solid  rgb(99, 99, 99)!important; 
     width: 14px!important;

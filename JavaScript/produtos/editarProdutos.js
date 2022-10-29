@@ -40,50 +40,42 @@ function salvar_alteracoes_do_produto(event)
     desabilita_e_adiciona_loader_nos_elementos([btn_salvar_alteracoes_produto, btn_cancelar_alteracoes_produto]);
     loader_salvar_edicao_produto.classList.add("display-flex");
 
-    zay_request(
-        "POST",
-        "./back-end/editaProduto.php",
-        produto_editado,    
-        sucesso_requisicao_editar_produto,
-        erro_requisicao_editar_produto
-    );
+    fetch(
+        './back-end/editaProduto.php',
+        {   
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            method: 'POST',
+            body: `id=${produto_editado.id}&codigo=${produto_editado.codigo}&descricao=${produto_editado.descricao}&un=${produto_editado.un}&vl_unitario=${produto_editado.vl_unitario}&qtde_disponivel=${produto_editado.qtde_disponivel}`
+        }
+    )
+    .then( resposta => {
+        if(resposta.ok){
+            sucesso_requisicao_editar_produto();
+        }else{
+            erro_requisicao_editar_produto();
+        }
+    })
+    .catch(erro_requisicao_editar_produto);
 }
 
-function sucesso_requisicao_editar_produto(resposta)
+function sucesso_requisicao_editar_produto()
 {
     loader_salvar_edicao_produto.classList.remove("display-flex");
     habilita_e_remove_loader_dos_elementos([btn_salvar_alteracoes_produto, btn_cancelar_alteracoes_produto]);
 
-    try{
-        resposta = JSON.parse(resposta);
-    }catch{
-        abrir_mensagem_lateral_da_tela("Erro ao editar produto!");
-        limpa_formulario_editar_produto();
-        fecha_erro_form_editar_produto();
-        fecharModal();
-        atualiza_array_de_produtos_do_banco__async();
-        return;
-    }
+    abrir_mensagem_lateral_da_tela("Produto alterado com sucesso!");
+    limpa_formulario_editar_produto();
+    fecha_erro_form_editar_produto();
+    fecharModal();
+    atualiza_tr_produto(produto_para_ser_editado.id);
+    atualiza_array_de_produtos_do_banco__async();
 
-    if(resposta.sucesso){
-        abrir_mensagem_lateral_da_tela("Produto alterado com sucesso!");
-        limpa_formulario_editar_produto();
-        fecha_erro_form_editar_produto();
-        fecharModal();
-        atualiza_tr_produto(produto_para_ser_editado.id);
-        atualiza_array_de_produtos_do_banco__async();
-
-        //Time out para dar tempo de atualizar o banco ficticio antes de escrever as quantidades e unidades
-        setTimeout(()=>{
-            escreve_quantidade_de_produtos_exibidos_e_total();
-            escreve_quantidade_de_unidades_de_produtos();
-        }, 1000);
-    }else{
-        abrir_mensagem_lateral_da_tela("Não foi possível excluir produto!");
-        limpa_formulario_editar_produto();
-        fecha_erro_form_editar_produto();
-        fecharModal();
-    }        
+    //Time out para dar tempo de atualizar o banco ficticio antes de escrever as quantidades e unidades
+    setTimeout(()=>{
+        escreve_quantidade_de_produtos_exibidos_e_total();
+        escreve_quantidade_de_unidades_de_produtos();
+    }, 1000);
+     
 }
 
 function erro_requisicao_editar_produto()
@@ -100,33 +92,21 @@ function erro_requisicao_editar_produto()
 function atualiza_tr_produto(id)
 {
     zayDataTable__produtos.ativa_loader_de_um_registro(id);
-    zay_request(
-        'GET', 
-        './back-end/buscaUmProduto.php', 
-        {id}, 
-        function(resposta){     
 
-            zayDataTable__produtos.desativa_loader_de_um_registro(id);
-
-            let produto;
-    
-            try{
-                produto = JSON.parse(resposta);
-            }catch{
-                abrir_mensagem_lateral_da_tela("Erro ao atualizar produto!");    
-                return;
-            }
-                     
-            if(produto){
-                zayDataTable__produtos.atualiza_registro(formata_produto(produto));
-            }
-        
-        },
-        function(){
-            zayDataTable__produtos.desativa_loader_de_um_registro(id);
-            abrir_mensagem_lateral_da_tela("Erro ao atualizar produto, Verifique sua conexão!");
+    fetch(`./back-end/buscaUmProduto.php?id=${id}`)
+    .then(resposta => {
+        zayDataTable__produtos.desativa_loader_de_um_registro(id);
+        if(resposta.ok){
+            resposta.json()
+            .then( produto =>  zayDataTable__produtos.atualiza_registro(formata_produto(produto)) )
+        }else{
+            abrir_mensagem_lateral_da_tela("Erro ao atualizar produto!");    
         }
-    );    
+    })
+    .catch(() => {
+        zayDataTable__produtos.desativa_loader_de_um_registro(id);
+        abrir_mensagem_lateral_da_tela("Erro ao atualizar produto!");  
+    });
 }
 
 function abrirModal__editarProduto(event)

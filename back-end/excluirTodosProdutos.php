@@ -1,23 +1,19 @@
 <?php
-    $resposta = ['sucesso' => "", 'mensagem' => ""];
 
-    require_once "autoloader.php";
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\ProdutoEstoque;
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoProdutoEstoqueRepository;
+    require_once "vendor/autoload.php";
 
-    $pdo = ConnectionCreator::CreateConnection();
+    $entityManager = EntityManagerCreator::create();
 
-    $repository = new PdoProdutoEstoqueRepository($pdo);
+    $query = $entityManager->createQuery("DELETE FROM PDV\Domain\Model\ProdutoEstoque");
 
-    $excluir = $repository->excluir_todos_produtos();
-
-    if($excluir){
-        $resposta['sucesso'] = true;
-        $resposta['mensagem'] = "Sucesso";
+    if($query->execute()){
+        $entityManager->flush();
+        header('HTTP/1.1 200 OK');
     }else{
-        $resposta['sucesso'] = false;
-        $resposta['mensagem'] = "Erro ao executar!";
+        header('HTTP/1.1 500 Internal Server Error');
     }
-    
-    echo json_encode($resposta);
+
+?>

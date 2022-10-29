@@ -775,11 +775,22 @@
                     </div>
                 </div>    
 
-                <button id="fichas__dialogFicha__btnLimparFicha" onclick="limpar_ficha()">
-                    Limpar ficha
-                    <span class="material-icons">delete</span>
-                    <div class="loader display-none" id="loader_limpar_ficha"></div> 
-                </button>
+                <div id="fichas__dialogFicha__btnsFicha">
+
+                    <button id="fichas__dialogFicha__btnLimparFicha" onclick="limpar_ficha()">
+                        Limpar ficha
+                        <span class="material-icons">delete</span>
+                        <div class="loader display-none" id="loader_limpar_ficha"></div> 
+                    </button>
+
+                    <button id="fichas__dialogFicha__btnPagarTudo" onclick="paga_todos_produtos_ficha()">
+                        Pagar tudo
+                        <span class="material-icons">payments</span>
+                        <div class="loader display-none" id="loader_pagar_tudo_ficha"></div> 
+                    </button>
+
+                </div>
+             
             </dialog>        
 
         </section>
@@ -921,6 +932,7 @@
     <script src="JavaScript/Services/CadastrarClienteService.js"></script>
     <script src="JavaScript/Services/EditarClienteService.js"></script>
     <script src="JavaScript/Services/IdentificarClienteService.js"></script>
+    <script src="JavaScript/Helpers/DateHelper.js"></script>
 
     <script src="JavaScript/venda/identificarCliente.js"></script>
     <script src="JavaScript/venda/identificarFicha.js"></script>
@@ -958,6 +970,7 @@
     <script src="JavaScript/fichas/excluirProduto.js"></script>
     <script src="JavaScript/fichas/pagarProduto.js"></script>
     <script src="JavaScript/fichas/limparFicha.js"></script>
+    <script src="JavaScript/fichas/pagarTodosProdutos.js"></script>
 
     <script src="JavaScript/mensagens_lateral_da_tela.js"></script>
     <script src="JavaScript/modalCadastrarProduto.js"></script>

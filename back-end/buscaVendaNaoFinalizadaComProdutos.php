@@ -1,17 +1,21 @@
 <?php
-    require_once "autoloader.php";
+    require_once "vendor/autoload.php";
 
-    use PDV\Infraestrutura\Persistencia\ConnectionCreator;
-    use PDV\Infraestrutura\Repository\PdoVendaNaoFinalizadaRepository;
+    use PDV\Domain\Helper\EntityManagerCreator;
+    use PDV\Domain\Model\VendaNaoFinalizada;
 
-    $id =  isset($_POST['id']) ? $_POST['id'] : exit();
+    $id =  isset($_GET['id']) ? $_GET['id'] : exit();
 
-    $pdo = ConnectionCreator::CreateConnection();
-
-    $repository = new PdoVendaNaoFinalizadaRepository($pdo);
+    $entityManager = EntityManagerCreator::create();
     
-    $venda = $repository->venda_com_produtos($id);
+    try{    
+        $venda = $entityManager->find(VendaNaoFinalizada::class, $id);
+        header('HTTP/1.1 200 OK');
+    }catch(Exception){
+        header('HTTP/1.1 500 Internal Server Error');
+        exit();
+    }
 
-    echo json_encode($venda);
+    echo json_encode($venda->toArray());
 
 ?>
