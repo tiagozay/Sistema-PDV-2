@@ -1,6 +1,6 @@
 <h1 align="center"> Sistema PDV </h1>
 
-<p align="justify">O Sistema trata-se de um projeto desenvolvido para colocar em prática conhecimentos como: </p>
+<p align="justify">O Sistema trata-se de um projeto desenvolvido por mim para colocar em prática conhecimentos como: </p>
 
 
 - ***HTML***
